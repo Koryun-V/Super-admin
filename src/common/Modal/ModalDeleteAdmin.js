@@ -1,0 +1,160 @@
+import React, {useCallback, useEffect, useState} from 'react';
+import ReactDom from "react-dom";
+import PropTypes from "prop-types";
+import {useDispatch, useSelector} from "react-redux";
+import {removeAdmin, getAdmin, setStatusDelete} from "../../store/actions/admin";
+import {ReactComponent as Close} from "../../assets/icon/close-x.svg"
+import Button from "../mini/Button";
+import {setStatus} from "../../store/actions/admin";
+
+
+function ModalDeleteAdmin({open, onClose, id, adminId, adminEmail}) {
+    const dispatch = useDispatch();
+    const statusDelete = useSelector(state => state.admin.statusDelete);
+    const status = useSelector(state => state.admin.status)
+    const [statusEnd, setStatusEnd] = useState("");
+    const [isDelete, setIsDelete] = useState(false);
+
+    const scrollModal = () => {
+        document.body.style.removeProperty('overflow');
+        document.body.style.removeProperty('width');
+        document.body.ontouchmove = () => true;
+        window.removeEventListener("keydown", handleEsc)
+    }
+
+    const handleEsc = useCallback((event) => {
+        if (event.keyCode === 27) {
+            onClose();
+        }
+    }, []);
+
+    useEffect(() => {
+        const time = setTimeout(() => {
+            if (status === "ok" && statusDelete === "ok") {
+                onClose()
+            }
+        }, 3000)
+        return () => clearTimeout(time)
+
+    }, [status, statusDelete]);
+
+
+    useEffect(() => {
+        if (status === "pending" || statusDelete === "pending") {
+            setStatusEnd("pending");
+        } else {
+            setStatusEnd("");
+        }
+    }, [statusDelete, status]);
+
+
+    useEffect(() => {
+        if (statusDelete === "ok") {
+            dispatch(getAdmin({id}))
+        }
+    }, [statusDelete]);
+
+    useEffect(() => {
+        if (isDelete) {
+            dispatch(removeAdmin({storeId: id, adminId}))
+        }
+    }, [isDelete]);
+    useEffect(() => {
+        if (open) {
+            (async () => {
+                try {
+                    document.body.style.width = ` ${document.body.getBoundingClientRect().width}px`
+                    document.body.style.overflowY = 'hidden';
+                    document.body.ontouchmove = () => false;
+                    window.addEventListener('keydown', handleEsc);
+                } catch (err) {
+                    console.log(err)
+                }
+            })()
+        } else {
+            scrollModal()
+            dispatch(setStatusDelete(""))
+            dispatch(setStatus(""))
+            setIsDelete(false);
+        }
+    }, [open]);
+
+    const deleteStoreFunc = () => {
+        setIsDelete(true)
+    }
+
+    if (!open) return null
+    return ReactDom.createPortal(
+        <div id="modal">
+            <div onClick={onClose} className="shadow">
+            </div>
+            <div id="modal_window">
+                <div className="close">
+                    <div className="title">
+                        <span>Delete store</span>
+                    </div>
+                    <div className="close-block" onClick={onClose}>
+                        <Close className="icon"/>
+                    </div>
+                </div>
+                <div className="modal-block" style={{
+                    justifyContent: "space-between",
+                }}>
+                    <div className="container-modal">
+                        <>
+                            {statusEnd === "pending" || statusDelete === "ok" && status === "ok" ?
+                                <div className="delete-loading"></div> : null}
+                            {statusDelete === "ok" && status === "ok" ?
+                                <span className="delete-loading-span">Deleted</span>
+                                :
+                                statusEnd === "pending" ?
+                                    <span
+                                        className="delete-loading-span">Administrator is being deleted...</span>
+                                    : null}
+
+                            <div className="delete-block" style={{
+                                opacity: statusEnd === "pending" || statusDelete === "ok" && status === "ok" ? 0 : 1,
+                            }}>
+                                <span>Are you sure you want to delete the administrator <span
+                                    className="store-name">{adminEmail} </span>?</span>
+                            </div>
+                            <div className="buttons">
+                                <div className="no-delete-button">
+                                    <Button
+                                        onClick={deleteStoreFunc}
+                                        status={isDelete ? statusEnd : ""}
+                                        type="button"
+                                        className="active-button"
+                                    >YES</Button>
+                                </div>
+                                <div className="delete-button">
+                                    <Button
+                                        disabled={statusDelete === "pending"}
+                                        onClick={onClose}
+                                        type="button"
+                                        className="active-button"
+                                    >NO</Button>
+                                </div>
+                            </div>
+                        </>
+
+                    </div>
+                </div>
+            </div>
+        </div>,
+        document.body
+    )
+        ;
+}
+
+ModalDeleteAdmin.propTypes = {
+    open: PropTypes.bool.isRequired,
+    onClose: PropTypes.func,
+    wrapperClassName: PropTypes.string,
+    className: PropTypes.string,
+    backdropBG: PropTypes.string,
+    zIndex: PropTypes.number,
+    overflowY: PropTypes.bool,
+};
+
+export default ModalDeleteAdmin;

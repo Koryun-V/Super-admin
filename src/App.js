@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import {Route, Routes} from "react-router-dom";
+import Layout from "./common/Layout";
+import Home from "./common/Home";
+import Login from "./common/Login";
+import Stores from "./common/Stores";
+import Store from "./common/Store";
+
+
+
+const token = localStorage.getItem("token");
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <Routes>
+            <Route path="/" element={<Layout/>}>
+                <Route index element={!token ? <Login/> : <Home/>}/>
+                <Route path="/stores" element={!token ? <Login/> : <Stores/>}/>
+                <Route path="/stores/:name/:id" element={!token ? <Login/> : <Store/>}/>
+            </Route>
+        </Routes>
+    );
 }
 
 export default App;

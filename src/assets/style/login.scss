@@ -1,0 +1,43 @@
+.container-form {
+  height: auto;
+  background: #1a1c24;
+  border-radius: 5px;
+  padding: 50px;
+
+  .title-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    h2 {
+      font-family: "PoppinsBold", sans-serif;
+      color:$interfaceColor;
+    }
+  }
+  form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+}
+
+.form-button-block {
+  width: 100%;
+  height: 50px;
+}
+
+.validation-info-login {
+  height: 20px;
+  position: relative;
+  width: 100%;
+  margin-top: 2px;
+
+  span {
+    cursor: default;
+    color: red;
+    font-size: 14px;
+    font-family: "RobotoMedium", sans-serif;
+
+  }
+}
