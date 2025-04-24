@@ -12,6 +12,7 @@ import moment from "moment";
 import {set} from "lodash/object";
 import ModalCreateAdmin from "./Modal/ModalCreateAdmin";
 import {RotatingLines} from "react-loader-spinner";
+import {getBuyers, getStatistics} from "../store/actions/statistics";
 
 const Store = () => {
     const dispatch = useDispatch();
@@ -28,7 +29,8 @@ const Store = () => {
     const {query, setQuery} = useQuery();
     const {q, startDate, endDate} = query
     const [isOpen, setIsOpen] = useState(false);
-
+    const defaultStart = new Date('2025-04-01');
+    const defaultEnd = new Date('2025-04-30');
 
     // const [isAdmin, setIsAdmin] = useState(false);
     const [isOpenDelete, setIsOpenDelete] = useState(false);
@@ -61,33 +63,50 @@ const Store = () => {
         setQuery({q: "admins"});
         dispatch(getAdmin({id}))
     }
+
+
+    useEffect(() => {
+        const start = moment(defaultStart).format('YYYY-MM-DD');
+        const end = moment(defaultEnd).format('YYYY-MM-DD');
+        if (startDate && endDate) {
+            console.log("if")
+            dispatch(getStatistics({id, startDate, endDate}));
+            dispatch(getBuyers({id, startDate, endDate}));
+        }
+        else{
+            dispatch(getStatistics({id}));
+            dispatch(getBuyers({id}));
+        }
+
+    }, [startDate, endDate]);
+
+
     return (
         <div className="section">
-            <div className="container">
-
-                <div className="store-header">
-                    <div className="nav-store">
-                        <div className="title-change">
-                            <div className={q === "admins" ? "title-disabled" : "title-active"}
-                                 onClick={() =>
-                                     q === "admins" ? setQuery({q: "statistics", startDate, endDate}) : null
-                                 }>
-                                <h1>Statistics</h1>
-                            </div>
-                            <div className={q !== "admins" ? "title-disabled" : "title-active"} onClick={getAdmins}>
-                                <h1>Admins</h1>
-                            </div>
-                            <div className="change-line" style={{
-                                transform: q === "admins" ? "translateX(50%)" : "translateX(-50%)",
-                            }}>
-
-                            </div>
+            <div className="store-header">
+                <div className="nav-store">
+                    <div className="title-change">
+                        <div className={q === "admins" ? "title-disabled" : "title-active"}
+                             onClick={() =>
+                                 q === "admins" ? setQuery({q: "statistics", startDate, endDate}) : null
+                             }>
+                            <h1>Statistics</h1>
                         </div>
-                        {q !== "admins" ? <DateP id={id}
-                            />
-                            : null}
+                        <div className={q !== "admins" ? "title-disabled" : "title-active"} onClick={getAdmins}>
+                            <h1>Admins</h1>
+                        </div>
+                        <div className="change-line" style={{
+                            transform: q === "admins" ? "translateX(50%)" : "translateX(-50%)",
+                        }}>
+
+                        </div>
                     </div>
+                    {q !== "admins" ? <DateP id={id} defaultStart={defaultStart} defaultEnd={defaultEnd}
+                        />
+                        : null}
                 </div>
+            </div>
+            <div className="container">
 
                 {q !== "admins" ?
                     <div>
@@ -127,7 +146,8 @@ const Store = () => {
                                     </div> : null}
                                 <div
                                     className={status === "pending" || statusBuyers === "pending" ? "container-statistics-disabled" : "container-statistics"}>
-                                    {status === "pending" || statusBuyers === "pending" ? <div className="opacity-store"></div> : null}
+                                    {status === "pending" || statusBuyers === "pending" ?
+                                        <div className="opacity-store"></div> : null}
                                     <div className="total-container">
                                         <div className="total">
                                             <h4>Total Revenue
@@ -139,7 +159,7 @@ const Store = () => {
                                             </h4>
                                         </div>
                                     </div>
-                                    <Statistics data={statistics}/>
+                                    <Statistics data={statistics} name={statisticsTotal.storeId}/>
 
                                     <div className="buyers">
                                         <div className="buyers-header">
@@ -265,9 +285,10 @@ const Store = () => {
                                         </div>
                                     ))}
 
-                                    <div className={statusAdmin === "pending" ? "disabled-store" : "store"} onClick={() =>
-                                        statusAdmin === "pending" ? null : setIsOpen(true)
-                                    }>
+                                    <div className={statusAdmin === "pending" ? "disabled-store" : "store"}
+                                         onClick={() =>
+                                             statusAdmin === "pending" ? null : setIsOpen(true)
+                                         }>
                                         <FontAwesomeIcon icon={faPlus} className="plus-icon"/>
                                     </div>
                                 </div>

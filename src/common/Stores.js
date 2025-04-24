@@ -50,18 +50,16 @@ const Stores = () => {
 
     return (
         <div className="section">
-
-            <div className="container">
-                <div className="store-header">
-                    <div className="nav-store">
-                        <div className="title-change">
-                            <div className="title">
-                                <h1>Stores</h1>
-                            </div>
+            <div className="store-header">
+                <div className="nav-store">
+                    <div className="title-change">
+                        <div className="title">
+                            <h1>Stores</h1>
                         </div>
                     </div>
                 </div>
-
+            </div>
+            <div className="container">
                 <div>
                     {status !== "ok" && !stores.length ?
 

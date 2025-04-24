@@ -328,7 +328,7 @@ function ModalCreateStore({open, onClose, stores}) {
                                         label={field.label}
                                     />
                                     {field.name === "logo" ?
-                                        <label className={stores ? "disabled-custom-input" : "custom-input"} style={{
+                                        <label htmlFor={stores ? "" : "4"} className={stores ? "disabled-custom-input" : "custom-input"} style={{
                                             border: id === 4 ? "2px solid #00d143" : "",
                                         }}>
                                             {visualLogo || stores ?

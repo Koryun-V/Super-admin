@@ -34,6 +34,18 @@ export default class Api {
         })
     }
 
+    static getStatisticsAll({startDate,endDate}) {
+        return api.get(`/superAdmin/stores/all-statistics`, {
+            params: {
+                startDate,
+                endDate,
+            },
+            headers: {
+                Authorization: `${token}`
+            }
+        })
+    }
+
     static getStatistics({id, startDate, endDate}) {
         return api.get(`/superAdmin/statistics/${id}`, {
             params: {
@@ -116,6 +128,7 @@ export default class Api {
             }
         });
     }
+
     static createAdmin({email, storeId}) {
         return api.post(`/superAdmin/stores/assign-user`, {
                 email,
@@ -128,6 +141,7 @@ export default class Api {
             }
         );
     }
+
     static removeAdmin({adminId, storeId}) {
         return api.put(`/superAdmin/remove-admin`, {
                 adminId,

@@ -1,21 +1,38 @@
 import {createReducer} from "@reduxjs/toolkit";
-import {getBuyers, getStatistics, setBuyers, setStatistics, setStatusBuyers} from "../actions/statistics";
-import {setStatusUser} from "../actions/login";
+import {
+    getBuyers,
+    getStatistics,
+    getStatisticsAll,
+    setBuyers,
+    setStatistics,
+    setStatusBuyers
+} from "../actions/statistics";
 import {setStatus} from "../actions/admin";
 
 const initialState = {
     status: "",
     statistics: [],
-    statisticsTotal: [],
+    statisticsTotal: {},
+    statisticsAll: [],
     statusBuyers: "",
     buyers: []
 }
 export const statistics = createReducer(initialState, (builder) => {
     builder
+        .addCase(getStatisticsAll.pending, (state) => {
+            state.status = "pending"
+        })
+        .addCase(getStatisticsAll.fulfilled, (state, {payload}) => {
+            state.status = "ok"
+            state.statisticsAll = payload.data
+        })
+        .addCase(getStatisticsAll.rejected, (state) => {
+            state.status = "error"
+        })
+
+
         .addCase(getStatistics.pending, (state) => {
             state.status = "pending"
-
-
         })
         .addCase(getStatistics.fulfilled, (state, {payload}) => {
             state.status = "ok"

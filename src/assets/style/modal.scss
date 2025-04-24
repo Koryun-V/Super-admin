@@ -158,6 +158,9 @@
     border-radius: 5px;
     transition: 0.2s all;
   }
+  .custom-input:active {
+    border: 2px solid $interfaceColor
+  }
 
   .visual-logo {
     width: 100%;
@@ -201,9 +204,7 @@
   }
 }
 
-.custom-input:active {
-  border: 2px solid $interfaceColor
-}
+
 .disabled-custom-input{
   height: 150px;
   width: 100%;
