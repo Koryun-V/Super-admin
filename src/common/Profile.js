@@ -59,7 +59,7 @@ const Profile = () => {
         const status = useSelector(state => state.updateAdmin.status)
         const [visualAvatar, setVisualAvatar] = useState("")
         const [isAvatar, setIsAvatar] = useState(false)
-        const [avatar, setAvatar] = useState({});
+        const [avatar, setAvatar] = useState([]);
         const [isDeleteAvatar, setIsDeleteAvatar] = useState(false)
         const statusGet = useSelector(state => state.login.statusUser)
         const [rotate, setRotate] = useState(0)
@@ -101,7 +101,7 @@ const Profile = () => {
                     createdAt: formatDate(adminInfo.createdAt),
                     updatedAt: formatDate(adminInfo.updatedAt)
                 })
-                setAvatar(adminInfo.avatar[0] ? adminInfo.avatar : {})
+                setAvatar(adminInfo.avatar[0] ? adminInfo.avatar : [])
             }
         }
 
@@ -164,6 +164,7 @@ const Profile = () => {
                 setIsUpdateAdmin(true)
             }
             setIsUpdate(true)
+            setIsAvatar(true)
             return () => setIsAvatar(true)
         }
 
@@ -206,9 +207,8 @@ const Profile = () => {
         };
         const deleteAvatar = ()=>{
             setIsUpdate(true)
-            setAvatar({})
+            setAvatar([])
             setVisualAvatar("")
-            setIsAvatar(false)
             if(!inputName.length){
                 setIsUpdateAdmin(true)
             }
@@ -223,7 +223,7 @@ const Profile = () => {
             if (isUpdateAdmin) {
                 e.preventDefault();
                 if (isAvatar) {
-                    dispatch(updateAdminInfo({firstName, lastName, gender, avatar}))
+                    dispatch(updateAdminInfo({firstName, lastName, gender, avatar:avatar[0]}))
                 } else {
                     dispatch(updateAdminInfo({firstName, lastName, gender}))
                     dispatch(deleteAdminAvatar())
@@ -236,7 +236,7 @@ const Profile = () => {
             await document.getElementById(id).focus();
         }
 
-
+    console.log(avatar,"avatar",visualAvatar)
         return (
             <div className="section">
                 <div className="container">
@@ -248,6 +248,8 @@ const Profile = () => {
                                 setIsUpdate(false)
                                 setIsUpdateAdmin(false)
                                 setIsAnim(true)
+                                setVisualAvatar("")
+                                setIsAvatar(false)
                             }}>
                                 <FontAwesomeIcon icon={faRotate} className="icon" style={{
                                     transform: `rotate(${rotate}deg)`
