@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowRightFromBracket, faGaugeHigh, faLayerGroup, faUser} from "@fortawesome/free-solid-svg-icons";
 import {getUser, setSuperAdmin} from "../store/actions/login";
+import {useQuery} from "../utills/hooks/useQuery";
 
 const token = localStorage.getItem("token");
 
@@ -13,6 +14,8 @@ const Header = () => {
     const status = useSelector(state => state.login.statusUser);
     const location = useLocation();
     const {name, id} = useParams();
+    const {query, setQuery} = useQuery();
+    const {q} = query
 
 
     useEffect(() => {
@@ -26,7 +29,12 @@ const Header = () => {
     }, [location]);
 
     return (
-        <header className="header">
+        <header className="header"
+        style={{
+            opacity:q === "change-password" ? 0 : 1,
+            zIndex:q === "change-password" ? -1 : 999,
+        }}
+        >
             <div className="nav-header">
                 <div className="container-header">
                     <div className="logo-block">

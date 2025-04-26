@@ -4,49 +4,163 @@
   justify-content: center;
 
 }
+.super-profile-change{
+  position: fixed;
+  width: auto;
+  height: auto;
+  top:50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: default;
+  border-radius: 5px;
+  transition: 0.3s all;
+}
+
+
+.title-p {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+
+  h1 {
+    color: $interfaceColor;
+    transition: 0.2s color;
+    font-family: "PoppinsBold", sans-serif;
+  }
+}
+
+.title-p h1:hover {
+  color: #00b53b;
+}
+
+.title-p h1:active {
+  color: #008a2d;
+}
+
+.title-active-p {
+  display: flex;
+  align-items: center;
+  cursor: default;
+
+  h1 {
+    color: $interfaceColor;
+    font-family: "PoppinsBold", sans-serif;
+  }
+}
+
+.title-change {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+
+
+  .title-link {
+    display: flex;
+    align-items: center;
+    color: $interfaceColor;
+
+    .icon {
+      font-size: 20px;
+      margin: 0 20px 0 10px;
+    }
+
+    h2 {
+      font-family: "PoppinsBold", sans-serif;
+    }
+  }
+
+}
 
 .container-profile {
   background: #1a1c24;
   max-width: 720px;
   border-radius: 5px;
   padding: 20px;
-  z-index: 999;
+  z-index: 990;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  min-width: 300px;
 
-  .profile-reload{
+
+  .change-link {
+    background: #0a0a0d;
+    position: absolute;
+    z-index: 99;
+    top: 0;
+    right: 10%;
+    padding: 10px;
+    border-radius: 0 0 5px 5px;
+    color: $interfaceColor;
+    transition: 0.2s all;
+    cursor: pointer;
+
+
+    span {
+      font-family: "PoppinsMedium", sans-serif;
+      font-size: 14px;
+      opacity: 0.5;
+      transition: 0.2s all;
+    }
+
+
+  }
+
+  .change-link:hover span {
+    opacity: 1;
+  }
+
+  .change-link:hover {
+    color: #00b53b;
+  }
+
+  .change-link:active {
+    color: #008a2d;
+
+  }
+
+
+  .change {
+    width: 100%;
+  }
+
+
+  .profile-reload {
     //border:1px solid white;
     position: absolute;
-    top:0;
-    right:0;
-    margin:20px;
+    top: 0;
+    right: 0;
+    margin: 20px;
     cursor: pointer;
     transition: 0.2s all;
-    color:$interfaceColor;
+    color: $interfaceColor;
 
-    .icon{
+    .icon {
       font-size: 30px;
     }
   }
+
   .profile-reload:hover {
     color: #00b53b;
   }
+
   .profile-reload:active {
-    color:  #008a2d;
+    color: #008a2d;
   }
-  .profile-reload-active{
+
+  .profile-reload-active {
     //border:1px solid white;
     position: absolute;
-    top:0;
-    right:0;
-    margin:20px;
+    top: 0;
+    right: 0;
+    margin: 20px;
     cursor: default;
-    color:$interfaceColor;
+    color: $interfaceColor;
     transition: 0.2s all;
 
-    .icon{
+    .icon {
       font-size: 30px;
     }
   }
@@ -60,7 +174,8 @@
     right: 0;
     left: 0;
     opacity: 0.7;
-    z-index: 90;
+    z-index: 993;
+    border-radius: 5px;
   }
 
   .update-admin-block {
@@ -72,7 +187,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 99;
+    z-index: 993;
+
+
   }
 
   .update-admin-span {

@@ -143,7 +143,8 @@ function ModalCreateAdmin({open, onClose, id}) {
                     if (!newInputName.includes(name)) {
                         newInputName.push(name);
                     }
-                } else {
+                }
+                else {
                     newInputName = newInputName.filter(item => item !== name);
                 }
             }
@@ -215,6 +216,7 @@ function ModalCreateAdmin({open, onClose, id}) {
                                         // type={field.name === "password" && eye === faEyeSlash ? "password" : "text"}
                                         id={field.id}
                                         label={field.label}
+                                        status={statusCreate}
                                     />
 
                                 </div>

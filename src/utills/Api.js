@@ -45,6 +45,17 @@ export default class Api {
         );
     }
 
+    static changePassword({newPassword}) {
+        return api.put(`/users/password`, {
+                newPassword,
+            },
+            {
+                headers: {
+                    Authorization: `${token}`
+                }
+            });
+    }
+
     static deleteAdminAvatar() {
         return api.delete(`/users/delete-avatar`, {
             headers: {

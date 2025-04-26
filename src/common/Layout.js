@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import Header from "./Header";
 import Login from "./Login";
 import {getUser} from "../store/actions/login";
+import {useQuery} from "../utills/hooks/useQuery";
 
 
 const token = localStorage.getItem("token");
@@ -11,7 +12,8 @@ const token = localStorage.getItem("token");
 function Layout() {
     const dispatch = useDispatch();
     const location = useLocation();
-
+    const {query, setQuery} = useQuery();
+    const {q} = query
 
     useEffect(() => {
         console.log(window.location)
@@ -25,7 +27,10 @@ function Layout() {
                     <Link to="/" className="logo"><h1>Logo</h1></Link>
                 </div>}
 
-                <main className="main">
+                <main className="main" style={{
+                    marginLeft:q === "change-password" ?  "0" : "350px",
+
+                }}>
                     <Outlet/>
                 </main>
 

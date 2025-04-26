@@ -236,7 +236,7 @@ function ModalCreateStore({open, onClose, stores}) {
     const create = (e) => {
         e.preventDefault();
         const hasErrors = test();
-
+        setId("")
         if (hasErrors) {
             return;
         }
@@ -326,6 +326,7 @@ function ModalCreateStore({open, onClose, stores}) {
                                         value={store[field.name]}
                                         id={field.id}
                                         label={field.label}
+                                        status={statusCreate}
                                     />
                                     {field.name === "logo" ?
                                         <label id="99"
