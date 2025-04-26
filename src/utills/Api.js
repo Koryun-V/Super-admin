@@ -26,16 +26,43 @@ export default class Api {
         });
     }
 
-    static getStores() {
-        return api.get(`/superAdmin/stores`, {
+    static updateAdminInfo({firstName, lastName, gender, avatar}) {
+        return api.put(`/users/update`, {
+                firstName,
+                lastName,
+                gender,
+                avatar,
+                dateOfBirth: "2000-01-01",
+                address: "super-admin@example.com",
+            },
+            {
+                headers: {
+                    Authorization: `${token}`,
+                    "Content-Type": "multipart/form-data",
+
+                }
+            }
+        );
+    }
+
+    static deleteAdminAvatar() {
+        return api.delete(`/users/delete-avatar`, {
             headers: {
                 Authorization: `${token}`
             }
         })
     }
 
-    static getStatisticsAll({startDate,endDate}) {
-        return api.get(`/superAdmin/stores/all-statistics`, {
+    static getStores() {
+        return api.get(`/super-admin/stores`, {
+            headers: {
+                Authorization: `${token}`
+            }
+        })
+    }
+
+    static getStatisticsAll({startDate, endDate}) {
+        return api.get(`/super-admin/stores/all-statistics`, {
             params: {
                 startDate,
                 endDate,
@@ -47,7 +74,7 @@ export default class Api {
     }
 
     static getStatistics({id, startDate, endDate}) {
-        return api.get(`/superAdmin/statistics/${id}`, {
+        return api.get(`/super-admin/statistics/${id}`, {
             params: {
                 startDate,
                 endDate,
@@ -59,7 +86,7 @@ export default class Api {
     }
 
     static getBuyers({id, startDate, endDate}) {
-        return api.get(`/superAdmin/stores/${id}/buyers`, {
+        return api.get(`/super-admin/stores/${id}/buyers`, {
             params: {
                 startDate,
                 endDate,
@@ -72,7 +99,7 @@ export default class Api {
 
     static createStore({name, city, country, latitude, longitude, logo}) {
         console.log(logo, "test")
-        return api.post("superAdmin/stores/create",
+        return api.post("super-admin/stores/create",
             {
                 name,
                 logo,
@@ -92,7 +119,7 @@ export default class Api {
     }
 
     static updateStore({id, name, city, country, latitude, longitude, logo}) {
-        return api.put(`superAdmin/stores/${id}`,
+        return api.put(`super-admin/stores/${id}`,
             {
                 name,
                 logo,
@@ -100,7 +127,7 @@ export default class Api {
                     city,
                     country,
                     latitude,
-                    longitude,
+                    longitude
                 }
             },
             {
@@ -112,8 +139,7 @@ export default class Api {
     }
 
     static deleteStores(id) {
-        console.log(id, "errrrrrrrrrr")
-        return api.delete(`superAdmin/stores/${id}`,
+        return api.delete(`super-admin/stores/${id}`,
             {
                 headers: {
                     "Authorization": localStorage.getItem("token"),
@@ -122,7 +148,7 @@ export default class Api {
     }
 
     static getAdmin({id}) {
-        return api.get(`/superAdmin/stores/admins/${id}`, {
+        return api.get(`/super-admin/stores/admins/${id}`, {
             headers: {
                 Authorization: `${token}`
             }
@@ -130,7 +156,7 @@ export default class Api {
     }
 
     static createAdmin({email, storeId}) {
-        return api.post(`/superAdmin/stores/assign-user`, {
+        return api.post(`/super-admin/stores/assign-user`, {
                 email,
                 storeId,
             },
@@ -143,7 +169,7 @@ export default class Api {
     }
 
     static removeAdmin({adminId, storeId}) {
-        return api.put(`/superAdmin/remove-admin`, {
+        return api.put(`/super-admin/remove-admin`, {
                 adminId,
                 storeId,
             },

@@ -5,7 +5,7 @@ import {getBuyers, getStatistics, getStatisticsAll} from "../store/actions/stati
 import StatisticsAll from "./mini/StatisticsAll";
 import PieStatistics from "./mini/PieStatistics";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCartShopping, faCube, faRubleSign, faTruck} from "@fortawesome/free-solid-svg-icons";
+import {faCartShopping, faCube, faDollarSign, faRubleSign, faTruck} from "@fortawesome/free-solid-svg-icons";
 import StatisticsMini from "./mini/StatisticsMini";
 import DateP from "./DateP";
 import {getStores} from "../store/actions/store";
@@ -95,8 +95,8 @@ const Home = () => {
                                 </div>
                                 <div className="block-total">
                                     <h2>Total revenue</h2>
-                                    <span>{statistics.reduce((sum, store) => sum + store.totalRevenue, 0)}<FontAwesomeIcon
-                                        icon={faRubleSign} className="total-icon"/></span>
+                                    <span>{statistics.reduce((sum, store) => sum + store.totalRevenue, 0)}
+                                        <FontAwesomeIcon icon={faDollarSign} className="total-icon" /></span>
                                 </div>
                                 <div className="block-total">
                                     <h2>Total sales</h2>

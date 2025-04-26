@@ -1,0 +1,261 @@
+.super-profile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.container-profile {
+  background: #1a1c24;
+  max-width: 720px;
+  border-radius: 5px;
+  padding: 20px;
+  z-index: 999;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  .profile-reload{
+    //border:1px solid white;
+    position: absolute;
+    top:0;
+    right:0;
+    margin:20px;
+    cursor: pointer;
+    transition: 0.2s all;
+    color:$interfaceColor;
+
+    .icon{
+      font-size: 30px;
+    }
+  }
+  .profile-reload:hover {
+    color: #00b53b;
+  }
+  .profile-reload:active {
+    color:  #008a2d;
+  }
+  .profile-reload-active{
+    //border:1px solid white;
+    position: absolute;
+    top:0;
+    right:0;
+    margin:20px;
+    cursor: default;
+    color:$interfaceColor;
+    transition: 0.2s all;
+
+    .icon{
+      font-size: 30px;
+    }
+  }
+
+  .update-admin {
+    width: 100%;
+    height: 100%;
+    background: #1a1c24;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    opacity: 0.7;
+    z-index: 90;
+  }
+
+  .update-admin-block {
+    left: 0;
+    right: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99;
+  }
+
+  .update-admin-span {
+    color: $interfaceColor;
+    font-size: 25px;
+    font-family: "PoppinsBold", sans-serif;
+  }
+
+  form {
+    width: auto;
+    height: auto;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .update {
+    position: relative;
+    width: calc((100% / 2) - 10px);
+  }
+}
+
+.super-admin-container-p {
+  display: flex;
+  min-width: 0;
+  //height: 110px;
+
+}
+
+.super-admin-p {
+  display: flex;
+  text-decoration: none;
+  padding-bottom: 20px;
+  min-width: 0;
+  transition: 0.2s all;
+}
+
+.user-img-p {
+  position: relative;
+
+  .add-avatar {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    bottom: 3px;
+    right: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 5px solid #1a1c24;
+    border-radius: 100px;
+
+    .add-img {
+      border-radius: 100px;
+      cursor: pointer;
+      position: absolute;
+      width: 31px;
+      height: 31px;
+      background: $interfaceColor;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: 0.2s all;
+      z-index: 3;
+
+      .icon {
+        color: white;
+      }
+    }
+
+    .add-img:hover {
+      background: #00b53b;
+    }
+
+    .add-img:active {
+      background: #008a2d;
+    }
+
+    input {
+      display: none;
+    }
+  }
+
+  .user-img-container-p {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 100px;
+
+    }
+
+    .delete-avatar {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      bottom: -12px;
+      right: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 100px;
+      border: 5px solid #1a1c24;
+      z-index: 2;
+
+      .icon {
+        border-radius: 100px;
+        background: red;
+        padding: 5px;
+        color: white;
+        font-size: 12px;
+        cursor: pointer;
+        transition: 0.2s all;
+
+      }
+
+      .icon:hover {
+        background: #c80000;
+      }
+
+      .icon:active {
+        background: #980000;
+      }
+    }
+
+  }
+
+  .user-img-container-custom-loading-p {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100px;
+  }
+
+  .user-img-container-custom-p {
+    width: 120px;
+    height: 120px;
+    background: #5d5f6b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100px;
+
+    .icon {
+      font-size: 70px;
+      color: #1a1c24;
+    }
+  }
+}
+
+.user-name-p {
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  width: 250px;
+
+
+  span {
+    font-family: "PoppinsMedium", sans-serif;
+    color: white;
+    font-size: 30px;
+    margin-left: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+  }
+
+  span:nth-child(2) {
+    color: #5d5f6b;
+    font-size: 20px;
+
+  }
+}

@@ -2,11 +2,11 @@ import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
 import api from "../../utills/Api";
 
 
-export const loginUser = createAsyncThunk(
-    "user/login",
+export const updateAdminInfo = createAsyncThunk(
+    "update/admin",
     async (payload, thunkAPI) => {
         try {
-            const {data} = await api.loginUser(payload);
+            const {data} = await api.updateAdminInfo(payload);
             return data
 
         } catch (error) {
@@ -15,12 +15,11 @@ export const loginUser = createAsyncThunk(
     }
 );
 
-
-export const getUser = createAsyncThunk(
-    "user/profile",
+export const deleteAdminAvatar = createAsyncThunk(
+    "delete/avatar",
     async (payload, thunkAPI) => {
         try {
-            const {data} = await api.getUser(payload);
+            const {data} = await api.deleteAdminAvatar(payload);
             return data
         } catch (error) {
             return thunkAPI.rejectWithValue(error)
@@ -30,13 +29,9 @@ export const getUser = createAsyncThunk(
 
 
 export const setStatus = createAction(
-    "login/status",
+    "update/admin",
 )
-export const setSuperAdmin = createAction(
-    "is/super",
+export const setStatusDelete = createAction(
+    "delete/avatar",
 )
-export const setStatusUser = createAction(
-    "login/status-user",
-)
-
 

@@ -12,7 +12,6 @@ function ModalDeleteAdmin({open, onClose, id, adminId, adminEmail}) {
     const dispatch = useDispatch();
     const statusDelete = useSelector(state => state.admin.statusDelete);
     const status = useSelector(state => state.admin.status)
-    const [statusEnd, setStatusEnd] = useState("");
     const [isDelete, setIsDelete] = useState(false);
 
     const scrollModal = () => {
@@ -39,13 +38,7 @@ function ModalDeleteAdmin({open, onClose, id, adminId, adminEmail}) {
     }, [status, statusDelete]);
 
 
-    useEffect(() => {
-        if (status === "pending" || statusDelete === "pending") {
-            setStatusEnd("pending");
-        } else {
-            setStatusEnd("");
-        }
-    }, [statusDelete, status]);
+
 
 
     useEffect(() => {
@@ -102,18 +95,17 @@ function ModalDeleteAdmin({open, onClose, id, adminId, adminEmail}) {
                 }}>
                     <div className="container-modal">
                         <>
-                            {statusEnd === "pending" || statusDelete === "ok" && status === "ok" ?
-                                <div className="delete-loading"></div> : null}
+                            {statusDelete !== "" && status !== "" ? <div className="delete-loading"></div> : null}
                             {statusDelete === "ok" && status === "ok" ?
                                 <span className="delete-loading-span">Deleted</span>
                                 :
-                                statusEnd === "pending" ?
+                                status === "pending" || statusDelete ==="pending" ?
                                     <span
                                         className="delete-loading-span">Administrator is being deleted...</span>
                                     : null}
 
                             <div className="delete-block" style={{
-                                opacity: statusEnd === "pending" || statusDelete === "ok" && status === "ok" ? 0 : 1,
+                                opacity:statusDelete !== "" ?  0 : 1 ,
                             }}>
                                 <span>Are you sure you want to delete the administrator <span
                                     className="store-name">{adminEmail} </span>?</span>
@@ -122,7 +114,7 @@ function ModalDeleteAdmin({open, onClose, id, adminId, adminEmail}) {
                                 <div className="no-delete-button">
                                     <Button
                                         onClick={deleteStoreFunc}
-                                        status={isDelete ? statusEnd : ""}
+                                        status={isDelete && status === "pending" || statusDelete === "pending" ? "pending" : ""}
                                         type="button"
                                         className="active-button"
                                     >YES</Button>

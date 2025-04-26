@@ -2,43 +2,51 @@
   display: flex;
 
 }
-.date-button{
+
+.date-button {
   height: 40px;
   width: 100px;
   margin-left: 20px;
 }
+
 .active-button-d {
   background: #1a1c24;
-  border:2px solid #1a1c24;
+  border: 2px solid #1a1c24;
   color: #5d5f6b;
   font-weight: bold;
   cursor: pointer;
   transition: 0.2s all;
 }
-.active-button-d:hover{
+
+.active-button-d:hover {
   //border:2px solid $interfaceColor;
-  color:white;
+  color: white;
 }
-.active-button-d:active{
+
+.active-button-d:active {
   background: #0a0a0d;
-  border:2px solid #0a0a0d;
+  border: 2px solid #0a0a0d;
 }
-.active-d{
-  border:2px solid $interfaceColor;
+
+.active-d {
+  border: 2px solid $interfaceColor;
   background: #1a1c24;
-  color:#5d5f6b;
+  color: #5d5f6b;
   cursor: pointer;
   transition: 0.2s all;
 
 }
-.active-d:hover{
-  border:2px solid #1a1c24;
-  color:white;
+
+.active-d:hover {
+  border: 2px solid #1a1c24;
+  color: white;
 }
-.active-d:active{
+
+.active-d:active {
   background: #0a0a0d;
-  border:2px solid #0a0a0d;
+  border: 2px solid #0a0a0d;
 }
+
 .start-end {
   color: $interfaceColor;
   display: flex;
@@ -76,10 +84,10 @@
   }
 
   .react-datepicker-popper {
-    .react-datepicker__triangle{
+    .react-datepicker__triangle {
       fill: $interfaceColor;
       color: $interfaceColor;
-      stroke:$interfaceColor;
+      stroke: $interfaceColor;
     }
   }
 }
@@ -96,7 +104,65 @@
 
     .react-datepicker__header {
       background: #1a1c24;
-      border:none;
+      border: none;
+
+      .react-datepicker__header__dropdown {
+        .react-datepicker__year-dropdown-container {
+
+          ::-webkit-scrollbar {
+            width: 5px;
+          }
+
+          /* Track */
+          ::-webkit-scrollbar-track {
+            border-radius: 5px;
+            background: #0a0a0d;
+          }
+
+          /* Handle */
+          ::-webkit-scrollbar-thumb {
+            background: $interfaceColor;
+            border-radius: 10px;
+          }
+
+          /* Handle on hover */
+          ::-webkit-scrollbar-thumb:hover {
+            background: #009a2f;
+
+          }
+
+          .react-datepicker__year-dropdown {
+            background: #1a1c24;
+            border: 2px solid $interfaceColor;
+
+            .react-datepicker__year-option {
+              color: #5d5f6b;
+              cursor: pointer;
+            }
+
+            .react-datepicker__year-option:hover {
+              background: white;
+              color: black;
+            }
+
+            .react-datepicker__year-option--selected_year {
+              background: $interfaceColor;
+              color: white;
+            }
+
+            .react-datepicker__navigation {
+              display: none;
+            }
+          }
+
+          .react-datepicker__year-dropdown--scrollable {
+
+          }
+        }
+      }
+      .react-datepicker__year-dropdown:hover{
+        cursor: default;
+      }
 
       h2 {
         color: white;
@@ -119,6 +185,11 @@
   .react-datepicker__week {
     .react-datepicker__day {
       color: #5d5f6b;
+    }
+
+    .react-datepicker__day:hover {
+      background: white;
+      color: black;
     }
 
     .react-datepicker__day--selected {

@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import ReactDom from "react-dom";
 import PropTypes from "prop-types";
 import {useDispatch, useSelector} from "react-redux";
@@ -79,8 +79,8 @@ function ModalCreateStore({open, onClose, stores}) {
         value: "",
         title: ""
     })
-    const [statusEnd, setStatusEnd] = useState("");
     const {value, title} = storeInfo
+    const inputRef = useRef(null)
 
     const {name, city, country, latitude, longitude} = store
 
@@ -106,13 +106,7 @@ function ModalCreateStore({open, onClose, stores}) {
         }
     }, [status, stores]);
 
-    useEffect(() => {
-        if (status === "pending" || statusCreate === "pending") {
-            setStatusEnd("pending");
-        } else {
-            setStatusEnd("");
-        }
-    }, [statusCreate, status]);
+
     useEffect(() => {
         inputName.forEach((item) => {
             if (item === title && value.length) {
@@ -125,7 +119,7 @@ function ModalCreateStore({open, onClose, stores}) {
         } else {
             setIsCreate(false)
         }
-    }, [store, inputName.length, visualLogo]);
+    }, [store, inputName.length, visualLogo, isCreate]);
 
     useEffect(() => {
         if (statusCreate === "ok") {
@@ -175,7 +169,6 @@ function ModalCreateStore({open, onClose, stores}) {
             setIsCreate(false)
             setLogo({})
             setVisualLogo("")
-            setStatusEnd("")
             setId("")
             setIsLogo(false)
         }
@@ -219,31 +212,45 @@ function ModalCreateStore({open, onClose, stores}) {
     }
 
     const test = () => {
-        fields.forEach(({validation, name, id}) => {
-                if (name === title) {
-                    let test = name !== "logo" ? validation.test(value) : null
-                    if (test === false || !value.length) {
-                        setInputName((prevState) => (_.uniq([...prevState, title])))
-                    } else {
-                        const filter = inputName.filter(item => item !== title);
-                        setInputName(filter)
+        let newInputName = [...inputName];
+        fields.forEach(({ validation, name }) => {
+            if (name === title) {
+                let isValid = name !== "logo" ? validation.test(value) : true;
+                if (!isValid || !value.length) {
+                    if (!newInputName.includes(name)) {
+                        newInputName.push(name);
                     }
+                } else {
+                    newInputName = newInputName.filter(item => item !== name);
                 }
             }
-        )
+        });
+        setInputName(_.uniq(newInputName));
+        return newInputName.length > 0;
     }
+
+
+
 
 
     const create = (e) => {
+        e.preventDefault();
+        const hasErrors = test();
+
+        if (hasErrors) {
+            return;
+        }
+
         if (isCreate) {
-            e.preventDefault();
             if (isStore) {
-                dispatch(updateStore({id: stores.id, name, city, country, latitude, longitude, logo}))
+                dispatch(updateStore({ id: stores.id, name, city, country, latitude, longitude, logo }));
             } else {
-                dispatch(createStore({name, city, country, latitude, longitude, logo}))
+                dispatch(createStore({ name, city, country, latitude, longitude, logo }));
             }
         }
     }
+
+
     const update = async (id) => {
         await setId(id)
         if (id === 4) {
@@ -270,13 +277,11 @@ function ModalCreateStore({open, onClose, stores}) {
                         justifyContent: "center",
                         alignItems: "center",
                     }}>
-                        {statusEnd === "pending" || statusCreate === "ok" && status === "ok" ?
-                            <div className="create-loading"></div> : null}
-
+                        {statusCreate !== "" && status !== "" ? <div className="create-loading"></div> : null}
                         {statusCreate === "ok" && status === "ok" ?
-                            <span className="create-loading-span">{stores ? "Store updated" : "Store created"}</span>
-                            :
-                            statusEnd === "pending" ?
+                            <span
+                                className="create-loading-span">{stores ? "Store updated" : "Store created"}</span> :
+                            statusCreate === "pending" || status === "pending" ?
                                 <span
                                     className="create-loading-span">{stores ? "The store is updating..." : "Creating the store..."}</span>
                                 : null}
@@ -286,11 +291,8 @@ function ModalCreateStore({open, onClose, stores}) {
                             {fields.map((field) => (
                                 <div key={field.id} className="field-block">
                                     {stores ?
-
-
                                         <>
                                             {field.id === 4 ?
-
                                                 <label htmlFor="4"
                                                        className={field.id === id ? "update-pencil-active" : "update-pencil"}
                                                        onClick={() => update(field.id)}>
@@ -305,32 +307,41 @@ function ModalCreateStore({open, onClose, stores}) {
                                                                      className={"update-pencil-icon"}/>
                                                 </div>}
                                         </>
-
                                         :
-
-
                                         null}
                                     <Input
+                                        inputRef={inputRef}
                                         disabled={stores && id !== field.id}
                                         key={field.id}
                                         name={field.name}
                                         className={inputName.includes(field.name) ? "input-error" : "input"}
                                         classNameLabel="label"
                                         {...field}
+
                                         onBlur={() => {
                                             test()
                                             setId("")
                                         }}
                                         onChange={field.name === "logo" ? onChangeLogo : onChange}
                                         value={store[field.name]}
-                                        // type={field.name === "password" && eye === faEyeSlash ? "password" : "text"}
                                         id={field.id}
                                         label={field.label}
                                     />
                                     {field.name === "logo" ?
-                                        <label htmlFor={stores ? "" : "4"} className={stores ? "disabled-custom-input" : "custom-input"} style={{
-                                            border: id === 4 ? "2px solid #00d143" : "",
-                                        }}>
+                                        <label id="99"
+                                               tabIndex={0}
+                                               onBlur={() => {
+                                                   document.getElementById(99).style.borderColor = ""
+
+                                               }}
+                                               onClick={() =>
+                                                   document.getElementById(99).style.borderColor = "2px solid #00d143"
+
+                                               } htmlFor={stores ? "" : "4"}
+                                               className={stores ? "disabled-custom-input" : "custom-input"}
+                                               style={{
+                                                   border: id === 4 ? "2px solid #00d143" : "",
+                                               }}>
                                             {visualLogo || stores ?
                                                 <img src={stores && !isLogo ? stores.storeLogo[0].path : visualLogo}
                                                      className="visual-logo"/> :
@@ -351,15 +362,14 @@ function ModalCreateStore({open, onClose, stores}) {
                                         type={isCreate && isUpdate ? "submit" : "button"}
                                         disabled={!isUpdate && !isCreate}
                                         className={isUpdate && isCreate ? "active-button" : "disabled"}
-                                        onClick={create}>Update</Button> :
+                                    >Update</Button> :
                                     <Button
                                         status={isCreate && status === "pending" || statusCreate === "pending" ? "pending" : ""}
                                         type={isCreate ? "submit" : "button"}
                                         disabled={!isCreate}
                                         className={isCreate ? "active-button" : "disabled"}
-                                        onClick={create}>Create</Button>
+                                    >Create</Button>
                                 }
-
 
                             </div>
                         </form>

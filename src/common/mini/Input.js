@@ -19,6 +19,7 @@ const Input = ({
                    classNameLabel,
                    style,
                    disabled,
+                   onFocus,
 
                }) => {
     const [eye, setEye] = useState(faEyeSlash)
@@ -44,6 +45,7 @@ const Input = ({
                     onChange={onChange}
                     disabled={status === "pending" || status === "ok" || disabled}
                     accept=".jpg, .jpeg, .png"
+                    onFocus={onFocus}
                 />
 
                 {name === "password" || name === "repeatPassword" || type === "password"

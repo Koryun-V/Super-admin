@@ -78,7 +78,6 @@ const Login = () => {
                 <div className="title-login">
                     <h2>
                         Super admin
-
                     </h2>
                 </div>
                 <form onSubmit={login}>

@@ -3,6 +3,7 @@ import {login} from "./login";
 import {store} from "./store";
 import {statistics} from "./statistics";
 import {admin} from "./admin";
+import {updateAdmin} from "./updateAdmin";
 
 
 
@@ -12,4 +13,5 @@ export const rootReducer = combineReducers({
     store,
     statistics,
     admin,
+    updateAdmin,
 })

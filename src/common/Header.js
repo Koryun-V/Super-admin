@@ -12,7 +12,7 @@ const Header = () => {
     const user = useSelector(state => state.login.user);
     const status = useSelector(state => state.login.statusUser);
     const location = useLocation();
-    const {name,id} = useParams();
+    const {name, id} = useParams();
 
 
     useEffect(() => {
@@ -28,29 +28,67 @@ const Header = () => {
     return (
         <header className="header">
             <div className="nav-header">
-                <div className="container-header" >
+                <div className="container-header">
                     <div className="logo-block">
                         <Link to="/" className="logo"><h1>Logo</h1></Link>
                     </div>
-                    {status === "ok" ?
-                        <div className="super-admin">
-                            <div className="user-img">
-                                {user.avatar.length ?
-                                    <div className="user-img-container">
-                                        <img src={user.avatar[0]}/>
+
+
+                    <div className="super-container">
+                        <h1 style={{
+                            opacity: location.pathname === "/profile" ? 1 : 0,
+                            zIndex: location.pathname === "/profile" ? 10 : -1,
+                        }}>Super admin</h1>
+                        <div className="super-admin-container"
+                             style={{
+                                 background: location.pathname === "/profile" ? "#0a0a0d" : "",
+                             }}>
+
+                            {status === "ok" ?
+                                <Link to="/profile"
+                                      className={location.pathname === "/profile" ? "super-admin-active" : "super-admin"}
+                                >
+                                    <div className="anim-admin" style={{
+                                        transform: location.pathname === "/profile" ? "translateX(100%)" : "translateX(0%)",
+                                        opacity: location.pathname === "/profile" ? 0 : 1,
+
+
+                                    }}>
+                                        <div className="user-img">
+                                            {user.avatar.length ?
+                                                <div className="user-img-container">
+                                                    <img src={user.avatar[0].path}/>
+                                                </div>
+                                                :
+                                                <div className="user-img-container-custom">
+                                                    <FontAwesomeIcon icon={faUser} className="icon"/>
+                                                </div>
+                                            }
+                                            <div className="indicator"></div>
+                                        </div>
+                                        <div className="user-name">
+                                            <span>{user.lastName.charAt(0).toUpperCase() + user.lastName.slice(1)} {user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1)}</span>
+                                            <span>{user.email}</span>
+                                        </div>
                                     </div>
-                                    :
-                                    <div className="user-img-container-custom">
-                                        <FontAwesomeIcon icon={faUser} className="icon"/>
+                                </Link>
+                                :
+                                location.pathname !== "/profile" ?
+                                    <div className="super-admin-pending">
+                                        <div className="user-img">
+                                            <div className="user-img-container-custom-loading loading-gradient">
+                                            </div>
+                                        </div>
+                                        <div className="user-name">
+                                            <span className="loading-gradient" style={{height: 20}}></span>
+                                            <span className="loading-gradient" style={{height: 20}}></span>
+                                        </div>
                                     </div>
-                                }
-                                <div className="indicator"></div>
-                            </div>
-                            <div className="user-name">
-                                <span>{user.lastName.charAt(0).toUpperCase() + user.lastName.slice(1)} {user.firstName.charAt(0).toUpperCase() + user.lastName.slice(1)}</span>
-                                <span>{user.email}</span>
-                            </div>
-                        </div> : null}
+                                    : null
+                            }
+                        </div>
+                    </div>
+
                     <div className="nav-text">
                         <h3>Navigation</h3>
                     </div>

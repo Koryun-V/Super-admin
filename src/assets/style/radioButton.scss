@@ -1,0 +1,107 @@
+@import "variables";
+
+.custom-radio-input {
+  display: none;
+}
+
+.gender-radio-group {
+  max-width: 328.4px;
+  width: calc(100% / 2 - 10px);
+  height: 79px;
+  position: absolute;
+  top: 198px;
+  left: 0;
+  font-family: "PoppinsRegular", sans-serif;
+
+  span {
+    color: white;
+  }
+
+
+}
+
+.gender-block {
+  margin-top: 6px;
+  display: flex;
+  height: 50px;
+  align-items: center;
+  border: 2px solid transparent;
+  transition: 0.2s all;
+  border-radius: 5px;
+
+}
+
+
+.custom-radio-container {
+  display: inline-block;
+  margin-right: 20px;
+  position: relative;
+  cursor: pointer;
+
+  .custom-radio {
+    display: flex;
+    align-items: center;
+    position: relative;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+
+    //padding-left: 35px;
+
+    .custom-radio-circle {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      border: 2px solid $interfaceColor;
+      border-radius: 50%;
+      background-color: #1a1c24;
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+
+      &:hover {
+        border-color: $interfaceColor;
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: 5px;
+        top: 5px;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background-color: #1a1c24;
+      }
+    }
+
+    &.selected {
+      .custom-radio-circle {
+        background-color: $interfaceColor;
+        border-color: $interfaceColor;
+
+        &::after {
+          background-color: #1a1c24;
+        }
+      }
+    }
+
+    .custom-radio-label {
+      margin-left: 30px;
+      color: white;
+      font-size: 16px;
+    }
+  }
+}
+
+.custom-radio-input:checked + .custom-radio-container .custom-radio .custom-radio-circle {
+  background-color: $interfaceColor;
+  border-color: $interfaceColor;
+
+  &::after {
+    background-color: #1a1c24;
+  }
+}
+
+//rgba(4, 224, 21, 0.9)

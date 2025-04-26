@@ -158,9 +158,10 @@
     border-radius: 5px;
     transition: 0.2s all;
   }
-  .custom-input:active {
+  .custom-input:focus {
     border: 2px solid $interfaceColor
   }
+
 
   .visual-logo {
     width: 100%;

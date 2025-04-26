@@ -3,7 +3,17 @@ import {useDispatch, useSelector} from "react-redux";
 import Statistics from "./mini/Statistics";
 import DateP from "./DateP";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCube, faEnvelope, faPlus, faRubleSign, faTrash, faUser} from "@fortawesome/free-solid-svg-icons";
+import {
+    faCartShopping,
+    faCube,
+    faDollarSign,
+    faEnvelope,
+    faPlus,
+    faRubleSign,
+    faTrash,
+    faTruck,
+    faUser
+} from "@fortawesome/free-solid-svg-icons";
 import {getAdmin} from "../store/actions/admin";
 import ModalDeleteAdmin from "./Modal/ModalDeleteAdmin";
 import {useQuery} from "../utills/hooks/useQuery";
@@ -148,15 +158,42 @@ const Store = () => {
                                     className={status === "pending" || statusBuyers === "pending" ? "container-statistics-disabled" : "container-statistics"}>
                                     {status === "pending" || statusBuyers === "pending" ?
                                         <div className="opacity-store"></div> : null}
-                                    <div className="total-container">
-                                        <div className="total">
-                                            <h4>Total Revenue
-                                                - {Math.round(statisticsTotal.totalRevenue)}<FontAwesomeIcon
-                                                    icon={faRubleSign} className="total-icon"/></h4>
-                                            <h4>Product count - {statisticsTotal.productCount}<FontAwesomeIcon
-                                                icon={faCube}
-                                                className="total-icon"/>
-                                            </h4>
+
+                                    {/*<div className="total-container">*/}
+                                    {/*    <div className="total">*/}
+                                    {/*        <h4>Total Revenue*/}
+                                    {/*            - {Math.round(statisticsTotal.totalRevenue)}<FontAwesomeIcon*/}
+                                    {/*                icon={faRubleSign} className="total-icon"/></h4>*/}
+                                    {/*        <h4>Product count - {statisticsTotal.productCount}<FontAwesomeIcon*/}
+                                    {/*            icon={faCube}*/}
+                                    {/*            className="total-icon"/>*/}
+                                    {/*        </h4>*/}
+                                    {/*    </div>*/}
+                                    {/*</div>*/}
+
+
+                                    <div className="totals">
+                                        <div className="container-total">
+                                            <div className="block-total">
+                                                <h2>Total count</h2>
+                                                <span>{statisticsTotal.productCount}<FontAwesomeIcon
+                                                    icon={faCube} className="total-icon"/></span>
+                                            </div>
+                                            <div className="block-total">
+                                                <h2>Total orders</h2>
+                                                <span>{statisticsTotal.totalOrders}<FontAwesomeIcon
+                                                    icon={faTruck} className="total-icon"/></span>
+                                            </div>
+                                            <div className="block-total">
+                                                <h2>Total revenue</h2>
+                                                <span>{statisticsTotal.totalRevenue}
+                                                    <FontAwesomeIcon icon={faDollarSign} className="total-icon"/></span>
+                                            </div>
+                                            <div className="block-total">
+                                                <h2>Total sales</h2>
+                                                <span>{statisticsTotal.totalSales}<FontAwesomeIcon
+                                                    icon={faCartShopping} className="total-icon"/></span>
+                                            </div>
                                         </div>
                                     </div>
                                     <Statistics data={statistics} name={statisticsTotal.storeId}/>
