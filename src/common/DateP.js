@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import {useDispatch} from 'react-redux';
 import Button from './mini/Button';
 import {useQuery} from '../utills/hooks/useQuery';
 import moment from 'moment';
@@ -10,29 +9,20 @@ const DateP = ({id,defaultStart,defaultEnd}) => {
     const {query, setQuery} = useQuery();
     const {q, startDate, endDate} = query;
 
-
     const [date, setDate] = useState({
         startDateCurrent: startDate ? new Date(startDate) : defaultStart,
         endDateCurrent: endDate ? new Date(endDate) : defaultEnd,
     });
 
-
     const {startDateCurrent, endDateCurrent} = date;
-
-
     const [active, setActive] = useState(false);
 
-
-
-    console.log(startDate, "start")
     useEffect(() => {
         setDate({
             startDateCurrent: startDate ? new Date(startDate) : defaultStart,
             endDateCurrent: endDate ? new Date(endDate) : defaultEnd,
         });
     }, [startDate, endDate]);
-
-
 
 
     return (

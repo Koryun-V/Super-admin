@@ -15,7 +15,7 @@ export const changePasswordAdmin = createReducer(initialState, (builder) => {
         .addCase(changePassword.rejected, (state) => {
             state.status = "error"
         })
-
+        //-----------------------------------------------------------------------------------
         .addCase(setStatus, (state, {payload}) => {
             state.status = payload
         })

@@ -21,7 +21,7 @@ export const admin = createReducer(initialState, (builder) => {
         .addCase(getAdmin.rejected, (state) => {
             state.status = "error"
         })
-
+        //-----------------------------------------------------------------------------------
         .addCase(createAdmin.pending, (state) => {
             state.statusCreate = "pending"
         })
@@ -31,10 +31,8 @@ export const admin = createReducer(initialState, (builder) => {
         .addCase(createAdmin.rejected, (state, error) => {
             state.statusCreate = "error"
             state.createError = error.payload.response.data.message
-
         })
-
-
+        //-----------------------------------------------------------------------------------
         .addCase(removeAdmin.pending, (state) => {
             state.statusDelete = "pending"
         })
@@ -44,8 +42,7 @@ export const admin = createReducer(initialState, (builder) => {
         .addCase(removeAdmin.rejected, (state) => {
             state.statusDelete = "error"
         })
-
-
+        //-----------------------------------------------------------------------------------
         .addCase(setStatusCreate, (state, {payload}) => {
             state.statusCreate = payload
         })

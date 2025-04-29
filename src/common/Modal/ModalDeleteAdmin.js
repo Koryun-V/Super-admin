@@ -37,10 +37,6 @@ function ModalDeleteAdmin({open, onClose, id, adminId, adminEmail}) {
 
     }, [status, statusDelete]);
 
-
-
-
-
     useEffect(() => {
         if (statusDelete === "ok") {
             dispatch(getAdmin({id}))
@@ -52,6 +48,7 @@ function ModalDeleteAdmin({open, onClose, id, adminId, adminEmail}) {
             dispatch(removeAdmin({storeId: id, adminId}))
         }
     }, [isDelete]);
+
     useEffect(() => {
         if (open) {
             (async () => {
@@ -76,6 +73,7 @@ function ModalDeleteAdmin({open, onClose, id, adminId, adminEmail}) {
         setIsDelete(true)
     }
 
+
     if (!open) return null
     return ReactDom.createPortal(
         <div id="modal">
@@ -99,13 +97,12 @@ function ModalDeleteAdmin({open, onClose, id, adminId, adminEmail}) {
                             {statusDelete === "ok" && status === "ok" ?
                                 <span className="delete-loading-span">Deleted</span>
                                 :
-                                status === "pending" || statusDelete ==="pending" ?
+                                status === "pending" || statusDelete === "pending" ?
                                     <span
                                         className="delete-loading-span">Administrator is being deleted...</span>
                                     : null}
-
                             <div className="delete-block" style={{
-                                opacity:statusDelete !== "" ?  0 : 1 ,
+                                opacity: statusDelete !== "" ? 0 : 1,
                             }}>
                                 <span>Are you sure you want to delete the administrator <span
                                     className="store-name">{adminEmail} </span>?</span>
@@ -129,14 +126,12 @@ function ModalDeleteAdmin({open, onClose, id, adminId, adminEmail}) {
                                 </div>
                             </div>
                         </>
-
                     </div>
                 </div>
             </div>
         </div>,
         document.body
-    )
-        ;
+    );
 }
 
 ModalDeleteAdmin.propTypes = {

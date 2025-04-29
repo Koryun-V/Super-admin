@@ -9,11 +9,13 @@
     justify-content: center;
     align-items: center;
     margin-bottom: 20px;
+
     h2 {
       font-family: "PoppinsBold", sans-serif;
-      color:$interfaceColor;
+      color: $interfaceColor;
     }
   }
+
   form {
     display: flex;
     justify-content: center;
@@ -39,5 +41,58 @@
     font-size: 14px;
     font-family: "RobotoMedium", sans-serif;
 
+  }
+}
+
+.container-form-change {
+  height: auto;
+  background: #1a1c24;
+  border-radius: 5px;
+  padding: 50px;
+
+  .title-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+
+    h2 {
+      font-family: "PoppinsBold", sans-serif;
+      color: $interfaceColor;
+    }
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+}
+
+.forgot-block {
+  width: 100%;
+  margin: 2px 0 10px 0;
+  text-align: center;
+  font-family: "PoppinsRegular", sans-serif;
+  font-weight: 600;
+  color: #5d5f6b;
+
+  span {
+    cursor: pointer;
+  }
+}
+
+.key-status {
+  height: 413px;
+  width: 320px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  span {
+    text-align: center;
+    font-size: 18px;
+    color: red;
+    font-family: "PoppinsMedium", sans-serif;
   }
 }

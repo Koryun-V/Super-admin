@@ -4,11 +4,12 @@
   justify-content: center;
 
 }
-.super-profile-change{
+
+.super-profile-change {
   position: fixed;
   width: auto;
   height: auto;
-  top:50%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   cursor: default;
@@ -21,7 +22,6 @@
   display: flex;
   align-items: center;
   cursor: pointer;
-
 
   h1 {
     color: $interfaceColor;
@@ -54,7 +54,6 @@
   align-items: center;
   margin-bottom: 20px;
 
-
   .title-link {
     display: flex;
     align-items: center;
@@ -69,7 +68,6 @@
       font-family: "PoppinsBold", sans-serif;
     }
   }
-
 }
 
 .container-profile {
@@ -84,7 +82,6 @@
   justify-content: center;
   min-width: 300px;
 
-
   .change-link {
     background: #0a0a0d;
     position: absolute;
@@ -97,15 +94,12 @@
     transition: 0.2s all;
     cursor: pointer;
 
-
     span {
       font-family: "PoppinsMedium", sans-serif;
       font-size: 14px;
       opacity: 0.5;
       transition: 0.2s all;
     }
-
-
   }
 
   .change-link:hover span {
@@ -118,17 +112,13 @@
 
   .change-link:active {
     color: #008a2d;
-
   }
-
 
   .change {
     width: 100%;
   }
 
-
   .profile-reload {
-    //border:1px solid white;
     position: absolute;
     top: 0;
     right: 0;
@@ -151,7 +141,6 @@
   }
 
   .profile-reload-active {
-    //border:1px solid white;
     position: absolute;
     top: 0;
     right: 0;
@@ -188,8 +177,6 @@
     justify-content: center;
     align-items: center;
     z-index: 993;
-
-
   }
 
   .update-admin-span {
@@ -218,8 +205,6 @@
 .super-admin-container-p {
   display: flex;
   min-width: 0;
-  //height: 110px;
-
 }
 
 .super-admin-p {
@@ -313,7 +298,6 @@
         font-size: 12px;
         cursor: pointer;
         transition: 0.2s all;
-
       }
 
       .icon:hover {
@@ -324,7 +308,6 @@
         background: #980000;
       }
     }
-
   }
 
   .user-img-container-custom-loading-p {
@@ -358,7 +341,6 @@
   flex-direction: column;
   width: 250px;
 
-
   span {
     font-family: "PoppinsMedium", sans-serif;
     color: white;
@@ -373,6 +355,5 @@
   span:nth-child(2) {
     color: #5d5f6b;
     font-size: 20px;
-
   }
 }

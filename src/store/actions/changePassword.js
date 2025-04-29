@@ -16,7 +16,6 @@ export const changePassword = createAsyncThunk(
 );
 
 
-
 export const setStatus = createAction(
     "change/password",
 )

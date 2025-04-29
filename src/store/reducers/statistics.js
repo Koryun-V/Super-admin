@@ -29,8 +29,7 @@ export const statistics = createReducer(initialState, (builder) => {
         .addCase(getStatisticsAll.rejected, (state) => {
             state.status = "error"
         })
-
-
+        //-----------------------------------------------------------------------------------
         .addCase(getStatistics.pending, (state) => {
             state.status = "pending"
         })
@@ -42,6 +41,7 @@ export const statistics = createReducer(initialState, (builder) => {
         .addCase(getStatistics.rejected, (state) => {
             state.status = "error"
         })
+        //-----------------------------------------------------------------------------------
         .addCase(getBuyers.pending, (state) => {
             state.statusBuyers = "pending"
         })
@@ -52,6 +52,7 @@ export const statistics = createReducer(initialState, (builder) => {
         .addCase(getBuyers.rejected, (state) => {
             state.statusBuyers = "error"
         })
+        //-----------------------------------------------------------------------------------
         .addCase(setStatusBuyers, (state, {payload}) => {
             state.statusBuyers = payload
         })

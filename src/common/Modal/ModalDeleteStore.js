@@ -37,7 +37,6 @@ function ModalDeleteStore({open, onClose, id, store}) {
 
     }, [status, statusDelete]);
 
-
     useEffect(() => {
         if (statusDelete === "ok") {
             dispatch(getStores())
@@ -49,6 +48,7 @@ function ModalDeleteStore({open, onClose, id, store}) {
             dispatch(deleteStores(id))
         }
     }, [isDelete]);
+
     useEffect(() => {
         if (open) {
             (async () => {
@@ -73,6 +73,7 @@ function ModalDeleteStore({open, onClose, id, store}) {
     const deleteStoreFunc = () => {
         setIsDelete(true)
     }
+
 
     if (!open) return null
     return ReactDom.createPortal(
@@ -103,9 +104,8 @@ function ModalDeleteStore({open, onClose, id, store}) {
                                     <span
                                         className="delete-loading-span">Store is being deleted...</span>
                                     : null}
-
                             <div className="delete-block" style={{
-                                opacity:statusDelete !== "" ?  0 : 1 ,
+                                opacity: statusDelete !== "" ? 0 : 1,
                             }}>
                                 <span>Are you sure you want to delete the administrator <span
                                     className="store-name">{store} </span>?</span>
@@ -134,8 +134,7 @@ function ModalDeleteStore({open, onClose, id, store}) {
             </div>
         </div>,
         document.body
-    )
-        ;
+    );
 }
 
 ModalDeleteStore.propTypes = {

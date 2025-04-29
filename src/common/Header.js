@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
+import {Link, useLocation, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowRightFromBracket, faGaugeHigh, faLayerGroup, faUser} from "@fortawesome/free-solid-svg-icons";
@@ -24,9 +24,6 @@ const Header = () => {
         }
     }, [token]);
 
-    useEffect(() => {
-        console.log("Current path:", location);
-    }, [location]);
 
     return (
         <header className="header"
@@ -40,7 +37,6 @@ const Header = () => {
                     <div className="logo-block">
                         <Link to="/" className="logo"><h1>Logo</h1></Link>
                     </div>
-
 
                     <div className="super-container">
                         <h1 style={{
@@ -59,8 +55,6 @@ const Header = () => {
                                     <div className="anim-admin" style={{
                                         transform: location.pathname === "/profile" ? "translateX(100%)" : "translateX(0%)",
                                         opacity: location.pathname === "/profile" ? 0 : 1,
-
-
                                     }}>
                                         <div className="user-img">
                                             {user.avatar.length ?
@@ -101,7 +95,6 @@ const Header = () => {
                         <h3>Navigation</h3>
                     </div>
 
-
                     <nav className="nav">
                         <ul className="nav-list">
                             <Link to="/" className={location.pathname === "/" ? "active-item" : "nav-item"}>
@@ -136,8 +129,6 @@ const Header = () => {
                     </nav>
                 </div>
             </div>
-
-
         </header>
     );
 };

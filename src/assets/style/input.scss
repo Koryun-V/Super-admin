@@ -4,7 +4,7 @@
   border-radius: 5px;
   display: flex;
   flex-direction: column;
-  margin-top:5px;
+  margin-top: 5px;
 
   input:-webkit-autofill,
   input:-webkit-autofill:focus {
@@ -18,14 +18,15 @@
     padding: 0 15px;
     z-index: 5;
     background: #454752;
-    color:white;
+    color: white;
     outline: none;
-    border:2px solid #454752;
+    border: 2px solid #454752;
     position: relative;
     height: 50px;
     border-radius: 5px;
     transition: 0.2s all;
   }
+
   .input-error {
     font-family: "PoppinsRegular", sans-serif;
     width: 100%;
@@ -33,28 +34,32 @@
     padding: 0 15px;
     z-index: 5;
     background: #454752;
-    color:white;
+    color: white;
     outline: none;
-    border:2px solid red;
+    border: 2px solid red;
     position: relative;
     height: 50px;
     border-radius: 5px;
     transition: 0.2s all;
   }
 
-  .input:focus-within{
-    border:2px solid $interfaceColor;
+  .input:focus-within {
+    border: 2px solid $interfaceColor;
   }
-
 }
-
 
 .login {
   position: relative;
   width: 320px;
 }
-.login:nth-child(2){
-  margin-top:20px;
+
+.login:nth-child(2) {
+  margin-top: 20px;
+}
+
+.login-change {
+  position: relative;
+  width: 320px;
 }
 
 .eye {
@@ -67,10 +72,12 @@
   margin: auto;
   z-index: 5;
 }
-.label{
-  color:white;
+
+.label {
+  color: white;
   font-family: "PoppinsRegular", sans-serif;
 }
+
 //input:-webkit-autofill {
 //  -webkit-box-shadow: 0 0 0 1000px #2c2c2c inset !important;
 //  -webkit-text-fill-color: #fff !important;

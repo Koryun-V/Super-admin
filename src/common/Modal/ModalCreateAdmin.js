@@ -6,9 +6,7 @@ import Input from "../mini/Input";
 import Button from "../mini/Button";
 import {getAdmin, createAdmin, setStatusCreate, setCreateError} from "../../store/actions/admin";
 import _ from "lodash"
-
 import {ReactComponent as Close} from "../../assets/icon/close-x.svg"
-import {setStatus} from "../../store/actions/login";
 
 
 const fields = [
@@ -19,26 +17,24 @@ const fields = [
         validation: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
         info: "Please enter correct e-mail.",
     },
-
 ]
 
 
 function ModalCreateAdmin({open, onClose, id}) {
     const dispatch = useDispatch();
+    const statusCreate = useSelector(state => state.admin.statusCreate);
+    const status = useSelector(state => state.admin.status)
+    const createError = useSelector(state => state.admin.createError)
     const [admin, setAdmin] = useState({
         email: ""
     })
     const [inputName, setInputName] = useState([]);
     const [isCreate, setIsCreate] = useState(false);
-    const statusCreate = useSelector(state => state.admin.statusCreate);
-    const status = useSelector(state => state.admin.status)
-    const createError = useSelector(state => state.admin.createError)
     const [storeInfo, setStoreInfo] = useState({
         value: "",
         title: ""
     })
     const {value, title} = storeInfo
-
     const {email} = admin
 
     const scrollModal = () => {
@@ -88,7 +84,6 @@ function ModalCreateAdmin({open, onClose, id}) {
 
     useEffect(() => {
         if (open) {
-
             (async () => {
                 try {
                     document.body.style.width = ` ${document.body.getBoundingClientRect().width}px`
@@ -125,14 +120,12 @@ function ModalCreateAdmin({open, onClose, id}) {
             [n]: v
         }));
         setStoreInfo({value: v, title: n});
-
         if (statusCreate === "error") {
             dispatch(setStatusCreate(""))
             dispatch(setCreateError(""))
         }
 
     };
-
 
     const test = () => {
         let newInputName = [...inputName];
@@ -143,8 +136,7 @@ function ModalCreateAdmin({open, onClose, id}) {
                     if (!newInputName.includes(name)) {
                         newInputName.push(name);
                     }
-                }
-                else {
+                } else {
                     newInputName = newInputName.filter(item => item !== name);
                 }
             }
@@ -152,7 +144,6 @@ function ModalCreateAdmin({open, onClose, id}) {
         setInputName(_.uniq(newInputName));
         return newInputName.length > 0;
     };
-
 
     const create = (e) => {
         e.preventDefault();
@@ -164,6 +155,8 @@ function ModalCreateAdmin({open, onClose, id}) {
             dispatch(createAdmin({email, storeId: id}))
         }
     }
+
+
     if (!open) return null
     return ReactDom.createPortal(
         <div id="modal">
@@ -194,7 +187,6 @@ function ModalCreateAdmin({open, onClose, id}) {
                                     className="create-loading-span">Creating the admin...</span>
                                 : null}
 
-
                         <form onSubmit={create} style={{
                             width: "100%",
                             gap: 0,
@@ -203,7 +195,6 @@ function ModalCreateAdmin({open, onClose, id}) {
                                 <div key={field.id} className="field-block" style={{
                                     width: "100%",
                                 }}>
-
                                     <Input
                                         key={field.id}
                                         name={field.name}
@@ -218,7 +209,6 @@ function ModalCreateAdmin({open, onClose, id}) {
                                         label={field.label}
                                         status={statusCreate}
                                     />
-
                                 </div>
                             ))}
                             <div className="validation-info-login">
@@ -228,7 +218,6 @@ function ModalCreateAdmin({open, onClose, id}) {
                                     inputName[0] === "email" ?
                                         <span>{!admin.email.length ? "Field Required" : fields[0].info}</span> : null}
                             </div>
-                            {/*<div className="create-img"></div>*/}
                             <div className="button-create">
                                 <Button
                                     status={isCreate && status === "pending" || statusCreate === "pending" ? "pending" : ""}
@@ -236,20 +225,14 @@ function ModalCreateAdmin({open, onClose, id}) {
                                     disabled={!isCreate}
                                     className={isCreate ? "active-button" : "disabled"}
                                 >Create</Button>
-
-
                             </div>
                         </form>
-
-
                     </div>
-
                 </div>
             </div>
         </div>,
         document.body
-    )
-        ;
+    );
 }
 
 ModalCreateAdmin.propTypes = {

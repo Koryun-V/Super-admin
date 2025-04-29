@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import Statistics from "./mini/Statistics";
 import DateP from "./DateP";
@@ -7,7 +7,6 @@ import {
     faCartShopping,
     faCube,
     faDollarSign,
-    faEnvelope,
     faPlus,
     faRubleSign,
     faTrash,
@@ -17,9 +16,8 @@ import {
 import {getAdmin} from "../store/actions/admin";
 import ModalDeleteAdmin from "./Modal/ModalDeleteAdmin";
 import {useQuery} from "../utills/hooks/useQuery";
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import moment from "moment";
-import {set} from "lodash/object";
 import ModalCreateAdmin from "./Modal/ModalCreateAdmin";
 import {RotatingLines} from "react-loader-spinner";
 import {getBuyers, getStatistics} from "../store/actions/statistics";
@@ -27,7 +25,6 @@ import {getBuyers, getStatistics} from "../store/actions/statistics";
 const Store = () => {
     const dispatch = useDispatch();
     const {id, name} = useParams()
-    const navigate = useNavigate()
     const statistics = useSelector(state => state.statistics.statistics);
     const statisticsTotal = useSelector(state => state.statistics.statisticsTotal);
     const buyers = useSelector(state => state.statistics.buyers);
@@ -42,9 +39,7 @@ const Store = () => {
     const defaultStart = new Date('2025-04-01');
     const defaultEnd = new Date('2025-04-30');
 
-    // const [isAdmin, setIsAdmin] = useState(false);
     const [isOpenDelete, setIsOpenDelete] = useState(false);
-
 
     useEffect(() => {
         dispatch(getAdmin({id}))
@@ -55,11 +50,8 @@ const Store = () => {
         indexA: "",
         adminEmail: ""
     });
-    useEffect(() => {
-        // setQuery({q:"statistics"});
-    }, []);
-    const {adminId, indexA, adminEmail} = adminInfo
 
+    const {adminId, indexA, adminEmail} = adminInfo
 
     const deleteAdmin = (id, index, adminEmail) => {
         setIsOpenDelete(true)
@@ -69,25 +61,22 @@ const Store = () => {
             adminEmail: adminEmail
         })
     }
+
     const getAdmins = () => {
         setQuery({q: "admins"});
         dispatch(getAdmin({id}))
     }
 
-
     useEffect(() => {
         const start = moment(defaultStart).format('YYYY-MM-DD');
         const end = moment(defaultEnd).format('YYYY-MM-DD');
         if (startDate && endDate) {
-            console.log("if")
             dispatch(getStatistics({id, startDate, endDate}));
             dispatch(getBuyers({id, startDate, endDate}));
-        }
-        else{
+        } else {
             dispatch(getStatistics({id}));
             dispatch(getBuyers({id}));
         }
-
     }, [startDate, endDate]);
 
 
@@ -108,7 +97,6 @@ const Store = () => {
                         <div className="change-line" style={{
                             transform: q === "admins" ? "translateX(50%)" : "translateX(-50%)",
                         }}>
-
                         </div>
                     </div>
                     {q !== "admins" ? <DateP id={id} defaultStart={defaultStart} defaultEnd={defaultEnd}
@@ -117,7 +105,6 @@ const Store = () => {
                 </div>
             </div>
             <div className="container">
-
                 {q !== "admins" ?
                     <div>
                         {status !== "ok" && statusBuyers !== "ok" && !statistics.length && !buyers.length ?
@@ -197,7 +184,6 @@ const Store = () => {
                                         </div>
                                     </div>
                                     <Statistics data={statistics} name={statisticsTotal.storeId}/>
-
                                     <div className="buyers">
                                         <div className="buyers-header">
                                             <div className="title">
@@ -206,7 +192,7 @@ const Store = () => {
                                         </div>
                                         <div className="buyers-block">
                                             {buyers.map((buyer, index) => (
-                                                <div className="buyer">
+                                                <div className="buyer" key={buyer.id}>
                                                     <div className="img-block">
                                                         {buyer.avatar ?
                                                             <div className="buyer-img">
@@ -218,7 +204,6 @@ const Store = () => {
                                                             </div>
                                                         }
                                                     </div>
-
                                                     <div className="buyer-titles">
                                                         <div className="buyer-title">
                                                     <span
@@ -234,11 +219,8 @@ const Store = () => {
                                                     <span
                                                         className="buyer-text">Total quantity - {buyer.totalQuantity}</span>
                                                             <FontAwesomeIcon icon={faCube} className="total-icon"/>
-
                                                         </div>
                                                     </div>
-
-
                                                     {/*<div className="buyer-icon">*/}
                                                     {/*    <FontAwesomeIcon icon={faEnvelope} className="total-icon"/>*/}
                                                     {/*    <FontAwesomeIcon icon={faRubleSign} className="total-icon"/>*/}
@@ -254,7 +236,6 @@ const Store = () => {
                     </div>
                     :
                     <>
-
                         {statusAdmin !== "ok" && !admins.length
                             ?
                             <div className="container-loading">
@@ -291,10 +272,8 @@ const Store = () => {
                                         </div>
                                     </div> : null}
                                 <div className="admins">
-
-
                                     {admins.map((admin, index) => (
-                                        <div style={{cursor: "default"}}
+                                        <div key={admin.id} style={{cursor: "default"}}
                                              className={statusAdmin === "pending" ? "disabled-store" : indexA === index ? "active-admin" : "admin"}>
                                             {statusAdmin === "pending" ? <div className="opacity-store"></div>
                                                 : null}
@@ -321,7 +300,6 @@ const Store = () => {
                                             </div>
                                         </div>
                                     ))}
-
                                     <div className={statusAdmin === "pending" ? "disabled-store" : "store"}
                                          onClick={() =>
                                              statusAdmin === "pending" ? null : setIsOpen(true)
@@ -329,7 +307,6 @@ const Store = () => {
                                         <FontAwesomeIcon icon={faPlus} className="plus-icon"/>
                                     </div>
                                 </div>
-
 
                                 <ModalCreateAdmin
                                     id={id}
@@ -351,14 +328,12 @@ const Store = () => {
                                 }}
                                 />
                             </div>}
-
                     </>
                 }
             </div>
         </div>
 
-    )
-        ;
+    );
 };
 
 export default Store;

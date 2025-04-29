@@ -55,14 +55,10 @@ const StatisticsMini = ({data}) => {
         data.map((store, index) => {
             const revenueByDate = allDates.map(date => {
                 const stat = store.statistics.find(s => s.interval === date);
-                console.log(stat,"q")
-
                 return stat ? data.map(store =>
                     store.statistics.reduce((sum, stat) => sum + stat.totalRevenue, 0)
                 ) : 0;
             });
-            console.log(revenueByDate)
-
         })
     }
     func()

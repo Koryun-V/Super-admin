@@ -6,25 +6,25 @@ export const getStatisticsAll = createAsyncThunk(
     async (payload, thunkAPI) => {
         try {
             const {data} = await api.getStatisticsAll(payload);
-            console.log(data,"ssss")
             return data
         } catch (error) {
             return thunkAPI.rejectWithValue(error)
         }
     }
 );
+
 export const getStatistics = createAsyncThunk(
     "get/statistics",
     async (payload, thunkAPI) => {
         try {
             const {data} = await api.getStatistics(payload);
-            console.log(data,"ssss")
             return data
         } catch (error) {
             return thunkAPI.rejectWithValue(error)
         }
     }
 );
+
 export const getBuyers = createAsyncThunk(
     "get/buyers",
     async (payload, thunkAPI) => {
@@ -36,10 +36,6 @@ export const getBuyers = createAsyncThunk(
         }
     }
 );
-
-
-
-
 
 
 export const setStatus = createAction(

@@ -1,15 +1,11 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {useNavigate, useParams} from "react-router-dom";
-import {getBuyers, getStatistics, getStatisticsAll} from "../store/actions/statistics";
+import {getStatisticsAll} from "../store/actions/statistics";
 import StatisticsAll from "./mini/StatisticsAll";
 import PieStatistics from "./mini/PieStatistics";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCartShopping, faCube, faDollarSign, faRubleSign, faTruck} from "@fortawesome/free-solid-svg-icons";
-import StatisticsMini from "./mini/StatisticsMini";
+import {faCartShopping, faCube, faDollarSign, faTruck} from "@fortawesome/free-solid-svg-icons";
 import DateP from "./DateP";
-import {getStores} from "../store/actions/store";
-import moment from "moment/moment";
 import {useQuery} from "../utills/hooks/useQuery";
 import {RotatingLines} from "react-loader-spinner";
 
@@ -31,7 +27,7 @@ const Home = () => {
         }
     }, [startDate, endDate]);
 
-    console.log(statistics, "w")
+
     return (
         <div className="section">
             <div className="store-header">
@@ -44,7 +40,6 @@ const Home = () => {
                     <DateP defaultStart={defaultStart} defaultEnd={defaultEnd}/>
                 </div>
             </div>
-
 
             {status !== "ok" && !statistics.length ?
                 <div className="container-loading">
@@ -96,7 +91,7 @@ const Home = () => {
                                 <div className="block-total">
                                     <h2>Total revenue</h2>
                                     <span>{statistics.reduce((sum, store) => sum + store.totalRevenue, 0)}
-                                        <FontAwesomeIcon icon={faDollarSign} className="total-icon" /></span>
+                                        <FontAwesomeIcon icon={faDollarSign} className="total-icon"/></span>
                                 </div>
                                 <div className="block-total">
                                     <h2>Total sales</h2>
@@ -105,7 +100,6 @@ const Home = () => {
                                 </div>
                             </div>
                         </div>
-
 
                         <div className="diagram-container">
                             <div className="line-block">
@@ -121,9 +115,7 @@ const Home = () => {
                                 </div>
                                 <PieStatistics data={statistics}/>
                             </div>
-
                         </div>
-
                     </div>
                 </>}
         </div>

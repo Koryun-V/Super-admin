@@ -16,8 +16,6 @@
   span {
     color: white;
   }
-
-
 }
 
 .gender-block {
@@ -28,9 +26,7 @@
   border: 2px solid transparent;
   transition: 0.2s all;
   border-radius: 5px;
-
 }
-
 
 .custom-radio-container {
   display: inline-block;
@@ -45,8 +41,6 @@
     font-size: 16px;
     font-weight: 500;
     cursor: pointer;
-
-    //padding-left: 35px;
 
     .custom-radio-circle {
       position: absolute;
@@ -104,4 +98,3 @@
   }
 }
 
-//rgba(4, 224, 21, 0.9)

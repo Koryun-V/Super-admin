@@ -11,7 +11,6 @@ import {
     Legend,
     Filler,
 } from "chart.js";
-import {lineChartData} from "./Data";
 
 // Регистрируем модули Chart.js
 ChartJS.register(

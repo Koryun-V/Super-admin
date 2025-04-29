@@ -17,7 +17,7 @@ export const updateAdmin = createReducer(initialState, (builder) => {
         .addCase(updateAdminInfo.rejected, (state) => {
             state.status = "error"
         })
-
+        //-----------------------------------------------------------------------------------
         .addCase(deleteAdminAvatar.pending, (state) => {
             state.statusDelete = "pending"
         })
@@ -27,9 +27,7 @@ export const updateAdmin = createReducer(initialState, (builder) => {
         .addCase(deleteAdminAvatar.rejected, (state) => {
             state.statusDelete = "error"
         })
-
         //-----------------------------------------------------------------------------------
-
         .addCase(setStatus, (state, {payload}) => {
             state.status = payload
         })

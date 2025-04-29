@@ -2,10 +2,7 @@ import React from 'react';
 import {TailSpin} from "react-loader-spinner";
 
 const Button = ({onClick, type, className, text, status, children, disabled, loading, icon, index, indexProduct}) => {
-
-
     return (
-
         <button disabled={status === "pending" || disabled } className={className} onClick={onClick}
                 type={type}>
             {status === "pending" && index === indexProduct
@@ -21,13 +18,9 @@ const Button = ({onClick, type, className, text, status, children, disabled, loa
                     wrapperClass="loading"
                 />
                 : text || icon ? [text, icon] : children
-
             }
         </button>
-
-
-    )
-        ;
+    );
 };
 
 export default Button;

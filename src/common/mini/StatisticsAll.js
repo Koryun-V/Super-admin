@@ -51,7 +51,6 @@ const StatisticsAll = ({data}) => {
         data.flatMap(store => store.statistics.map(stat => stat.interval))
     )).sort();
 
-    console.log(allDates,'aaaa')
 
 
     const lineChartData = {

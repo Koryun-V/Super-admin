@@ -8,7 +8,6 @@ import {createStore, getStores, setStatusCreate, updateStore} from "../../store/
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faImage, faPlus, faSquarePen} from "@fortawesome/free-solid-svg-icons";
 import _ from "lodash"
-
 import {ReactComponent as Close} from "../../assets/icon/close-x.svg"
 import {flattenObject} from "../mini/Obj";
 
@@ -56,6 +55,8 @@ const fields = [
 
 function ModalCreateStore({open, onClose, stores}) {
     const dispatch = useDispatch();
+    const status = useSelector(state => state.store.status)
+    const statusCreate = useSelector(state => state.store.statusCreate);
 
     const [store, setStore] = useState({
         name: "",
@@ -64,24 +65,20 @@ function ModalCreateStore({open, onClose, stores}) {
         latitude: "",
         longitude: "",
     })
-
     const [isStore, setIsStore] = useState(false)
     const [id, setId] = useState("")
     const [logo, setLogo] = useState({});
     const [visualLogo, setVisualLogo] = useState("");
     const [inputName, setInputName] = useState([]);
     const [isCreate, setIsCreate] = useState(false);
-    const statusCreate = useSelector(state => state.store.statusCreate);
     const [isLogo, setIsLogo] = useState(false);
-    const status = useSelector(state => state.store.status)
     const [isUpdate, setIsUpdate] = useState(false)
+    const inputRef = useRef(null)
     const [storeInfo, setStoreInfo] = useState({
         value: "",
         title: ""
     })
     const {value, title} = storeInfo
-    const inputRef = useRef(null)
-
     const {name, city, country, latitude, longitude} = store
 
     const scrollModal = () => {
@@ -105,7 +102,6 @@ function ModalCreateStore({open, onClose, stores}) {
             setIsStore(false)
         }
     }, [status, stores]);
-
 
     useEffect(() => {
         inputName.forEach((item) => {
@@ -136,6 +132,7 @@ function ModalCreateStore({open, onClose, stores}) {
         return () => clearTimeout(time)
 
     }, [statusCreate, status]);
+
     useEffect(() => {
         if (open) {
             (async () => {
@@ -213,7 +210,7 @@ function ModalCreateStore({open, onClose, stores}) {
 
     const test = () => {
         let newInputName = [...inputName];
-        fields.forEach(({ validation, name }) => {
+        fields.forEach(({validation, name}) => {
             if (name === title) {
                 let isValid = name !== "logo" ? validation.test(value) : true;
                 if (!isValid || !value.length) {
@@ -229,10 +226,6 @@ function ModalCreateStore({open, onClose, stores}) {
         return newInputName.length > 0;
     }
 
-
-
-
-
     const create = (e) => {
         e.preventDefault();
         const hasErrors = test();
@@ -240,24 +233,23 @@ function ModalCreateStore({open, onClose, stores}) {
         if (hasErrors) {
             return;
         }
-
         if (isCreate) {
             if (isStore) {
-                dispatch(updateStore({ id: stores.id, name, city, country, latitude, longitude, logo }));
+                dispatch(updateStore({id: stores.id, name, city, country, latitude, longitude, logo}));
             } else {
-                dispatch(createStore({ name, city, country, latitude, longitude, logo }));
+                dispatch(createStore({name, city, country, latitude, longitude, logo}));
             }
         }
     }
 
-
     const update = async (id) => {
         await setId(id)
         if (id === 4) {
-
+            await document.getElementById(id).focus();
         }
-        await document.getElementById(id).focus();
     }
+
+
     if (!open) return null
     return ReactDom.createPortal(
         <div id="modal">
@@ -285,7 +277,6 @@ function ModalCreateStore({open, onClose, stores}) {
                                 <span
                                     className="create-loading-span">{stores ? "The store is updating..." : "Creating the store..."}</span>
                                 : null}
-
 
                         <form onSubmit={create}>
                             {fields.map((field) => (
@@ -333,7 +324,6 @@ function ModalCreateStore({open, onClose, stores}) {
                                                tabIndex={0}
                                                onBlur={() => {
                                                    document.getElementById(99).style.borderColor = ""
-
                                                }}
                                                onClick={() =>
                                                    document.getElementById(99).style.borderColor = "2px solid #00d143"
@@ -371,19 +361,14 @@ function ModalCreateStore({open, onClose, stores}) {
                                         className={isCreate ? "active-button" : "disabled"}
                                     >Create</Button>
                                 }
-
                             </div>
                         </form>
-
-
                     </div>
-
                 </div>
             </div>
         </div>,
         document.body
-    )
-        ;
+    );
 }
 
 ModalCreateStore.propTypes = {

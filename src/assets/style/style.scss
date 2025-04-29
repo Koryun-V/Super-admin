@@ -10,6 +10,7 @@
 @import "admin";
 @import "radioButton";
 @import "profile";
+@import "changePassword";
 
 @font-face {
   font-family: RobotoBold;
@@ -54,13 +55,6 @@
 
 body {
   background: #0a0a0d;
-
-}
-
-@media only screen and (max-width: 600px) {
-  body {
-    background-color: lightblue;
-  }
 }
 
 .wrapper {
@@ -123,7 +117,6 @@ body {
   flex-direction: column;
   justify-content: center;
   width: 100%;
-
 }
 
 .loading-block {
@@ -135,7 +128,6 @@ body {
 .container {
   margin-top: 30px;
   position: relative;
-
 }
 
 .container-loading {
@@ -143,7 +135,6 @@ body {
   justify-content: center;
   align-items: center;
 }
-
 
 .title {
   display: flex;
@@ -155,7 +146,6 @@ body {
     font-family: "PoppinsBold", sans-serif;
   }
 }
-
 
 
 .title-active {
@@ -183,8 +173,6 @@ body {
   h1 {
     color: #5d5f6b;
     font-family: "PoppinsBold", sans-serif;
-
-
   }
 }
 

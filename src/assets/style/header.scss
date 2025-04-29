@@ -5,7 +5,6 @@
     text-decoration: none;
     color: $interfaceColor;
 
-
     h1 {
       font-family: "PoppinsBold", "sans-serif";
       font-size: 50px;
@@ -21,8 +20,6 @@
   z-index: 999;
   transition: 0.3s all;
 
-
-
   .nav-header {
     width: 100%;
     height: 100%;
@@ -34,6 +31,7 @@
 
       .super-container {
         position: relative;
+
         h1 {
           color: $interfaceColor;
           position: absolute;
@@ -85,14 +83,12 @@
         transition: 0.2s all;
         background: #0a0a0d;
         cursor: default;
-
       }
 
       .anim-admin {
         display: flex;
         transition: 0.3s all;
       }
-
 
       .user-img {
         position: relative;
@@ -110,7 +106,6 @@
             height: 70px;
             object-fit: cover;
             border-radius: 100px;
-
           }
         }
 
@@ -155,7 +150,6 @@
         justify-content: space-evenly;
         flex-direction: column;
         width: 250px;
-
 
         span {
           font-family: "PoppinsMedium", sans-serif;
@@ -231,7 +225,6 @@
         }
 
         .active-nav {
-
           right: 0;
           top: 0;
           display: flex;
@@ -263,7 +256,6 @@
           border-bottom: 1px solid #454752;
           position: relative;
         }
-
       }
     }
   }

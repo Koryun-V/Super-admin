@@ -7,7 +7,6 @@ import Store from "./common/Store";
 import Profile from "./common/Profile";
 
 
-
 const token = localStorage.getItem("token");
 
 function App() {
