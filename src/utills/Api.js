@@ -37,19 +37,21 @@ export default class Api {
         return api.get(`/users/profile`);
     }
 
-    static updateAdminInfo({firstName, lastName, gender, avatar, dateOfBirth, address}) {
+    static updateAdminInfo({firstName, lastName, gender, avatar}) {
         return api.put(`/users/update`, {
-            firstName,
-            lastName,
-            gender,
-            avatar,
-            dateOfBirth,
-            address,
-        }, {
-            headers: {
-                "Content-Type": "multipart/form-data",
+                firstName,
+                lastName,
+                gender,
+                avatar,
+                dateOfBirth: "2000-01-01",
+                address: "super-admin@example.com",
+            },
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                }
             }
-        });
+        );
     }
 
     static changePassword({newPassword}) {

@@ -64,6 +64,7 @@ const Profile = () => {
     const adminInfo = useSelector(state => state.login.user);
     const statusGet = useSelector(state => state.login.statusUser)
     const [id, setId] = useState("")
+
     const [inputName, setInputName] = useState([]);
     const [isUpdate, setIsUpdate] = useState(false)
     const [isUpdateAdmin, setIsUpdateAdmin] = useState(false)
@@ -126,6 +127,7 @@ const Profile = () => {
             const time = setTimeout(() => {
                 dispatch(setStatus(""))
                 setIsUpdate(false)
+                setIsAvatar(false)
                 setIsUpdateAdmin(false)
             }, 2)
             return () => clearTimeout(time)
@@ -157,10 +159,12 @@ const Profile = () => {
         setIsUpdate(true)
     }, [avatar]);
 
-    const onChangeAvatar = (event, is) => {
-        const file = event.target.files[0];
-        setAvatar(file)
+    const onChangeAvatar = (event) => {
 
+        const file = event.target.files[0];
+        if (file) {
+            setAvatar(file)
+        }
         if (file && file.type.startsWith("image/")) {
             const reader = new FileReader();
             reader.onloadend = () => {
@@ -233,7 +237,7 @@ const Profile = () => {
         if (isUpdateAdmin) {
             e.preventDefault();
             if (isAvatar) {
-                dispatch(updateAdminInfo({firstName, lastName, gender, avatar: avatar[0]}))
+                dispatch(updateAdminInfo({firstName, lastName, gender, avatar}))
             } else {
                 dispatch(updateAdminInfo({firstName, lastName, gender}))
                 dispatch(deleteAdminAvatar())
@@ -312,7 +316,6 @@ const Profile = () => {
                                                     <div className="delete-avatar" onClick={deleteAvatar}>
                                                         <FontAwesomeIcon icon={faTrash} className="icon"/>
                                                     </div>
-
                                                 </div>
                                                 :
                                                 <div className="user-img-container-custom-p">
@@ -326,7 +329,7 @@ const Profile = () => {
                                                         className="icon"/>
                                                 </label>
                                                 <input accept=".jpg, .jpeg, .png"
-                                                       type="file" id="100" onChange={onChangeAvatar}/>
+                                                       type="file" id="100" onChange={(event) => onChangeAvatar(event)}/>
                                             </div>
                                         </div>
                                         <div className="user-name-p">
