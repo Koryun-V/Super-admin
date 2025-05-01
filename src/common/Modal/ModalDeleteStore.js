@@ -78,7 +78,7 @@ function ModalDeleteStore({open, onClose, id, store}) {
     if (!open) return null
     return ReactDom.createPortal(
         <div id="modal">
-            <div onClick={onClose} className="shadow">
+            <div className="shadow">
             </div>
             <div id="modal_window">
                 <div className="close">
@@ -95,10 +95,8 @@ function ModalDeleteStore({open, onClose, id, store}) {
                 }}>
                     <div className="container-modal">
                         <>
-                            {statusDelete !== "" && status !== "" ?
-                                <div className="delete-loading"></div> : null}
-                            {statusDelete === "ok" && status === "ok" ?
-                                <span className="delete-loading-span">Deleted</span>
+                            {statusDelete !== "" && status !== "" ? <div className="delete-loading"></div> : null}
+                            {statusDelete === "ok" && status === "ok" ? <span className="delete-loading-span">Deleted</span>
                                 :
                                 status === "pending" || statusDelete === "pending" ?
                                     <span

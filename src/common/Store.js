@@ -16,7 +16,7 @@ import {
 import {getAdmin} from "../store/actions/admin";
 import ModalDeleteAdmin from "./Modal/ModalDeleteAdmin";
 import {useQuery} from "../utills/hooks/useQuery";
-import {useParams} from "react-router-dom";
+import {useLocation, useParams} from "react-router-dom";
 import moment from "moment";
 import ModalCreateAdmin from "./Modal/ModalCreateAdmin";
 import {RotatingLines} from "react-loader-spinner";
@@ -32,7 +32,7 @@ const Store = () => {
     const status = useSelector(state => state.statistics.status)
     const statusBuyers = useSelector(state => state.statistics.statusBuyers)
     const statusAdmin = useSelector(state => state.admin.status)
-
+    const location = useLocation()
     const {query, setQuery} = useQuery();
     const {q, startDate, endDate} = query
     const [isOpen, setIsOpen] = useState(false);
@@ -40,10 +40,10 @@ const Store = () => {
     const defaultEnd = new Date('2025-04-30');
 
     const [isOpenDelete, setIsOpenDelete] = useState(false);
-
+    console.log(statistics, buyers)
     useEffect(() => {
-        dispatch(getAdmin({id}))
-    }, []);
+        if (q === "admins") dispatch(getAdmin({id}))
+    }, [q]);
 
     const [adminInfo, setAdminInfo] = useState({
         adminId: "",
@@ -66,18 +66,20 @@ const Store = () => {
         setQuery({q: "admins"});
         dispatch(getAdmin({id}))
     }
-
+    console.log(location)
     useEffect(() => {
-        const start = moment(defaultStart).format('YYYY-MM-DD');
-        const end = moment(defaultEnd).format('YYYY-MM-DD');
-        if (startDate && endDate) {
-            dispatch(getStatistics({id, startDate, endDate}));
-            dispatch(getBuyers({id, startDate, endDate}));
-        } else {
-            dispatch(getStatistics({id}));
-            dispatch(getBuyers({id}));
+        if (q === "statistics" || location.pathname === `/stores/${name}/${id}` && q !== "admins") {
+            const start = moment(defaultStart).format('YYYY-MM-DD');
+            const end = moment(defaultEnd).format('YYYY-MM-DD');
+            if (startDate && endDate) {
+                dispatch(getStatistics({id, startDate, endDate}));
+                dispatch(getBuyers({id, startDate, endDate}));
+            } else {
+                dispatch(getStatistics({id}));
+                dispatch(getBuyers({id}));
+            }
         }
-    }, [startDate, endDate]);
+    }, [q, startDate, endDate]);
 
 
     return (

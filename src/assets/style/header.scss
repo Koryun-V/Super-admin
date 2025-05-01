@@ -236,7 +236,7 @@
           transition: 0.2s all;
         }
 
-        .nav-item:nth-child(3) {
+        .nav-item:nth-child(4) {
           border: none;
         }
 
@@ -282,5 +282,49 @@
   }
   100% {
     background-position: 80% 0%;
+  }
+}
+
+.log-out {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  span {
+    font-size: 25px;
+    color: white;
+    font-family: "PoppinsBold", sans-serif;
+  }
+}
+.buttons-log-out {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 10px;
+
+  .log-out-button {
+    width: 100%;
+    height: 50px;
+
+    button {
+      background: transparent;
+      border:2px solid $interfaceColor
+    }
+
+    button:hover {
+      background: #0a0a0d;
+    }
+
+    button:active {
+      border:2px solid transparent;
+    }
+  }
+
+  .no-log-out-button {
+    width: 100%;
+    height: 50px;
   }
 }

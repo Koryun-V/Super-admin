@@ -11,8 +11,6 @@ const fields = [
         id: 1,
         name: "email",
         label: "E-mail",
-        validation: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-        info: "Please enter correct e-mail.",
     },
     {
         id: 2,

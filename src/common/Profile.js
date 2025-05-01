@@ -38,7 +38,7 @@ const fields = [
         id: 3,
         name: "lastName",
         label: "Last name",
-        validation: /^[a-zA-Z]{2,20}$/,
+        validation: /^[a-zA-Z]{2,30}$/,
         maxLength: "30",
     },
     {

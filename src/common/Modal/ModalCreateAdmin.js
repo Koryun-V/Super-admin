@@ -25,6 +25,7 @@ function ModalCreateAdmin({open, onClose, id}) {
     const statusCreate = useSelector(state => state.admin.statusCreate);
     const status = useSelector(state => state.admin.status)
     const createError = useSelector(state => state.admin.createError)
+
     const [admin, setAdmin] = useState({
         email: ""
     })
@@ -36,6 +37,8 @@ function ModalCreateAdmin({open, onClose, id}) {
     })
     const {value, title} = storeInfo
     const {email} = admin
+
+
 
     const scrollModal = () => {
         document.body.style.removeProperty('overflow');
@@ -160,7 +163,7 @@ function ModalCreateAdmin({open, onClose, id}) {
     if (!open) return null
     return ReactDom.createPortal(
         <div id="modal">
-            <div onClick={onClose} className="shadow">
+            <div className="shadow">
             </div>
             <div id="modal_window">
                 <div className="close">

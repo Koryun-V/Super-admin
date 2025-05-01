@@ -11,6 +11,7 @@
 @import "radioButton";
 @import "profile";
 @import "changePassword";
+@import "projects";
 
 @font-face {
   font-family: RobotoBold;
@@ -129,7 +130,14 @@ body {
   margin-top: 30px;
   position: relative;
 }
+.dashboard{
+  position: relative;
+  transition: 0.2s all;
 
+}
+.disabled-dashboard{
+  opacity: 0.5;
+}
 .container-loading {
   display: flex;
   justify-content: center;

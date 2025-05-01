@@ -10,6 +10,7 @@ import {faImage, faPlus, faSquarePen} from "@fortawesome/free-solid-svg-icons";
 import _ from "lodash"
 import {ReactComponent as Close} from "../../assets/icon/close-x.svg"
 import {flattenObject} from "../mini/Obj";
+import {useQuery} from "../../utills/hooks/useQuery";
 
 
 const fields = [
@@ -17,20 +18,20 @@ const fields = [
         id: 1,
         name: "name",
         label: "Name",
-        validation: /^[a-zA-Z0-9][a-zA-Z0-9()., ]*$/
-        ,
+        validation: /^(?=.*[A-Za-z])[A-Za-z0-9.-]{1,20}$/,
+        maxLength:"20",
     },
     {
         id: 2,
         name: "city",
         label: "City",
-        validation: /^(?=.*[a-zA-Z])[a-zA-Z0-9]+$/,
+        validation:/^(?=.*[A-Za-z])[A-Za-z0-9.-]+$/,
     },
     {
         id: 3,
         name: "country",
         label: "Country",
-        validation: /^(?=.*[a-zA-Z])[a-zA-Z0-9]+$/,
+        validation: /^[A-Za-z][A-Za-z.-]+$/,
     },
     {
         id: 4,
@@ -65,6 +66,8 @@ function ModalCreateStore({open, onClose, stores}) {
         latitude: "",
         longitude: "",
     })
+    const {query, setQuery} = useQuery();
+    const {q} = query
     const [isStore, setIsStore] = useState(false)
     const [id, setId] = useState("")
     const [logo, setLogo] = useState({});
@@ -93,6 +96,8 @@ function ModalCreateStore({open, onClose, stores}) {
             onClose();
         }
     }, []);
+
+
 
     useEffect(() => {
         if (stores && status === "ok") {
@@ -169,7 +174,7 @@ function ModalCreateStore({open, onClose, stores}) {
             setId("")
             setIsLogo(false)
         }
-    }, [open]);
+    }, [open,q]);
 
     const onChange = (event) => {
         let v = event.target.value;
@@ -244,16 +249,14 @@ function ModalCreateStore({open, onClose, stores}) {
 
     const update = async (id) => {
         await setId(id)
-        if (id === 4) {
-            await document.getElementById(id).focus();
-        }
+        await document.getElementById(id).focus();
     }
 
 
     if (!open) return null
     return ReactDom.createPortal(
         <div id="modal">
-            <div onClick={onClose} className="shadow">
+            <div className="shadow">
             </div>
             <div id="modal_window">
                 <div className="close">
@@ -301,6 +304,7 @@ function ModalCreateStore({open, onClose, stores}) {
                                         :
                                         null}
                                     <Input
+                                        maxLength={field.maxLength}
                                         inputRef={inputRef}
                                         disabled={stores && id !== field.id}
                                         key={field.id}

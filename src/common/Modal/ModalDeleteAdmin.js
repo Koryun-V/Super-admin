@@ -77,7 +77,7 @@ function ModalDeleteAdmin({open, onClose, id, adminId, adminEmail}) {
     if (!open) return null
     return ReactDom.createPortal(
         <div id="modal">
-            <div onClick={onClose} className="shadow">
+            <div className="shadow">
             </div>
             <div id="modal_window">
                 <div className="close">

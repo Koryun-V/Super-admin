@@ -8,6 +8,7 @@ import ModalCreateStore from "./Modal/ModalCreateStore";
 import ModalDeleteStore from "./Modal/ModalDeleteStore";
 import {RotatingLines} from "react-loader-spinner";
 import {setBuyers, setStatistics} from "../store/actions/statistics";
+import {useQuery} from "../utills/hooks/useQuery";
 
 const Stores = () => {
     const dispatch = useDispatch();
@@ -19,6 +20,8 @@ const Stores = () => {
     const [indexD, setIndexD] = useState("")
     const [store, setStore] = useState("")
     const [id, setId] = useState("")
+
+
 
     useEffect(() => {
         dispatch(setStatistics([]))
@@ -37,6 +40,7 @@ const Stores = () => {
         setIndexD(index)
         setStore(name)
     }
+
 
 
     return (
