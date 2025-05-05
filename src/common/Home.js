@@ -8,7 +8,6 @@ import {faCartShopping, faCube, faDollarSign, faTruck} from "@fortawesome/free-s
 import DateP from "./DateP";
 import {useQuery} from "../utills/hooks/useQuery";
 import {RotatingLines} from "react-loader-spinner";
-import {Link} from "react-router-dom";
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -33,10 +32,8 @@ const Home = () => {
         <div className="section">
             <div className="store-header">
                 <div className="nav-store">
-                    <div className="title-change">
-                        <div className="title">
-                            <h1>Dashboard</h1>
-                        </div>
+                    <div className="title">
+                        <h1>Dashboard</h1>
                     </div>
                     <DateP defaultStart={defaultStart} defaultEnd={defaultEnd}/>
                 </div>

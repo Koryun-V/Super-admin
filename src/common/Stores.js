@@ -9,6 +9,7 @@ import ModalDeleteStore from "./Modal/ModalDeleteStore";
 import {RotatingLines} from "react-loader-spinner";
 import {setBuyers, setStatistics} from "../store/actions/statistics";
 import {useQuery} from "../utills/hooks/useQuery";
+import {setAdmin} from "../store/actions/admin";
 
 const Stores = () => {
     const dispatch = useDispatch();
@@ -22,10 +23,10 @@ const Stores = () => {
     const [id, setId] = useState("")
 
 
-
     useEffect(() => {
         dispatch(setStatistics([]))
         dispatch(setBuyers([]))
+        dispatch(setAdmin([]))
         dispatch(getStores())
     }, []);
 
@@ -47,11 +48,9 @@ const Stores = () => {
         <div className="section">
             <div className="store-header">
                 <div className="nav-store">
-                    <div className="title-change">
                         <div className="title">
                             <h1>Stores</h1>
                         </div>
-                    </div>
                 </div>
             </div>
             <div className="container">

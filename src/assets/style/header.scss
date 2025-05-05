@@ -1,14 +1,30 @@
 .logo-block {
   display: flex;
+  text-decoration: none;
 
   .logo {
-    text-decoration: none;
     color: $interfaceColor;
+    display: flex;
+    align-items: center;
+    padding: 5px 20px;
+
+    .logo-img{
+      width: 130px;
+      height: 130px;
+      border-radius: 5px;
+      img{
+        width: 100%;
+        height: 100%;
+        border-radius: 5px;
+
+      }
+    }
 
     h1 {
       font-family: "PoppinsBold", "sans-serif";
       font-size: 50px;
-      padding: 5px 20px;
+      margin-left: 20px;
+
     }
   }
 }
@@ -17,7 +33,6 @@
   min-width: 350px;
   height: 100%;
   position: fixed;
-  z-index: 999;
   transition: 0.3s all;
 
   .nav-header {
@@ -28,6 +43,8 @@
     .container-header {
       background: #1a1c24;
       height: 100%;
+
+
 
       .super-container {
         position: relative;
@@ -181,8 +198,12 @@
 
     .nav {
       width: 100%;
-      height: 400px;
       font-family: "PoppinsMedium", sans-serif;
+      flex:1;
+      height: calc(100vh - 300px);
+      overflow-y: auto;
+
+
 
       span {
         margin-left: 10px;
@@ -236,7 +257,7 @@
           transition: 0.2s all;
         }
 
-        .nav-item:nth-child(4) {
+        .nav-item:nth-child(5) {
           border: none;
         }
 
@@ -272,7 +293,16 @@
   background-size: 400%;
   animation: gradient 2s infinite linear;
 }
-
+.loading-gradient-t {
+  border-radius: 5px;
+  width: 200px;
+  height: 30px;
+  opacity: 0.7;
+  background: rgb(255, 255, 255);
+  background: linear-gradient(90deg, rgb(93, 95, 107) 0%, rgb(26, 28, 36) 35%, rgb(93, 95, 107) 100%);
+  background-size: 400%;
+  animation: gradient 2s infinite linear;
+}
 @keyframes gradient {
   0% {
     background-position: 80% 0%;

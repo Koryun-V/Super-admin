@@ -205,6 +205,8 @@
 .super-admin-container-p {
   display: flex;
   min-width: 0;
+
+
 }
 
 .super-admin-p {
@@ -213,6 +215,9 @@
   padding-bottom: 20px;
   min-width: 0;
   transition: 0.2s all;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .user-img-p {
@@ -268,6 +273,7 @@
     justify-content: center;
     align-items: center;
     border-radius: 100px;
+
 
     img {
       width: 100%;
@@ -339,17 +345,17 @@
   display: flex;
   justify-content: space-evenly;
   flex-direction: column;
-  width: 250px;
+  width: 550px;
 
   span {
     font-family: "PoppinsMedium", sans-serif;
     color: white;
     font-size: 30px;
     margin-left: 10px;
+    display: block;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    display: block;
   }
 
   span:nth-child(2) {

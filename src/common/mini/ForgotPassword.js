@@ -12,7 +12,7 @@ const fields = [
         id: 1,
         name: "email",
         label: "E-mail",
-        validation: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+        validation: /^[^\s@]+@[a-zA-Z]+\.[a-zA-Z]+$/,
         info: "Please enter correct e-mail.",
     },
 ]
@@ -35,7 +35,6 @@ const ForgotPassword = () => {
     useEffect(() => {
         if (inputName[0] === "email" && email.length) {
             test()
-            console.log("W")
         }
         if (email) {
             setIsConfirm(true)

@@ -1,5 +1,13 @@
 import {createReducer} from "@reduxjs/toolkit";
-import {createAdmin, getAdmin, removeAdmin, setCreateError, setStatusCreate, setStatusDelete} from "../actions/admin";
+import {
+    createAdmin,
+    getAdmin,
+    removeAdmin,
+    setAdmin,
+    setCreateError,
+    setStatusCreate,
+    setStatusDelete
+} from "../actions/admin";
 
 
 const initialState = {
@@ -51,5 +59,8 @@ export const admin = createReducer(initialState, (builder) => {
         })
         .addCase(setStatusDelete, (state, {payload}) => {
             state.statusDelete = payload
+        })
+        .addCase(setAdmin, (state, {payload}) => {
+            state.admins = payload
         })
 });

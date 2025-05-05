@@ -133,4 +133,10 @@ export default class Api {
     static removeAdmin({adminId, storeId}) {
         return api.put(`/super-admin/remove-admin`, {adminId, storeId});
     }
+    static getUsers({limit,page,role}) {
+        return api.get(`/super-admin/all-users`,{
+            params: {limit,page,role},
+        });
+    }
+
 }

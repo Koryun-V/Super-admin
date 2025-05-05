@@ -12,6 +12,7 @@
 @import "profile";
 @import "changePassword";
 @import "projects";
+@import "users";
 
 @font-face {
   font-family: RobotoBold;
@@ -56,6 +57,7 @@
 
 body {
   background: #0a0a0d;
+  overflow-y: scroll;
 }
 
 .wrapper {
@@ -84,9 +86,11 @@ body {
       cursor: default;
       display: flex;
       flex-direction: column;
-      min-width: 15%;
+      min-width: 200px;
       flex-shrink: 1;
       flex-grow: 1;
+      flex-basis: 15%;
+
       margin: 10px;
       background: #1a1c24;
       border-radius: 5px;

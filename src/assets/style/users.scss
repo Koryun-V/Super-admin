@@ -1,0 +1,156 @@
+.change-users {
+  height: 50px;
+  display: flex;
+  gap: 30px;
+
+  .change-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+
+    h3 {
+      color: $interfaceColor;
+      display: flex;
+      font-family: "PoppinsMedium", sans-serif;
+    }
+  }
+
+
+  .change-block-disabled{
+    border: 2px solid $interfaceColor;
+    width: 35px;
+    height: 35px;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 5px;
+    transition: 0.2s all;
+  }
+
+  .change-block {
+    border: 2px solid $interfaceColor;
+    width: 35px;
+    height: 35px;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 5px;
+    transition: 0.2s all;
+
+    .change {
+      border-radius: 5px;
+      width: 100%;
+      height: 100%;
+      background: $interfaceColor;
+      transition: 0.2s all;
+
+    }
+  }
+
+  .change-block:hover .change {
+    background: #00b53b;
+  }
+
+  .change-block:active .change {
+    background: #008a2d;
+  }
+}
+
+.users {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -10px;
+  transition: 0.2s all;
+  margin-bottom: 80px;
+
+  .user {
+    width: calc((100% / 2) - 10px);
+    color: #5d5f6b;
+    cursor: default;
+    padding: 20px;
+    min-width: 300px;
+    border-radius: 5px;
+    flex-basis: 45%;
+    flex-shrink: 1;
+    flex-grow: 1;
+    margin: 10px;
+    display: flex;
+    position: relative;
+    transition: 0.2s all;
+    gap: 20px;
+    background: #1a1c24;
+
+    .user-img {
+      width: 100px;
+      height: 100px;
+      border-radius: 100px;
+
+      img {
+        min-width: 100px;
+        border-radius: 100px;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .user-img-custom {
+      width: 100px;
+      height: 100px;
+      min-width: 100px;
+      background: #5d5f6b;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 100px;
+
+      .icon {
+        font-size: 50px;
+        color: #1a1c24;
+        object-fit: contain;
+      }
+    }
+
+    .user-info {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      font-family: "PoppinsMedium", sans-serif;
+
+      span {
+        display: block;
+        max-width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .user-titles {
+        font-size: 20px;
+      }
+
+      .user-infos {
+        margin-top: 10px;
+        gap: 5px;
+        display: flex;
+        flex-direction: column;
+        font-size: 16px;
+
+        span {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+      }
+
+      .number {
+        font-family: "RobotoMedium", sans-serif;
+      }
+
+    }
+  }
+
+  .user:hover {
+    color: white;
+    background: #0a0a0d;
+  }
+}

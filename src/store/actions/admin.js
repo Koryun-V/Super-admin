@@ -43,6 +43,9 @@ export const removeAdmin = createAsyncThunk(
 export const setStatus = createAction(
     "admins/status",
 )
+export const setAdmin = createAction(
+    "set/admins",
+)
 export const setStatusCreate = createAction(
     "create/status",
 )

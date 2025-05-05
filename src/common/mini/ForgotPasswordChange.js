@@ -106,16 +106,6 @@ const ModalNewPassword = ({email}) => {
     const onChange = (event) => {
         let v = event.target.value
         let n = event.target.name
-        // if (n === "key") {
-        //     setNewPassword((prevState) => (
-        //         {...prevState, [n]: v.replace(/[^0-9+]/g, '')}
-        //     ))
-        //     setUserInfo({value: v.replace(/[^0-9+]/g, ''), title: n,})
-        // } else {
-        //     setNewPassword((prevState) => (
-        //         {...prevState, [event.target.name]: event.target.value}
-        //     ))
-        //     setUserInfo({value: v, title: n})
         setNewPassword((prevState) => (
             {...prevState, [event.target.name]: event.target.value}
         ))

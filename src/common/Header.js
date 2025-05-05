@@ -2,10 +2,18 @@ import React, {useEffect, useState} from 'react';
 import {Link, useLocation, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowRightFromBracket, faCode, faGaugeHigh, faLayerGroup, faUser} from "@fortawesome/free-solid-svg-icons";
-import {getUser, setSuperAdmin} from "../store/actions/login";
+import {
+    faArrowRightFromBracket,
+    faCircle, faCircleUser,
+    faCode,
+    faGaugeHigh,
+    faLayerGroup,
+    faUser
+} from "@fortawesome/free-solid-svg-icons";
+import {getUser} from "../store/actions/login";
 import {useQuery} from "../utills/hooks/useQuery";
 import ModalLogOut from "./Modal/ModalLogOut";
+import logo from "../assets/icon/logo.png";
 
 const token = localStorage.getItem("token");
 
@@ -16,21 +24,28 @@ const Header = () => {
     const location = useLocation();
     const {name, id} = useParams();
     const {query, setQuery} = useQuery();
-    const {q} = query
-    const [isOpen,setIsOpen] = useState( false)
+    const {q, startDate, endDate} = query;
+    const [isOpen, setIsOpen] = useState(false);
 
 
     useEffect(() => {
         if (token) {
-            dispatch(getUser())
+            dispatch(getUser());
         }
     }, [token]);
 
-
+    useEffect(() => {
+        if (query.logOut === "yes-no") {
+            setIsOpen(true);
+        } else {
+            setIsOpen(false);
+        }
+    }, [query.logOut]);
 
     return (
         <header className="header"
                 style={{
+                    display: q === "change-password" ? "none" : "flex",
                     opacity: q === "change-password" ? 0 : 1,
                     zIndex: q === "change-password" ? -1 : 999,
                 }}
@@ -38,7 +53,12 @@ const Header = () => {
             <div className="nav-header">
                 <div className="container-header">
                     <div className="logo-block">
-                        <Link to="/" className="logo"><h1>Logo</h1></Link>
+                        <div className="logo">
+                            <Link to="/" className="logo-img">
+                                <img src={logo}/>
+                            </Link>
+                            {/*<h1>Multify</h1>*/}
+                        </div>
                     </div>
 
                     <div className="super-container">
@@ -59,7 +79,6 @@ const Header = () => {
                                 }}>
                                     {status === "ok" ?
                                         <>
-
                                             <div className="user-img">
                                                 {user.avatar.length ?
                                                     <div className="user-img-container">
@@ -73,15 +92,15 @@ const Header = () => {
                                                 <div className="indicator"></div>
                                             </div>
                                             <div className="user-name">
-                                                <span>{user.lastName.charAt(0).toUpperCase() + user.lastName.slice(1)} {user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1)}</span>
+                                                <span>{user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1)} {user.lastName.charAt(0).toUpperCase() + user.lastName.slice(1)}</span>
                                                 <span>{user.email}</span>
                                             </div>
                                         </>
                                         :
                                         <>
                                             <div className="user-img">
-                                                <div className="user-img-container-custom-loading loading-gradient">
-                                                </div>
+                                                <div
+                                                    className="user-img-container-custom-loading loading-gradient"></div>
                                             </div>
                                             <div className="user-name">
                                                 <span className="loading-gradient" style={{height: 20}}></span>
@@ -91,8 +110,6 @@ const Header = () => {
                                     }
                                 </div>
                             </Link>
-
-
                         </div>
                     </div>
 
@@ -120,6 +137,17 @@ const Header = () => {
                                     <span>Stores {name ? `/ ${name.charAt(0).toUpperCase() + name.slice(1)}` : null}</span>
                                 </li>
                             </Link>
+
+                            <Link to="/users"
+                                  className={location.pathname === "/users" ? "active-item" : "nav-item"}>
+                                <li>
+                                    <div
+                                        className={location.pathname === "/users" ? "active-nav" : "disabled-nav"}></div>
+                                    <FontAwesomeIcon icon={faCircleUser} className="nav-icon"/>
+                                    <span>Users</span>
+
+                                </li>
+                            </Link>
                             <Link to="/projects"
                                   className={location.pathname === "/projects" ? "active-item" : "nav-item"}>
                                 <li>
@@ -129,15 +157,12 @@ const Header = () => {
                                     <span>Projects </span>
                                 </li>
                             </Link>
-
-
-                            <li style={{
-                                border:"none"
-                            }}className={isOpen ? "active-item" : "nav-item"} onClick={() => {
-                                setIsOpen(true)
-                                setQuery({q:"log-out"})
-                            }
-                            }>
+                            <li style={{border: "none"}}
+                                className={isOpen ? "active-item" : "nav-item"}
+                                onClick={() => {
+                                    setIsOpen(true);
+                                    setQuery({...query, logOut: "yes-no"});  // Используем replace
+                                }}>
                                 <FontAwesomeIcon icon={faArrowRightFromBracket}/>
                                 <span>Log Out</span>
                             </li>
@@ -146,10 +171,11 @@ const Header = () => {
                 </div>
             </div>
             <ModalLogOut
-                open={isOpen} onClose={() => {
-                setIsOpen(false)
-                setQuery({q:""})
-            }}
+                open={isOpen}
+                onClose={() => {
+                    setIsOpen(false);
+                    window.history.back()
+                }}
             />
         </header>
     );

@@ -14,7 +14,7 @@ const fields = [
         id: 1,
         name: "email",
         label: "E-mail",
-        validation: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+        validation: /^[^\s@]+@[a-zA-Z]+\.[a-zA-Z]+$/,
         info: "Please enter correct e-mail.",
     },
 ]
@@ -180,7 +180,7 @@ function ModalCreateAdmin({open, onClose, id}) {
                         alignItems: "center",
                         width: "400px"
                     }}>
-                        {statusCreate === "pending" || status === "pending" ?
+                        {statusCreate !== "" || status === "pending" ?
                             <div className="create-loading"></div> : null}
                         {statusCreate === "ok" && status === "ok" ?
                             <span className="create-loading-span">Admin created</span>

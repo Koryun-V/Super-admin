@@ -72,7 +72,7 @@ const Profile = () => {
     const [isAvatar, setIsAvatar] = useState(false)
     const [avatar, setAvatar] = useState([]);
     const {query, setQuery} = useQuery();
-    const {q} = query
+    const {q,logOut} = query
     const [rotate, setRotate] = useState(0)
     const [isAnim, setIsAnim] = useState(false)
     const [admin, setAdmin] = useState({
@@ -95,7 +95,9 @@ const Profile = () => {
         const day = format.getDate()
         const month = format.getMonth()
         const year = format.getFullYear()
-        return `${day < 10 ? `0${day}` : day}/${month < 10 ? `0${month}` : month}/${year}`
+        const hours = format.getHours()
+        const minutes = format.getMinutes()
+        return `${day < 10 ? `0${day}` : day}/${month < 10 ? `0${month}` : month}/${year}   ${hours}:${minutes < 10 ? `0${minutes}` : minutes}`
     }
 
     useEffect(() => {
@@ -256,7 +258,7 @@ const Profile = () => {
             <div className="store-header">
                 <div className="nav-store">
                     <div className="title-change">
-                        <div className={!q ? "title-active-p" : "title-p"} onClick={() => q ? setQuery({}) : null}>
+                        <div className={!q ? "title-active-p" : "title-p"} onClick={() => q ? setQuery({q:"",logOut}) : null}>
                             <h1>Profile</h1>
                         </div>
                         {q ? <div className="title-link"><FontAwesomeIcon icon={faArrowRight} className="icon"/>
@@ -265,7 +267,7 @@ const Profile = () => {
                 </div>
             </div>
             <div className="container">
-                {status === "pending" && !isUpdate || statusGet === "pending" && !isUpdate ?
+                {status === "pending" && !isUpdate || statusGet !== "ok" && !isUpdate ?
                     <div className="container-loading">
                         <div className="loading-block">
                             <RotatingLines
@@ -286,10 +288,10 @@ const Profile = () => {
                 {!q ? <div className="super-profile">
                         {statusGet === "pending" ? <div className="opacity-store"></div> : null}
                         <div className="container-profile" style={{
-                            opacity: statusGet === "pending" && !isUpdate ? 0.5 : 1,
+                            opacity: statusGet !== "ok" && !isUpdate ? 0.5 : 1,
                         }}>
 
-                            <div className="change-link" onClick={() => setQuery({q: "change-password"})}>
+                            <div className="change-link" onClick={() => setQuery({...query,q: "change-password"})}>
                                 <span>Change password</span>
                             </div>
 
@@ -333,7 +335,7 @@ const Profile = () => {
                                             </div>
                                         </div>
                                         <div className="user-name-p">
-                                            <span>{adminInfo.lastName.charAt(0).toUpperCase() + adminInfo.lastName.slice(1)} {adminInfo.firstName.charAt(0).toUpperCase() + adminInfo.firstName.slice(1)}</span>
+                                            <span>{adminInfo.firstName.charAt(0).toUpperCase() + adminInfo.firstName.slice(1)} {adminInfo.lastName.charAt(0).toUpperCase() + adminInfo.lastName.slice(1)}</span>
                                             <span>{adminInfo.email}</span>
                                         </div>
                                     </div>

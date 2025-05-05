@@ -6,18 +6,20 @@ import {ReactComponent as Close} from "../../assets/icon/close-x.svg"
 import Button from "../mini/Button";
 import {setSuperAdmin} from "../../store/actions/login";
 import {useQuery} from "../../utills/hooks/useQuery";
+import {useNavigate} from "react-router-dom";
 
 
 function ModalLogOut({open, onClose}) {
     const dispatch = useDispatch();
+    const navigate = useNavigate()
     const {query, setQuery} = useQuery();
-    const {q} = query
+    const {q, startDate, endDate, logOut} = query
 
-    useEffect(() => {
-        if(!q){
-            onClose()
-        }
-    }, [q]);
+    // useEffect(() => {
+    //     if (!logOut) {
+    //         onClose()
+    //     }
+    // }, [logOut]);
 
     const scrollModal = () => {
         document.body.style.removeProperty('overflow');
@@ -50,6 +52,14 @@ function ModalLogOut({open, onClose}) {
         }
     }, [open]);
 
+    const logOutFunc =  ()=>{
+        navigate("/")
+        localStorage.removeItem("token")
+        window.location.reload(true)
+        setQuery({})
+        dispatch(setSuperAdmin({}))
+    }
+
 
     if (!open) return null
     return ReactDom.createPortal(
@@ -75,18 +85,16 @@ function ModalLogOut({open, onClose}) {
                         <div className="buttons-log-out">
                             <div className="no-log-out-button">
                                 <Button
-                                    onClick={() => {
-                                        localStorage.removeItem("token")
-                                        window.location.reload(true)
-                                        dispatch(setSuperAdmin({}))
-                                    }}
+                                    onClick={logOutFunc}
                                     type="button"
                                     className="active-button"
                                 >YES</Button>
                             </div>
                             <div className="log-out-button">
                                 <Button
-                                    onClick={onClose}
+                                    onClick={()=> {
+                                        onClose()
+                                    }}
                                     type="button"
                                     className="active-button"
                                 >NO</Button>

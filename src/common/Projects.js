@@ -33,6 +33,12 @@ const projects = [
     },
     {
         id: 5,
+        title: "Git hub node",
+        icon: gitHubIcon,
+        link: "https://github.com/Nersik199/Final_Project_Node"
+    },
+    {
+        id: 6,
         title: "Swagger api documentation",
         icon: swagger,
         link: "https://world-of-construction.onrender.com/api-docs"
@@ -45,11 +51,9 @@ const Projects = () => {
         <div className="section">
             <div className="store-header">
                 <div className="nav-store">
-                    <div className="title-change">
                         <div className="title">
                             <h1>Projects</h1>
                         </div>
-                    </div>
                 </div>
             </div>
 
