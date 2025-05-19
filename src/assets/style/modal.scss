@@ -86,12 +86,13 @@
     justify-content: center;
     align-items: center;
 
+
     form {
       width: auto;
       height: auto;
       position: relative;
       display: flex;
-      align-items: center;
+      //align-items: center;
       justify-content: space-between;
       gap: 20px;
       flex-wrap: wrap;
@@ -128,12 +129,18 @@
 .field-block:nth-child(3) {
   width: 150px;
 }
-
+//.field-block:nth-child(7) {
+//  width: 237px;
+//}
+.field-block:nth-child(8) {
+  width: 150px;
+}
 .field-block:nth-child(4) {
   width: 150px;
   height: 178px;
   position: absolute;
   right: 0;
+  top:96px;
 
   input {
     height: 150px;
@@ -144,7 +151,7 @@
   }
 
   .custom-input {
-    height: 150px;
+    height: 144px;
     width: 100%;
     padding: 0;
     cursor: pointer;
@@ -154,6 +161,10 @@
     background: #454752;
     border-radius: 5px;
     transition: 0.2s all;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+
   }
 
   .custom-input:focus {
@@ -161,10 +172,11 @@
   }
 
   .visual-logo {
-    width: 100%;
+    width: 105%;
     height: 100%;
     object-fit: cover;
     border-radius: 5px;
+
   }
 
   .image-plus {
@@ -204,7 +216,7 @@
 
 
 .disabled-custom-input {
-  height: 150px;
+  height: 144px;
   width: 100%;
   padding: 0;
   position: absolute;
@@ -213,6 +225,9 @@
   background: #454752;
   border-radius: 5px;
   transition: 0.2s all;
+  justify-content: center;
+  align-items: center;
+  display: flex;
 }
 
 .update-pencil {

@@ -115,9 +115,11 @@ const ModalNewPassword = ({email}) => {
 
     const test = () => {
         let newInputName = [...inputName];
+
         fields.forEach(({validation, name}) => {
             if (name === title) {
                 const isValid = validation ? validation.test(value) : true;
+
                 if (!isValid || !value.length) {
                     if (!newInputName.includes(name)) {
                         newInputName.push(name);
@@ -125,21 +127,39 @@ const ModalNewPassword = ({email}) => {
                 } else if (title === "key" && isValid) {
                     newInputName = newInputName.filter(item => item !== title);
                 } else {
-                    if (newPassword.repeatPassword.length && newPassword.password !== newPassword.repeatPassword) {
+                    const passwordsMatch = newPassword.password === newPassword.repeatPassword;
+                    const passwordValid = /^.{8,}$/.test(newPassword.password);
+
+                    if (passwordValid && passwordsMatch) {
+                        newInputName = newInputName.filter(
+                            item => item !== "password" && item !== "repeatPassword"
+                        );
+                    }
+                    else if (newPassword.repeatPassword.length > 0 && !passwordsMatch) {
                         if (!newInputName.includes("repeatPassword")) {
                             newInputName.push("repeatPassword");
                         }
-                    } else if (/^.{8,}$/.test(newPassword.password) && newPassword.password === newPassword.repeatPassword) {
-                        newInputName = newInputName.filter(item => item !== "repeatPassword" && item !== "password");
-                    } else {
-                        newInputName = newInputName.filter(item => item !== "repeatPassword");
+                        if (!newInputName.includes("password")) {
+                            newInputName.push("password");
+                        }
+                    }
+                    if (!passwordValid) {
+                        if (!newInputName.includes("password")) {
+                            newInputName.push("password");
+                        }
+                    }
+
+                    if (passwordValid && newPassword.repeatPassword.length === 0) {
+                        newInputName = newInputName.filter(item => item !== "password");
                     }
                 }
             }
-        })
+        });
+
         setInputName(_.uniq(newInputName));
         return newInputName.length > 0;
     };
+
 
     const changePassword = (e) => {
         e.preventDefault();

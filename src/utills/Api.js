@@ -84,9 +84,12 @@ export default class Api {
         });
     }
 
-    static createStore({name, city, country, latitude, longitude, logo}) {
+    static createStore({name, city, country, latitude, longitude, webSiteUrl, videoUrl, about, logo}) {
         return api.post(`super-admin/stores/create`, {
             name,
+            webSiteUrl,
+            videoUrl,
+            about,
             logo,
             location: {
                 city,
@@ -101,9 +104,12 @@ export default class Api {
         });
     }
 
-    static updateStore({id, name, city, country, latitude, longitude, logo}) {
+    static updateStore({id, name, city, country, latitude, longitude,webSiteUrl,videoUrl,about, logo}) {
         return api.put(`super-admin/stores/${id}`, {
             name,
+            webSiteUrl,
+            videoUrl,
+            about,
             logo,
             location: {
                 city,
@@ -133,10 +139,10 @@ export default class Api {
     static removeAdmin({adminId, storeId}) {
         return api.put(`/super-admin/remove-admin`, {adminId, storeId});
     }
-    static getUsers({limit,page,role}) {
-        return api.get(`/super-admin/all-users`,{
-            params: {limit,page,role},
+
+    static getUsers({limit, page, role}) {
+        return api.get(`/super-admin/all-users`, {
+            params: {limit, page, role},
         });
     }
-
 }

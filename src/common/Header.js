@@ -27,7 +27,7 @@ const Header = () => {
     const {q, startDate, endDate} = query;
     const [isOpen, setIsOpen] = useState(false);
 
-
+    console.log(location,"ssss")
     useEffect(() => {
         if (token) {
             dispatch(getUser());
@@ -129,10 +129,10 @@ const Header = () => {
                                 </li>
                             </Link>
                             <Link to="/stores"
-                                  className={location.pathname === "/stores" || location.pathname === `/stores/${name}/${id}` || location.pathname === `/stores/${name}/admins` ? "active-item" : "nav-item"}>
+                                  className={location.pathname.startsWith("/stores") ? "active-item" : "nav-item"}>
                                 <li>
                                     <div
-                                        className={location.pathname === "/stores" || location.pathname === `/stores/${name}/${id}` || location.pathname === `/stores/${name}/admins` ? "active-nav" : "disabled-nav"}></div>
+                                        className={location.pathname.startsWith("/stores") ? "active-nav" : "disabled-nav"}></div>
                                     <FontAwesomeIcon icon={faLayerGroup} className="nav-icon"/>
                                     <span>Stores {name ? `/ ${name.charAt(0).toUpperCase() + name.slice(1)}` : null}</span>
                                 </li>

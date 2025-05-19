@@ -99,15 +99,30 @@ const Profile = () => {
                         newInputName.push(name);
                     }
                 } else {
-                    if (admin.repeatPassword.length && admin.password !== admin.repeatPassword) {
+                    const passwordsMatch = admin.password === admin.repeatPassword;
+                    const passwordValid = /^.{8,}$/.test(admin.password);
+
+                    if (passwordValid && passwordsMatch) {
+                        newInputName = newInputName.filter(
+                            item => item !== "password" && item !== "repeatPassword"
+                        );
+                    }
+                    else if (admin.repeatPassword.length > 0 && !passwordsMatch) {
                         if (!newInputName.includes("repeatPassword")) {
                             newInputName.push("repeatPassword");
                         }
+                        if (!newInputName.includes("password")) {
+                            newInputName.push("password");
+                        }
+                    }
+                    if (!passwordValid) {
+                        if (!newInputName.includes("password")) {
+                            newInputName.push("password");
+                        }
+                    }
 
-                    } else if (/^.{8,}$/.test(admin.password) && admin.password === admin.repeatPassword) {
-                        newInputName = newInputName.filter(item => item !== "repeatPassword" && item !== "password");
-                    } else {
-                        newInputName = newInputName.filter(item => item !== "repeatPassword");
+                    if (passwordValid && admin.repeatPassword.length === 0) {
+                        newInputName = newInputName.filter(item => item !== "password");
                     }
                 }
             }

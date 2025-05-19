@@ -18,14 +18,14 @@ const fields = [
         id: 1,
         name: "name",
         label: "Name",
-        validation: /^(?=.*[A-Za-z])[A-Za-z0-9.-]{1,20}$/,
-        maxLength:"20",
+        validation:/^(?=.*[A-Za-z])[A-Za-z0-9.-]+(?: [A-Za-z0-9.-]+)?$/,
+        maxLength: "20",
     },
     {
         id: 2,
         name: "city",
         label: "City",
-        validation:/^(?=.*[A-Za-z])[A-Za-z0-9.-]+$/,
+        validation: /^(?=.*[A-Za-z])[A-Za-z0-9.-]+$/,
     },
     {
         id: 3,
@@ -37,6 +37,8 @@ const fields = [
         id: 4,
         name: "logo",
         label: "Logo",
+        validation: "none",
+
     },
     {
         id: 5,
@@ -49,6 +51,18 @@ const fields = [
         name: "longitude",
         label: "Longitude",
         validation: /^\d*\.?\d+$/,
+    },
+    {
+        id: 7,
+        name: "webSiteUrl",
+        label: "Web site",
+        validation: "none",
+    },
+    {
+        id: 8,
+        name: "videoUrl",
+        label: "Video ID",
+        validation: "none",
     },
 
 ]
@@ -65,7 +79,11 @@ function ModalCreateStore({open, onClose, stores}) {
         country: "",
         latitude: "",
         longitude: "",
+        webSiteUrl: "",
+        videoUrl: "",
+        about:""
     })
+    // const [about, setAbout] = useState("")
     const {query, setQuery} = useQuery();
     const {q} = query
     const [isStore, setIsStore] = useState(false)
@@ -82,7 +100,7 @@ function ModalCreateStore({open, onClose, stores}) {
         title: ""
     })
     const {value, title} = storeInfo
-    const {name, city, country, latitude, longitude} = store
+    const {name, city, country, latitude, longitude, webSiteUrl, videoUrl,about} = store
 
     const scrollModal = () => {
         document.body.style.removeProperty('overflow');
@@ -98,11 +116,12 @@ function ModalCreateStore({open, onClose, stores}) {
     }, []);
 
 
-
     useEffect(() => {
         if (stores && status === "ok") {
             setIsStore(true);
             setStore(flattenObject(stores))
+
+
         } else {
             setIsStore(false)
         }
@@ -111,16 +130,20 @@ function ModalCreateStore({open, onClose, stores}) {
     useEffect(() => {
         inputName.forEach((item) => {
             if (item === title && value.length) {
-                test()
+                test();
             }
-        })
-        let log = stores ? logo : visualLogo
-        if (name && city && country && log && latitude && longitude && !inputName.length) {
-            setIsCreate(true)
+        });
+
+        let log = stores ? logo : visualLogo;
+        const isAllFilled = name && city && country && log && latitude && longitude && webSiteUrl && videoUrl && about;
+        const hasErrors = inputName.length > 0;
+
+        if (isAllFilled && !hasErrors) {
+            setIsCreate(true);
         } else {
-            setIsCreate(false)
+            setIsCreate(false);
         }
-    }, [store, inputName.length, visualLogo, isCreate]);
+    }, [store, inputName.length, visualLogo, isCreate, about]);
 
     useEffect(() => {
         if (statusCreate === "ok") {
@@ -161,6 +184,9 @@ function ModalCreateStore({open, onClose, stores}) {
                 country: "",
                 latitude: "",
                 longitude: "",
+                webSiteUrl: "",
+                videoUrl: "",
+
             })
             setStoreInfo({
                 value: "",
@@ -174,7 +200,7 @@ function ModalCreateStore({open, onClose, stores}) {
             setId("")
             setIsLogo(false)
         }
-    }, [open,q]);
+    }, [open, q]);
 
     const onChange = (event) => {
         let v = event.target.value;
@@ -212,12 +238,31 @@ function ModalCreateStore({open, onClose, stores}) {
         setIsUpdate(true)
         return setIsLogo(true)
     }
-
+    const onChangeTextarea = (event) => {
+        let v = event.target.value;
+        let n = event.target.name;
+        // if (v.length > 300) return false
+        setStore((prevState) => ({
+            ...prevState,
+            [n]: v
+        }));
+        setStoreInfo({value: v, title: n});
+        setIsUpdate(true)
+    }
     const test = () => {
         let newInputName = [...inputName];
+        if (title === "about") {
+            if (!store.about.length) {
+                if (!newInputName.includes("about")) {
+                    newInputName.push("about");
+                }
+            } else {
+                newInputName = newInputName.filter(item => item !== "about");
+            }
+        }
         fields.forEach(({validation, name}) => {
             if (name === title) {
-                let isValid = name !== "logo" ? validation.test(value) : true;
+                let isValid = validation !== "none" ? validation.test(value) : true;
                 if (!isValid || !value.length) {
                     if (!newInputName.includes(name)) {
                         newInputName.push(name);
@@ -240,9 +285,20 @@ function ModalCreateStore({open, onClose, stores}) {
         }
         if (isCreate) {
             if (isStore) {
-                dispatch(updateStore({id: stores.id, name, city, country, latitude, longitude, logo}));
+                dispatch(updateStore({
+                    id: stores.id,
+                    name,
+                    city,
+                    country,
+                    latitude,
+                    longitude,
+                    webSiteUrl,
+                    videoUrl,
+                    about,
+                    logo
+                }));
             } else {
-                dispatch(createStore({name, city, country, latitude, longitude, logo}));
+                dispatch(createStore({name, city, country, latitude, longitude, webSiteUrl, videoUrl, about, logo}));
             }
         }
     }
@@ -288,6 +344,7 @@ function ModalCreateStore({open, onClose, stores}) {
                                         <>
                                             {field.id === 4 ?
                                                 <label htmlFor="4"
+
                                                        className={field.id === id ? "update-pencil-active" : "update-pencil"}
                                                        onClick={() => update(field.id)}>
                                                     <FontAwesomeIcon icon={faSquarePen}
@@ -350,6 +407,27 @@ function ModalCreateStore({open, onClose, stores}) {
                                         </label> : null}
                                 </div>
                             ))}
+
+                            <div className="about">
+                                <span className="label">About</span>
+                                {stores ? <div onClick={() => update(9)}
+                                               className={9 === id ? "update-pencil-active" : "update-pencil"}>
+                                    <FontAwesomeIcon icon={faSquarePen}
+                                                     className={"update-pencil-icon"}/>
+                                </div> : null}
+                                <textarea
+                                    value={store.about}
+                                    disabled={id !== 9}
+                                    name="about"
+                                    className={inputName.includes("about") ? "textarea input-error" : "textarea input"}
+                                    onChange={onChangeTextarea} id="9"
+                                    onBlur={() => {
+                                        setId("")
+                                        test()
+                                    }}>
+                            </textarea>
+                            </div>
+
                             <div className="button-create">
                                 {stores ?
                                     <Button
