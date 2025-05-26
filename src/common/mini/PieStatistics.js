@@ -59,20 +59,22 @@ const centerTextPlugin = {
 // ];
 const PieStatistics = ({data}) => {
     const pieChartData = {
-        labels: data.map(store => store.storeName.charAt(0).toUpperCase() + store.storeName.slice(1)),
+        labels: data.statistics.map(store => store.storeName.charAt(0).toUpperCase() + store.storeName.slice(1)),
         datasets: [
             {
                 label: "Sales",
-                data: data.map(store =>
-                    store.statistics.reduce((sum, stat) => sum + stat.totalSales, 0)
+                data: data.statistics.map(store =>
+                    store.statistics.reduce((sum, stat) => sum + stat.totalOrders, 0)
                 ),
                 backgroundColor: [
-                    'rgba(255,0,0,0.6)',
-                    'rgba(0,61,255,0.9)',
+                    '#ff0000',
+                    '#0000ff',
+                    '#ffffff'
                 ],
                 borderColor: [
-                    'rgb(255,0,0)',
-                    'rgba(0,44,255,0.9)',
+                    '#ff0000',
+                    '#0000ff',
+                    '#ffffff'
 
                 ],
                 borderWidth: 0

@@ -11,6 +11,7 @@ import _ from "lodash"
 import {ReactComponent as Close} from "../../assets/icon/close-x.svg"
 import {flattenObject} from "../mini/Obj";
 import {useQuery} from "../../utills/hooks/useQuery";
+import Select from 'react-select';
 
 
 const fields = [
@@ -18,20 +19,21 @@ const fields = [
         id: 1,
         name: "name",
         label: "Name",
-        validation:/^(?=.*[A-Za-z])[A-Za-z0-9.-]+(?: [A-Za-z0-9.-]+)?$/,
+        validation: /^(?=.*[A-Za-z])[A-Za-z0-9.-]+(?: [A-Za-z0-9.-]+)?$/,
         maxLength: "20",
     },
-    {
-        id: 2,
-        name: "city",
-        label: "City",
-        validation: /^(?=.*[A-Za-z])[A-Za-z0-9.-]+$/,
-    },
+    // {
+    //     id: 2,
+    //     name: "city",
+    //     label: "City",
+    //     validation: /^(?=.*[A-Za-z])[A-Za-z0-9.-]+$/,
+    // },
     {
         id: 3,
         name: "country",
         label: "Country",
-        validation: /^[A-Za-z][A-Za-z.-]+$/,
+        // validation: /^[A-Za-z][A-Za-z.-]+$/,
+        validation: "none"
     },
     {
         id: 4,
@@ -61,28 +63,41 @@ const fields = [
     {
         id: 8,
         name: "videoUrl",
-        label: "Video ID",
+        label: "Youtube video ID",
         validation: "none",
     },
 
 ]
 
+const options = [
+    {value: 'Aragatsotn', label: 'Aragatsotn'},
+    {value: 'Ararat', label: 'Ararat'},
+    {value: 'Armavir', label: 'Armavir'},
+    {value: 'Gegharkunik', label: 'Gegharkunik'},
+    {value: 'Yerevan', label: 'Yerevan'},
+    {value: 'Kotayk', label: 'Kotayk'},
+    {value: 'Shirak', label: 'Shirak'},
+    {value: 'Syunik', label: 'Syunik'},
+    {value: 'Vayots Dzor', label: 'Vayots Dzor'},
+    {value: 'Tavush', label: 'Tavush'},
+];
 
 function ModalCreateStore({open, onClose, stores}) {
     const dispatch = useDispatch();
     const status = useSelector(state => state.store.status)
     const statusCreate = useSelector(state => state.store.statusCreate);
+    const selectRef = useRef(null);
 
     const [store, setStore] = useState({
         name: "",
-        city: "",
-        country: "",
+        country: "Armenia",
         latitude: "",
         longitude: "",
         webSiteUrl: "",
         videoUrl: "",
-        about:""
+        about: ""
     })
+    const [city, setCity] = useState({})
     // const [about, setAbout] = useState("")
     const {query, setQuery} = useQuery();
     const {q} = query
@@ -100,7 +115,7 @@ function ModalCreateStore({open, onClose, stores}) {
         title: ""
     })
     const {value, title} = storeInfo
-    const {name, city, country, latitude, longitude, webSiteUrl, videoUrl,about} = store
+    const {name, country, latitude, longitude, webSiteUrl, videoUrl, about} = store
 
     const scrollModal = () => {
         document.body.style.removeProperty('overflow');
@@ -120,10 +135,13 @@ function ModalCreateStore({open, onClose, stores}) {
         if (stores && status === "ok") {
             setIsStore(true);
             setStore(flattenObject(stores))
-
-
+            setCity({
+                value: stores.location.city,
+                label: stores.location.city,
+            })
         } else {
             setIsStore(false)
+
         }
     }, [status, stores]);
 
@@ -163,6 +181,10 @@ function ModalCreateStore({open, onClose, stores}) {
 
     useEffect(() => {
         if (open) {
+            if(!stores){
+                setCity(options[4])
+
+            }
             (async () => {
                 try {
                     document.body.style.width = ` ${document.body.getBoundingClientRect().width}px`
@@ -178,10 +200,10 @@ function ModalCreateStore({open, onClose, stores}) {
             stores = []
             dispatch(setStatusCreate(""))
             scrollModal()
+            setCity({})
             setStore({
                 name: "",
-                city: "",
-                country: "",
+                country: "Armenia",
                 latitude: "",
                 longitude: "",
                 webSiteUrl: "",
@@ -224,7 +246,11 @@ function ModalCreateStore({open, onClose, stores}) {
         }
         setIsUpdate(true)
     };
+    const changeCity = (city) => {
+        setCity(city);
+        setIsUpdate(true)
 
+    }
     const onChangeLogo = (event) => {
         const file = event.target.files[0];
         setLogo(file)
@@ -288,7 +314,7 @@ function ModalCreateStore({open, onClose, stores}) {
                 dispatch(updateStore({
                     id: stores.id,
                     name,
-                    city,
+                    city: city.value,
                     country,
                     latitude,
                     longitude,
@@ -298,13 +324,29 @@ function ModalCreateStore({open, onClose, stores}) {
                     logo
                 }));
             } else {
-                dispatch(createStore({name, city, country, latitude, longitude, webSiteUrl, videoUrl, about, logo}));
+                dispatch(createStore({
+                    name,
+                    city: city.value,
+                    country,
+                    latitude,
+                    longitude,
+                    webSiteUrl,
+                    videoUrl,
+                    about,
+                    logo
+                }));
             }
         }
     }
+    console.log(city,"city")
 
     const update = async (id) => {
         await setId(id)
+        if(id === 2 && selectRef.current){
+            selectRef.current.focus()
+            selectRef.current.onMenuOpen()
+
+        }
         await document.getElementById(id).focus();
     }
 
@@ -338,32 +380,62 @@ function ModalCreateStore({open, onClose, stores}) {
                                 : null}
 
                         <form onSubmit={create}>
+                            <div className="field-block">
+                                <span className="label">Region</span>
+                                {stores ? <div
+                                    className={2 === id ? "update-pencil-active" : "update-pencil"}
+                                    onClick={() => update(2)}>
+                                    <FontAwesomeIcon icon={faSquarePen}
+                                                     className={"update-pencil-icon"}/>
+                                </div> : null}
+                                <Select
+                                    // defaultValue={options[0]}
+                                    isDisabled={stores && id !== 2}
+                                    ref={selectRef}
+                                    onBlur={()=>setId("")}
+                                    id="2"
+                                    className="select"
+                                    onChange={changeCity}
+                                    classNamePrefix="react-select"
+                                    value={city.value ? city : options[4]}
+                                    getOptionValue={(o) => o.value}
+                                    getOptionLabel={(o) => o.value}
+                                    options={options}
+                                    isSearchable={false}
+                                    // menuIsOpen
+                                />
+                            </div>
+
                             {fields.map((field) => (
                                 <div key={field.id} className="field-block">
                                     {stores ?
                                         <>
                                             {field.id === 4 ?
                                                 <label htmlFor="4"
-
                                                        className={field.id === id ? "update-pencil-active" : "update-pencil"}
                                                        onClick={() => update(field.id)}>
                                                     <FontAwesomeIcon icon={faSquarePen}
                                                                      className={"update-pencil-icon"}/>
                                                 </label>
                                                 :
+                                                field.name === "country" ? null
+                                                :
                                                 <div
                                                     className={field.id === id ? "update-pencil-active" : "update-pencil"}
                                                     onClick={() => update(field.id)}>
                                                     <FontAwesomeIcon icon={faSquarePen}
                                                                      className={"update-pencil-icon"}/>
-                                                </div>}
+                                                </div>
+
+                                            }
                                         </>
                                         :
                                         null}
+
                                     <Input
                                         maxLength={field.maxLength}
                                         inputRef={inputRef}
-                                        disabled={stores && id !== field.id}
+                                        disabled={stores && id !== field.id || field.name === "country"}
                                         key={field.id}
                                         name={field.name}
                                         className={inputName.includes(field.name) ? "input-error" : "input"}
@@ -374,7 +446,7 @@ function ModalCreateStore({open, onClose, stores}) {
                                             test()
                                             setId("")
                                         }}
-                                        onChange={field.name === "logo" ? onChangeLogo : onChange}
+                                        onChange={field.name === "logo" ? onChangeLogo : field.name === "country" ? null : onChange}
                                         value={store[field.name]}
                                         id={field.id}
                                         label={field.label}
@@ -417,7 +489,7 @@ function ModalCreateStore({open, onClose, stores}) {
                                 </div> : null}
                                 <textarea
                                     value={store.about}
-                                    disabled={id !== 9}
+                                    disabled={stores && id !== 9}
                                     name="about"
                                     className={inputName.includes("about") ? "textarea input-error" : "textarea input"}
                                     onChange={onChangeTextarea} id="9"

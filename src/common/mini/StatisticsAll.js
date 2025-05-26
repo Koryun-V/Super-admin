@@ -40,22 +40,22 @@ const backgroundColorPlugin = {
 };
 
 const colors = [
-    { border: 'red', fill: 'rgba(255,255,255,0.63)' },
-    { border: 'blue', fill: 'rgba(255,233,0,0.65)' },
-    { border: 'green', fill: 'rgba(246,173,85,0.3)' },
+    { border: '#ff0000', fill: 'rgba(255,255,255,0.63)' },
+    { border: '#0000ff', fill: 'rgba(255,233,0,0.65)' },
+    { border: '#ffffff', fill: 'rgba(246,173,85,0.3)' },
     { border: '#ed64a6', fill: 'rgba(237,100,166,0.3)' },
     { border: '#38b2ac', fill: 'rgba(56,178,172,0.3)' },
 ];
 const StatisticsAll = ({data}) => {
     const allDates = Array.from(new Set(
-        data.flatMap(store => store.statistics.map(stat => stat.interval))
+        data.statistics.flatMap(store => store.statistics.map(stat => stat.interval))
     )).sort();
 
 
 
     const lineChartData = {
         labels: allDates,
-        datasets: data.map((store, index) => {
+        datasets: data.statistics.map((store, index) => {
             const color = colors[index % colors.length];
             const revenueByDate = allDates.map(date => {
                 const stat = store.statistics.find(s => s.interval === date);

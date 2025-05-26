@@ -15,10 +15,12 @@ const Home = () => {
     const status = useSelector(state => state.statistics.status);
     const {query, setQuery} = useQuery();
     const {q, startDate, endDate} = query;
-    const defaultStart = new Date('2025-04-01');
-    const defaultEnd = new Date('2025-04-30');
+    const defaultStart = new Date();
+    const defaultEnd = new Date();
+    defaultStart.setMonth(defaultStart.getMonth() - 1);
 
 
+    console.log(query,"query")
     useEffect(() => {
         if (startDate && endDate) {
             dispatch(getStatisticsAll({startDate, endDate}));
@@ -27,7 +29,6 @@ const Home = () => {
         }
     }, [startDate, endDate]);
 
-
     return (
         <div className="section">
             <div className="store-header">
@@ -35,11 +36,11 @@ const Home = () => {
                     <div className="title">
                         <h1>Dashboard</h1>
                     </div>
-                    <DateP defaultStart={defaultStart} defaultEnd={defaultEnd}/>
+                     <DateP defaultStart={defaultStart} defaultEnd={defaultEnd}/>
                 </div>
             </div>
 
-            {status !== "ok" && !statistics.length ?
+            {status !== "ok" && !statistics.statistics ?
                 <div className="container-loading">
                     <div className="loading-block">
                         <RotatingLines
@@ -56,70 +57,122 @@ const Home = () => {
                     </div>
                 </div>
                 :
-                <>
-                    {status === "pending" ?
-                        <div className="container-loading">
-                            <div className="loading-block">
-                                <RotatingLines
-                                    visible={true}
-                                    height="96"
-                                    width="96"
-                                    color="#00d143"
-                                    strokeWidth="5"
-                                    animationDuration="0.75"
-                                    ariaLabel="rotating-lines-loading"
-                                    wrapperStyle={{}}
-                                    wrapperClass=""
-                                />
-                            </div>
-                        </div> : null}
-                    <div className="container">
-                        <div className={status === "pending" ? "disabled-dashboard" : "dashboard"}>
-                            {status === "pending" ? <div className="opacity-store"></div> :
-                                null}
-                            <div className="totals">
-                                <div className="container-total">
-                                    <div className="block-total">
-                                        <h2>Total count</h2>
-                                        <span>{statistics.reduce((sum, store) => sum + store.productCount, 0)}<FontAwesomeIcon
-                                            icon={faCube} className="total-icon"/></span>
-                                    </div>
-                                    <div className="block-total">
-                                        <h2>Total orders</h2>
-                                        <span>{statistics.reduce((sum, store) => sum + store.totalOrders, 0)}<FontAwesomeIcon
-                                            icon={faTruck} className="total-icon"/></span>
-                                    </div>
-                                    <div className="block-total">
-                                        <h2>Total revenue</h2>
-                                        <span>{statistics.reduce((sum, store) => sum + store.totalRevenue, 0)}
-                                            <FontAwesomeIcon icon={faDollarSign} className="total-icon"/></span>
-                                    </div>
-                                    <div className="block-total">
-                                        <h2>Total sales</h2>
-                                        <span>{statistics.reduce((sum, store) => sum + store.totalSales, 0)}<FontAwesomeIcon
-                                            icon={faCartShopping} className="total-icon"/></span>
+                statistics && statistics.statistics ?
+                    <>
+                        {status === "pending" ?
+                            <div className="container-loading">
+                                <div className="loading-block">
+                                    <RotatingLines
+                                        visible={true}
+                                        height="96"
+                                        width="96"
+                                        color="#00d143"
+                                        strokeWidth="5"
+                                        animationDuration="0.75"
+                                        ariaLabel="rotating-lines-loading"
+                                        wrapperStyle={{}}
+                                        wrapperClass=""
+                                    />
+                                </div>
+                            </div> : null}
+
+                        <div className="container">
+                            <div className={status === "pending" ? "disabled-dashboard" : "dashboard"}>
+                                {status === "pending" ? <div className="opacity-store"></div> :
+                                    null}
+                                <div className="totals">
+                                    <div className="container-total">
+                                        <div className="block-total">
+                                            <div className="title-total">
+                                                <h2>Total product count</h2>
+                                                <FontAwesomeIcon icon={faCube} className="total-icon-all"/>
+                                            </div>
+
+                                            <div className="total-table">
+                                                <div className="total-all-time">
+                                                    <strong>All time</strong>
+                                                    <span>{statistics.productCountAllTime}</span>
+                                                </div>
+                                                <div className="hr"></div>
+                                                <div className="total-all-time">
+                                                    <strong>With date</strong>
+                                                    <span>{statistics.totalProductPeriod}</span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div className="block-total">
+                                            <div className="title-total">
+
+                                                <h2>Total sales</h2>
+                                                <FontAwesomeIcon icon={faCartShopping} className="total-icon-all"/>
+                                            </div>
+                                            <div className="total-table">
+                                                <div className="total-all-time">
+                                                    <strong>All time</strong>
+                                                    <span>{statistics.totalProductsSoldAllTime}</span>
+                                                </div>
+                                                <div className="hr"></div>
+                                                <div className="total-all-time">
+                                                    <strong>With date</strong>
+                                                    <span>{statistics.totalProductsSoldPeriod}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="block-total">
+                                            <div className="title-total">
+
+                                                <h2>Total revenue</h2>
+                                                <FontAwesomeIcon icon={faDollarSign} className="total-icon-all"/>
+                                            </div>
+                                            <div className="total-table">
+                                                <div className="total-all-time">
+                                                    <strong>All time</strong>
+                                                    <span>{statistics.totalRevenueAllTime}</span>
+                                                </div>
+                                                <div className="hr"></div>
+                                                <div className="total-all-time">
+                                                    <strong>With date</strong>
+                                                    <span>{statistics.totalRevenuePeriod}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
-                            </div>
 
-                            <div className="diagram-container">
-                                <div className="line-block">
-                                    <div className="title-sales">
-                                        <h2>Revenue history</h2>
+                                <div className="diagram-container">
+                                    <div className="line-block">
+                                        <div className="title-sales">
+                                            <h2>Revenue history</h2>
+                                        </div>
+                                        <StatisticsAll data={statistics}/>
                                     </div>
-                                    <StatisticsAll data={statistics}/>
-                                </div>
 
-                                <div className="pie-block">
-                                    <div className="title-sales">
-                                        <h2>Sales history</h2>
+                                    <div className="pie-block">
+                                        <div className="title-sales">
+                                            <h2>Sales history</h2>
+                                        </div>
+                                        <PieStatistics data={statistics}/>
                                     </div>
-                                    <PieStatistics data={statistics}/>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </>}
+                    </> : <div className="container-loading">
+                        <div className="loading-block">
+                            <RotatingLines
+                                visible={true}
+                                height="96"
+                                width="96"
+                                color="#00d143"
+                                strokeWidth="5"
+                                animationDuration="0.75"
+                                ariaLabel="rotating-lines-loading"
+                                wrapperStyle={{}}
+                                wrapperClass=""
+                            />
+                        </div>
+                    </div>}
         </div>
     );
 };

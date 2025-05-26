@@ -36,11 +36,11 @@ const Store = () => {
     const {query, setQuery} = useQuery();
     const {q, startDate, endDate} = query
     const [isOpen, setIsOpen] = useState(false);
-    const defaultStart = new Date('2025-04-01');
-    const defaultEnd = new Date('2025-04-30');
-
+    const defaultStart = new Date();
+    const defaultEnd = new Date();
+    defaultStart.setMonth(defaultStart.getMonth() - 1);
     const [isOpenDelete, setIsOpenDelete] = useState(false);
-    console.log(statistics, buyers)
+
     useEffect(() => {
         if (q === "admins") dispatch(getAdmin({id}))
     }, [q]);

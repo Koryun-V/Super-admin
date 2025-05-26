@@ -90,11 +90,37 @@ body {
       flex-shrink: 1;
       flex-grow: 1;
       flex-basis: 15%;
-
+      justify-content: space-between;
+      position: relative;
       margin: 10px;
       background: #1a1c24;
       border-radius: 5px;
       padding: 10px;
+      .title-total{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+
+      .total-table {
+        display: flex;
+        width: 100%;
+        font-family: "PoppinsMedium", "sans-serif";
+        gap:20px;
+        .total-all-time{
+          strong{
+            font-size: 18px;
+          }
+        }
+
+        .hr{
+          border-left: 2px solid #5d5f6b;
+          height: 100%;
+          transform: rotate(20deg);
+        }
+
+      }
 
       h2 {
         font-family: "PoppinsMedium", "sans-serif";
@@ -134,14 +160,17 @@ body {
   margin-top: 30px;
   position: relative;
 }
-.dashboard{
+
+.dashboard {
   position: relative;
   transition: 0.2s all;
 
 }
-.disabled-dashboard{
+
+.disabled-dashboard {
   opacity: 0.5;
 }
+
 .container-loading {
   display: flex;
   justify-content: center;

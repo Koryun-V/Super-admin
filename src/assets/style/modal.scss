@@ -120,6 +120,10 @@
 
 .field-block:nth-child(1) {
   width: 150px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
 }
 
 .field-block:nth-child(2) {
@@ -129,18 +133,20 @@
 .field-block:nth-child(3) {
   width: 150px;
 }
+
 //.field-block:nth-child(7) {
 //  width: 237px;
 //}
 .field-block:nth-child(8) {
   width: 150px;
 }
+
 .field-block:nth-child(4) {
   width: 150px;
   height: 178px;
   position: absolute;
   right: 0;
-  top:96px;
+  top: 96px;
 
   input {
     height: 150px;
@@ -156,7 +162,7 @@
     padding: 0;
     cursor: pointer;
     position: absolute;
-    border: 2px solid #454752;
+    border: 2px solid transparent;
     top: 29px;
     background: #454752;
     border-radius: 5px;
@@ -172,10 +178,10 @@
   }
 
   .visual-logo {
-    width: 105%;
+    width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 5px;
+    border-radius: 3px;
 
   }
 
@@ -220,7 +226,7 @@
   width: 100%;
   padding: 0;
   position: absolute;
-  border: 2px solid #454752;
+  border: 2px solid transparent;
   top: 29px;
   background: #454752;
   border-radius: 5px;
@@ -372,4 +378,69 @@
   margin-bottom: 70px;
 }
 
+.select {
+  z-index: 15;
+  font-family: "PoppinsMedium", 'sans-serif';
 
+  .react-select__control {
+    height: 47px;
+    margin-top: 5px;
+    cursor: pointer;
+    background: #454752;
+    border:none;
+
+    .react-select__single-value{
+      color: white;
+    }
+
+
+
+  }
+  .react-select__control--is-focused {
+    border-color: $interfaceColor;
+    box-shadow: 0 0 0 2px $interfaceColor;
+  }
+  .react-select__menu {
+    cursor: pointer;
+    background: #454752;
+    color:white;
+
+
+    .react-select__menu-list {
+      cursor: pointer;
+      &::-webkit-scrollbar {
+        width: 5px;
+        border-radius: 10px;
+      }
+
+      /* Track */
+      &::-webkit-scrollbar-track {
+        background: #0a0a0d;
+        border-radius: 10px;
+
+      }
+
+      /* Handle */
+      &::-webkit-scrollbar-thumb {
+        background: $interfaceColor;
+        border-radius: 10px;
+
+      }
+
+      /* Handle on hover */
+      &::-webkit-scrollbar-thumb:hover {
+        background: #04a504;
+      }
+      .react-select__option {
+        cursor: pointer;
+        transition: 0.2s all;
+      }
+      .react-select__option--is-focused {
+        background: #5d5f6b;
+      }
+      .react-select__option--is-selected {
+        background: #0a0a0d;
+      }
+    }
+  }
+}

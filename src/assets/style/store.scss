@@ -255,6 +255,11 @@
   color: $interfaceColor;
   margin-left: 5px;
 }
+.total-icon-all {
+  color: $interfaceColor;
+  margin-left: 5px;
+  font-size: 30px;
+}
 
 .opacity-store {
   width: 100%;
@@ -321,7 +326,7 @@
 }
 
 .store-img {
-  width: auto;
+  width: 100px;
   height: 100px;
 
   img {

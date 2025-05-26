@@ -8,7 +8,6 @@ import ModalCreateStore from "./Modal/ModalCreateStore";
 import ModalDeleteStore from "./Modal/ModalDeleteStore";
 import {RotatingLines} from "react-loader-spinner";
 import {setBuyers, setStatistics} from "../store/actions/statistics";
-import {useQuery} from "../utills/hooks/useQuery";
 import {setAdmin} from "../store/actions/admin";
 
 const Stores = () => {
