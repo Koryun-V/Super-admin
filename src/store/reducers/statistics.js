@@ -13,7 +13,7 @@ const initialState = {
     status: "",
     statistics: [],
     statisticsTotal: {},
-    statisticsAll: [],
+    statisticsAll: {},
     statusBuyers: "",
     buyers: []
 }

@@ -27,7 +27,6 @@ const Header = () => {
     const {q, startDate, endDate} = query;
     const [isOpen, setIsOpen] = useState(false);
 
-    console.log(location,"ssss")
     useEffect(() => {
         if (token) {
             dispatch(getUser());
