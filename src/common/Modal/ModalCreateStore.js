@@ -181,7 +181,7 @@ function ModalCreateStore({open, onClose, stores}) {
 
     useEffect(() => {
         if (open) {
-            if(!stores){
+            if (!stores) {
                 setCity(options[4])
 
             }
@@ -338,11 +338,11 @@ function ModalCreateStore({open, onClose, stores}) {
             }
         }
     }
-    console.log(city,"city")
+    console.log(city, "city")
 
     const update = async (id) => {
         await setId(id)
-        if(id === 2 && selectRef.current){
+        if (id === 2 && selectRef.current) {
             selectRef.current.focus()
             selectRef.current.onMenuOpen()
 
@@ -380,7 +380,12 @@ function ModalCreateStore({open, onClose, stores}) {
                                 : null}
 
                         <form onSubmit={create}>
-                            <div className="field-block">
+                            <div className="field-block" style={{
+                                position: "absolute",
+                                left: 0,
+                                right: 0,
+                                margin: "auto",
+                            }}>
                                 <span className="label">Region</span>
                                 {stores ? <div
                                     className={2 === id ? "update-pencil-active" : "update-pencil"}
@@ -392,7 +397,7 @@ function ModalCreateStore({open, onClose, stores}) {
                                     // defaultValue={options[0]}
                                     isDisabled={stores && id !== 2}
                                     ref={selectRef}
-                                    onBlur={()=>setId("")}
+                                    onBlur={() => setId("")}
                                     id="2"
                                     className="select"
                                     onChange={changeCity}
@@ -419,13 +424,13 @@ function ModalCreateStore({open, onClose, stores}) {
                                                 </label>
                                                 :
                                                 field.name === "country" ? null
-                                                :
-                                                <div
-                                                    className={field.id === id ? "update-pencil-active" : "update-pencil"}
-                                                    onClick={() => update(field.id)}>
-                                                    <FontAwesomeIcon icon={faSquarePen}
-                                                                     className={"update-pencil-icon"}/>
-                                                </div>
+                                                    :
+                                                    <div
+                                                        className={field.id === id ? "update-pencil-active" : "update-pencil"}
+                                                        onClick={() => update(field.id)}>
+                                                        <FontAwesomeIcon icon={faSquarePen}
+                                                                         className={"update-pencil-icon"}/>
+                                                    </div>
 
                                             }
                                         </>
