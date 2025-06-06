@@ -11,7 +11,7 @@ import {setStatus} from "../actions/admin";
 
 const initialState = {
     status: "",
-    statistics: [],
+    statistics: {},
     statisticsTotal: {},
     statisticsAll: {},
     statusBuyers: "",
@@ -35,8 +35,7 @@ export const statistics = createReducer(initialState, (builder) => {
         })
         .addCase(getStatistics.fulfilled, (state, {payload}) => {
             state.status = "ok"
-            state.statistics = payload.statistics
-            state.statisticsTotal = payload
+            state.statistics = payload.data
         })
         .addCase(getStatistics.rejected, (state) => {
             state.status = "error"

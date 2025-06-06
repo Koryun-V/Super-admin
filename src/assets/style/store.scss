@@ -11,7 +11,15 @@
     border-radius: 5px;
   }
 }
-
+.youtube-label{
+  display: flex;
+  align-items: center;
+  gap:5px;
+}
+.icon-youtube{
+  width: auto;
+  height: 15px;
+}
 .container-statistics-disabled {
   display: flex;
   flex-direction: column;

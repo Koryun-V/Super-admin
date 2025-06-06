@@ -38,14 +38,14 @@ const backgroundColorPlugin = {
     },
 };
 
-const Statistics = ({name,data}) => {
-
+const Statistics = ({data}) => {
+    console.log(data,"a")
     const lineChartData = {
-        labels: data.map(item => item.interval),
+        labels: data[0].statistics.map(item => item.interval),
         datasets: [
             {
-                label: name,
-                data:  data.map(item => item.totalRevenue),
+                label: data[0].storeName,
+                data:  data[0].statistics.map(item => item.totalRevenue),
                 borderColor: "#00d143",
                 backgroundColor: "#009a32",
                 pointBackgroundColor:"#009a32",

@@ -12,6 +12,8 @@ import {ReactComponent as Close} from "../../assets/icon/close-x.svg"
 import {flattenObject} from "../mini/Obj";
 import {useQuery} from "../../utills/hooks/useQuery";
 import Select from 'react-select';
+import data from "../staticData/data.json"
+import youtube from "../../assets/icon/youtube.png"
 
 
 const fields = [
@@ -63,24 +65,17 @@ const fields = [
     {
         id: 8,
         name: "videoUrl",
-        label: "Youtube video ID",
+        label: <span className="youtube-label">
+    <img src={youtube} className="icon-youtube" alt="YouTube"/>
+    Video ID
+  </span>,
         validation: "none",
     },
 
 ]
 
-const options = [
-    {value: 'Aragatsotn', label: 'Aragatsotn'},
-    {value: 'Ararat', label: 'Ararat'},
-    {value: 'Armavir', label: 'Armavir'},
-    {value: 'Gegharkunik', label: 'Gegharkunik'},
-    {value: 'Yerevan', label: 'Yerevan'},
-    {value: 'Kotayk', label: 'Kotayk'},
-    {value: 'Shirak', label: 'Shirak'},
-    {value: 'Syunik', label: 'Syunik'},
-    {value: 'Vayots Dzor', label: 'Vayots Dzor'},
-    {value: 'Tavush', label: 'Tavush'},
-];
+const options = data
+console.log(options)
 
 function ModalCreateStore({open, onClose, stores}) {
     const dispatch = useDispatch();
@@ -182,7 +177,7 @@ function ModalCreateStore({open, onClose, stores}) {
     useEffect(() => {
         if (open) {
             if (!stores) {
-                setCity(options[4])
+                setCity(options[44])
 
             }
             (async () => {
@@ -249,8 +244,8 @@ function ModalCreateStore({open, onClose, stores}) {
     const changeCity = (city) => {
         setCity(city);
         setIsUpdate(true)
-
     }
+
     const onChangeLogo = (event) => {
         const file = event.target.files[0];
         setLogo(file)
@@ -386,7 +381,7 @@ function ModalCreateStore({open, onClose, stores}) {
                                 right: 0,
                                 margin: "auto",
                             }}>
-                                <span className="label">Region</span>
+                                <span className="label">City</span>
                                 {stores ? <div
                                     className={2 === id ? "update-pencil-active" : "update-pencil"}
                                     onClick={() => update(2)}>
@@ -402,7 +397,7 @@ function ModalCreateStore({open, onClose, stores}) {
                                     className="select"
                                     onChange={changeCity}
                                     classNamePrefix="react-select"
-                                    value={city.value ? city : options[4]}
+                                    value={city.value ? city : options[44]}
                                     getOptionValue={(o) => o.value}
                                     getOptionLabel={(o) => o.value}
                                     options={options}

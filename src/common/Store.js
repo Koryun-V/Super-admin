@@ -67,6 +67,7 @@ const Store = () => {
         dispatch(getAdmin({id}))
     }
     console.log(location)
+    console.log(statistics,"s")
     useEffect(() => {
         if (q === "statistics" || location.pathname === `/stores/${name}/${id}` && q !== "admins") {
             const start = moment(defaultStart).format('YYYY-MM-DD');
@@ -109,7 +110,7 @@ const Store = () => {
             <div className="container">
                 {q !== "admins" ?
                     <div>
-                        {status !== "ok" && statusBuyers !== "ok" && !statistics.length && !buyers.length ?
+                        {status !== "ok" || statusBuyers !== "ok" && !statistics.statistics  ?
                             <div className="container-loading">
                                 <div className="loading-block">
                                     <RotatingLines
@@ -148,44 +149,68 @@ const Store = () => {
                                     {status === "pending" || statusBuyers === "pending" ?
                                         <div className="opacity-store"></div> : null}
 
-                                    {/*<div className="total-container">*/}
-                                    {/*    <div className="total">*/}
-                                    {/*        <h4>Total Revenue*/}
-                                    {/*            - {Math.round(statisticsTotal.totalRevenue)}<FontAwesomeIcon*/}
-                                    {/*                icon={faRubleSign} className="total-icon"/></h4>*/}
-                                    {/*        <h4>Product count - {statisticsTotal.productCount}<FontAwesomeIcon*/}
-                                    {/*            icon={faCube}*/}
-                                    {/*            className="total-icon"/>*/}
-                                    {/*        </h4>*/}
-                                    {/*    </div>*/}
-                                    {/*</div>*/}
-
 
                                     <div className="totals">
                                         <div className="container-total">
                                             <div className="block-total">
-                                                <h2>Total count</h2>
-                                                <span>{statisticsTotal.productCount}<FontAwesomeIcon
-                                                    icon={faCube} className="total-icon"/></span>
+                                                <div className="title-total">
+                                                    <h2>Total product count</h2>
+                                                    <FontAwesomeIcon icon={faCube} className="total-icon-all"/>
+                                                </div>
+
+                                                <div className="total-table">
+                                                    <div className="total-all-time">
+                                                        <strong>All time</strong>
+                                                        <span>{statistics.productCountAllTime}</span>
+                                                    </div>
+                                                    <div className="hr"></div>
+                                                    <div className="total-all-time">
+                                                        <strong>With date</strong>
+                                                        <span>{statistics.totalProductPeriod}</span>
+                                                    </div>
+                                                </div>
+
                                             </div>
                                             <div className="block-total">
-                                                <h2>Total orders</h2>
-                                                <span>{statisticsTotal.totalOrders}<FontAwesomeIcon
-                                                    icon={faTruck} className="total-icon"/></span>
+                                                <div className="title-total">
+
+                                                    <h2>Total sales</h2>
+                                                    <FontAwesomeIcon icon={faCartShopping} className="total-icon-all"/>
+                                                </div>
+                                                <div className="total-table">
+                                                    <div className="total-all-time">
+                                                        <strong>All time</strong>
+                                                        <span>{statistics.totalProductsSoldAllTime}</span>
+                                                    </div>
+                                                    <div className="hr"></div>
+                                                    <div className="total-all-time">
+                                                        <strong>With date</strong>
+                                                        <span>{statistics.totalProductsSoldPeriod}</span>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div className="block-total">
-                                                <h2>Total revenue</h2>
-                                                <span>{statisticsTotal.totalRevenue}
-                                                    <FontAwesomeIcon icon={faDollarSign} className="total-icon"/></span>
+                                                <div className="title-total">
+
+                                                    <h2>Total revenue</h2>
+                                                    <FontAwesomeIcon icon={faDollarSign} className="total-icon-all"/>
+                                                </div>
+                                                <div className="total-table">
+                                                    <div className="total-all-time">
+                                                        <strong>All time</strong>
+                                                        <span>{statistics.totalRevenueAllTime}</span>
+                                                    </div>
+                                                    <div className="hr"></div>
+                                                    <div className="total-all-time">
+                                                        <strong>With date</strong>
+                                                        <span>{statistics.totalRevenuePeriod}</span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div className="block-total">
-                                                <h2>Total sales</h2>
-                                                <span>{statisticsTotal.totalSales}<FontAwesomeIcon
-                                                    icon={faCartShopping} className="total-icon"/></span>
-                                            </div>
+
                                         </div>
                                     </div>
-                                    <Statistics data={statistics} name={statisticsTotal.storeId}/>
+                                    <Statistics data={statistics.statistics} />
                                     <div className="buyers">
                                         <div className="buyers-header">
                                             <div className="title">

@@ -20,7 +20,6 @@ const Home = () => {
     defaultStart.setMonth(defaultStart.getMonth() - 1);
 
 
-    console.log(query,"query")
     useEffect(() => {
         if (startDate && endDate) {
             dispatch(getStatisticsAll({startDate, endDate}));
@@ -28,6 +27,8 @@ const Home = () => {
             dispatch(getStatisticsAll({}))
         }
     }, [startDate, endDate]);
+
+    console.log(statistics,"a")
 
     return (
         <div className="section">
@@ -80,6 +81,7 @@ const Home = () => {
                             <div className={status === "pending" ? "disabled-dashboard" : "dashboard"}>
                                 {status === "pending" ? <div className="opacity-store"></div> :
                                     null}
+
                                 <div className="totals">
                                     <div className="container-total">
                                         <div className="block-total">
