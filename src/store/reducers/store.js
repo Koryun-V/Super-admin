@@ -28,6 +28,7 @@ export const store = createReducer(initialState, (builder) => {
         .addCase(getStores.rejected, (state) => {
             state.status = "error"
         })
+        //-----------------------------------------------------------------------------------
         .addCase(createStore.pending, (state) => {
             state.statusCreate = "pending";
         })
@@ -37,6 +38,7 @@ export const store = createReducer(initialState, (builder) => {
         .addCase(createStore.rejected, (state, {payload}) => {
             state.statusCreate = "error";
         })
+        //-----------------------------------------------------------------------------------
         .addCase(updateStore.pending, (state) => {
             state.statusCreate = "pending";
         })
@@ -46,7 +48,7 @@ export const store = createReducer(initialState, (builder) => {
         .addCase(updateStore.rejected, (state, {payload}) => {
             state.statusCreate = "error";
         })
-
+        //-----------------------------------------------------------------------------------
         .addCase(deleteStores.pending, (state) => {
             state.statusDelete = "pending";
         })
@@ -56,6 +58,7 @@ export const store = createReducer(initialState, (builder) => {
         .addCase(deleteStores.rejected, (state, {payload}) => {
             state.statusDelete = "error";
         })
+        //-----------------------------------------------------------------------------------
         .addCase(setStatusCreate, (state, {payload}) => {
             state.statusCreate = payload
         })

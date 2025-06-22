@@ -19,6 +19,7 @@ const Input = ({
                    classNameLabel,
                    style,
                    disabled,
+                   onFocus,
 
                }) => {
     const [eye, setEye] = useState(faEyeSlash)
@@ -34,17 +35,25 @@ const Input = ({
                     onBlur={onBlur}
                     id={id}
                     autoComplete={autoComplete}
-                    type={(name === "password" || type === "password") && eye === faEyeSlash ?
-                        "password" : name === "repeatPassword"
-                        && eye === faEyeSlash ? "password" : name === "logo" ? "file" : "text"}
+                    type={
+                        (name === "password" || type === "password") && eye === faEyeSlash
+                            ? "password"
+                            : name === "repeatPassword" && eye === faEyeSlash
+                                ? "password"
+                                : name === "logo"
+                                    ? "file"
+                                    : "text"
+                    }
                     maxLength={maxLength}
                     className={className}
                     placeholder={placeholder}
-                    value={value}
+                    value={name === "logo" ? undefined : value}
                     onChange={onChange}
                     disabled={status === "pending" || status === "ok" || disabled}
-                    accept=".jpg, .jpeg, .png"
+                    accept={name === "logo" ? ".jpg, .jpeg, .png" : undefined}
+                    onFocus={onFocus}
                 />
+
 
                 {name === "password" || name === "repeatPassword" || type === "password"
                     // && user[field.name].length
@@ -53,16 +62,11 @@ const Input = ({
                         onClick={() => {
                             setEye(eye === faEye
                                 ? faEyeSlash : faEye)
-                            // inputRef.current.focus()
-
                         }
                         } icon={eye}
-                        // style={{color: focus ? "#0098FF" : "black"}}
                         className="eye"/> : null}
             </div>
         </>
-
-
     );
 };
 

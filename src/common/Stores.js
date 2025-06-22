@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {getStores, setStoreId, setStores} from "../store/actions/store";
+import {getStores} from "../store/actions/store";
 import {useDispatch, useSelector} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlus, faSquarePen, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {Link} from "react-router-dom";
 import ModalCreateStore from "./Modal/ModalCreateStore";
 import ModalDeleteStore from "./Modal/ModalDeleteStore";
-import {RotatingLines, TailSpin} from "react-loader-spinner";
-import DateP from "./DateP";
+import {RotatingLines} from "react-loader-spinner";
 import {setBuyers, setStatistics} from "../store/actions/statistics";
+import {setAdmin} from "../store/actions/admin";
 
 const Stores = () => {
     const dispatch = useDispatch();
@@ -20,26 +20,20 @@ const Stores = () => {
     const [indexD, setIndexD] = useState("")
     const [store, setStore] = useState("")
     const [id, setId] = useState("")
-    const [length, setLength] = useState(false)
+
 
     useEffect(() => {
         dispatch(setStatistics([]))
         dispatch(setBuyers([]))
+        dispatch(setAdmin([]))
         dispatch(getStores())
     }, []);
-
-
-    useEffect(() => {
-        if (stores.length > 0) {
-            return setLength(true)
-        }
-    }, [stores.length]);
-
 
     const update = (index) => {
         setIsOpen(true)
         setIndexS(index)
     }
+
     const deleteStore = (id, name, index) => {
         setIsOpenDelete(true)
         setId(id)
@@ -48,23 +42,19 @@ const Stores = () => {
     }
 
 
+
     return (
         <div className="section">
-
-            <div className="container">
-                <div className="store-header">
-                    <div className="nav-store">
-                        <div className="title-change">
-                            <div className="title">
-                                <h1>Stores</h1>
-                            </div>
+            <div className="store-header">
+                <div className="nav-store">
+                        <div className="title">
+                            <h1>Stores</h1>
                         </div>
-                    </div>
                 </div>
-
+            </div>
+            <div className="container">
                 <div>
                     {status !== "ok" && !stores.length ?
-
                         <div className="container-loading">
                             <div className="loading-block">
                                 <RotatingLines
@@ -99,15 +89,13 @@ const Stores = () => {
                                     </div>
                                 </div>
                                 : null}
-
                             <div className="store-container">
                                 {stores.map((store, index) => (
-                                    <div
+                                    <div key={store.id}
                                         className={status === "pending" ? "disabled-store" : indexS === index || indexD === index ? "active-store" : "store"}>
                                         {status === "pending" ? <div className="opacity-store"></div> :
                                             <Link to={`/stores/${store.name}/${store.id}`}
                                                   className="store-link"></Link>}
-
                                         <div
                                             className={indexS === index || indexD === index ? "tool-container-active" : "tool-container"}>
                                             <div className={indexS === index ? "tool active-pencil" : "tool pencil"}
@@ -137,8 +125,6 @@ const Stores = () => {
                     }
                 </div>
             </div>
-            {/*<Statistics/>*/
-            }
 
             <ModalCreateStore
                 stores={stores[indexS]}
@@ -158,8 +144,7 @@ const Stores = () => {
             }}
             />
         </div>
-    )
-        ;
+    );
 };
 
 export default Stores;

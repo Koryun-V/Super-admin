@@ -13,7 +13,6 @@
   background: #1a1c24;
   width: auto;
 
-
   .close {
     width: 100%;
     height: 50px;
@@ -23,7 +22,7 @@
     border-radius: 5px 5px 0 0;
     border-bottom: 2px solid $interfaceColor;
 
-    .title{
+    .title {
       width: 100%;
       color: $interfaceColor;
 
@@ -78,7 +77,6 @@
   flex-direction: column;
   padding: 15px;
 
-
   .container-modal {
     display: flex;
     flex-direction: column;
@@ -88,13 +86,11 @@
     justify-content: center;
     align-items: center;
 
-
     form {
       width: auto;
       height: auto;
       position: relative;
       display: flex;
-      align-items: center;
       justify-content: space-between;
       gap: 20px;
       flex-wrap: wrap;
@@ -130,13 +126,19 @@
 
 .field-block:nth-child(3) {
   width: 150px;
+  opacity: 0.6;
 }
 
-.field-block:nth-child(4) {
+.field-block:nth-child(8) {
+  width: 150px;
+}
+
+.field-block:nth-child(4){
   width: 150px;
   height: 178px;
   position: absolute;
   right: 0;
+  top: 96px;
 
   input {
     height: 150px;
@@ -147,23 +149,30 @@
   }
 
   .custom-input {
-    height: 150px;
+    height: 144px;
     width: 100%;
     padding: 0;
     cursor: pointer;
     position: absolute;
-    border: 2px solid #454752;
+    border: 2px solid transparent;
     top: 29px;
     background: #454752;
     border-radius: 5px;
     transition: 0.2s all;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  }
+
+  .custom-input:focus {
+    border: 2px solid $interfaceColor
   }
 
   .visual-logo {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 5px;
+    border-radius: 3px;
   }
 
   .image-plus {
@@ -197,25 +206,23 @@
         font-size: 50px;
       }
     }
-
   }
 }
 
-.custom-input:active {
-  border: 2px solid $interfaceColor
-}
-.disabled-custom-input{
-  height: 150px;
+.disabled-custom-input {
+  height: 144px;
   width: 100%;
   padding: 0;
   position: absolute;
-  border: 2px solid #454752;
+  border: 2px solid transparent;
   top: 29px;
   background: #454752;
   border-radius: 5px;
   transition: 0.2s all;
+  justify-content: center;
+  align-items: center;
+  display: flex;
 }
-
 
 .update-pencil {
   position: absolute;
@@ -288,7 +295,6 @@
   }
 }
 
-
 .buttons {
   width: 100%;
   display: flex;
@@ -312,7 +318,6 @@
     button:active {
       background: #a10000;
     }
-
   }
 
   .no-delete-button {
@@ -329,7 +334,6 @@
   opacity: 0.7;
   background: #1a1c24;
   transition: 0.2s all;
-
 }
 
 .create-loading-span {
@@ -339,6 +343,7 @@
   z-index: 25;
   color: $interfaceColor;
   margin-bottom: 70px;
+  text-align: center;
 }
 
 .delete-loading {
@@ -349,7 +354,6 @@
   opacity: 0.7;
   background: #1a1c24;
   transition: 0.2s all;
-
 }
 
 .delete-loading-span {
@@ -361,4 +365,141 @@
   margin-bottom: 70px;
 }
 
+.select {
+  z-index: 15;
+  font-family: "PoppinsMedium", 'sans-serif';
 
+  .react-select__control {
+    height: 47px;
+    margin-top: 5px;
+    cursor: pointer;
+    background: #454752;
+    border:none;
+
+    .react-select__single-value{
+      color: white;
+    }
+  }
+
+  .react-select__control--is-focused {
+    border-color: $interfaceColor;
+    box-shadow: 0 0 0 2px $interfaceColor;
+  }
+
+  .react-select__menu {
+    cursor: pointer;
+    background: #454752;
+    color:white;
+
+    .react-select__menu-list {
+      cursor: pointer;
+      &::-webkit-scrollbar {
+        width: 5px;
+        border-radius: 10px;
+      }
+
+      /* Track */
+      &::-webkit-scrollbar-track {
+        background: #0a0a0d;
+        border-radius: 10px;
+      }
+
+      /* Handle */
+      &::-webkit-scrollbar-thumb {
+        background: $interfaceColor;
+        border-radius: 10px;
+      }
+
+      /* Handle on hover */
+      &::-webkit-scrollbar-thumb:hover {
+        background: #04a504;
+      }
+
+      .react-select__option {
+        cursor: pointer;
+        transition: 0.2s all;
+      }
+
+      .react-select__option--is-focused {
+        background: #5d5f6b;
+      }
+
+      .react-select__option--is-selected {
+        background: #0a0a0d;
+      }
+    }
+  }
+}
+.category-image{
+  width: 150px;
+  height: 178px;
+  position: relative;
+
+  input {
+    height: 150px;
+    width: 100%;
+    padding: 0;
+    cursor: pointer;
+    display: none;
+  }
+
+  .custom-input {
+    height: 144px;
+    width: 100%;
+    padding: 0;
+    cursor: pointer;
+    position: absolute;
+    border: 2px solid transparent;
+    top: 29px;
+    background: #454752;
+    border-radius: 5px;
+    transition: 0.2s all;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  }
+
+  .custom-input:focus {
+    border: 2px solid $interfaceColor
+  }
+
+  .visual-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 3px;
+  }
+
+  .image-plus {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    color: #1a1c24;
+
+    .image-icon {
+      font-size: 100px;
+    }
+
+    .image-plus-icon-block {
+      position: absolute;
+      width: 70px;
+      height: 70px;
+      top: 0;
+      left: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #454752;
+      border-radius: 50px;
+      padding: 10px;
+
+      .image-plus-icon {
+        position: absolute;
+        font-size: 50px;
+      }
+    }
+  }
+}

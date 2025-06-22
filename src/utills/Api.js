@@ -1,145 +1,169 @@
 import axios from "axios";
 
-
 const api = axios.create({
+    baseURL: "https://world-of-construction.onrender.com",
     headers: {
         "Content-Type": "application/json",
-        "Authorization": localStorage.getItem("token"),
-
     },
+});
 
-    baseURL: "https://world-of-construction.onrender.com"
-})
-const token = localStorage.getItem("token");
-
+api.interceptors.request.use(config => {
+    const token = localStorage.getItem("token");
+    if (token) {
+        config.headers.Authorization = token;
+    }
+    return config;
+});
 
 export default class Api {
     static loginUser({email, password}) {
         return api.post(`/users/login`, {email, password});
     }
 
+    static forgotPasswordUser({email}) {
+        return api.post(`/users/forgot/password`, {email});
+    }
+
+    static changePasswordUser({newPassword, key}) {
+        return api.put(`/users/update/password`, {newPassword, key});
+    }
+
+    static resendCode({email}) {
+        return api.post(`/users/resend-code`, {email});
+    }
+
     static getUser() {
-        return api.get(`/users/profile`, {
-            headers: {
-                Authorization: `${token}`
+        return api.get(`/users/profile`);
+    }
+
+    static updateAdminInfo({firstName, lastName, gender, avatar}) {
+        return api.put(`/users/update`, {
+                firstName,
+                lastName,
+                gender,
+                avatar,
+                dateOfBirth: "2000-01-01",
+                address: "super-admin@example.com",
+            },
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                }
             }
-        });
+        );
+    }
+
+    static changePassword({newPassword}) {
+        return api.put(`/users/password`, {newPassword});
+    }
+
+    static deleteAdminAvatar() {
+        return api.delete(`/users/delete-avatar`);
     }
 
     static getStores() {
-        return api.get(`/superAdmin/stores`, {
-            headers: {
-                Authorization: `${token}`
-            }
-        })
+        return api.get(`/super-admin/stores`);
     }
+    static getCategories() {
 
-    static getStatistics({id, startDate, endDate}) {
-        return api.get(`/superAdmin/statistics/${id}`, {
-            params: {
-                startDate,
-                endDate,
-            },
-            headers: {
-                Authorization: `${token}`
-            }
-        })
-    }
-
-    static getBuyers({id, startDate, endDate}) {
-        return api.get(`/superAdmin/stores/${id}/buyers`, {
-            params: {
-                startDate,
-                endDate,
-            },
-            headers: {
-                Authorization: `${token}`
-            }
-        })
-    }
-
-    static createStore({name, city, country, latitude, longitude, logo}) {
-        console.log(logo, "test")
-        return api.post("superAdmin/stores/create",
-            {
-                name,
-                logo,
-                location: {
-                    city,
-                    country,
-                    latitude,
-                    longitude,
-                }
-            },
-            {
-                headers: {
-                    "Authorization": localStorage.getItem("token"),
-                    "Content-Type": "multipart/form-data",
-                }
-            })
-    }
-
-    static updateStore({id, name, city, country, latitude, longitude, logo}) {
-        return api.put(`superAdmin/stores/${id}`,
-            {
-                name,
-                logo,
-                location: {
-                    city,
-                    country,
-                    latitude,
-                    longitude,
-                }
-            },
-            {
-                headers: {
-                    "Authorization": localStorage.getItem("token"),
-                    "Content-Type": "multipart/form-data",
-                }
-            })
-    }
-
-    static deleteStores(id) {
-        console.log(id, "errrrrrrrrrr")
-        return api.delete(`superAdmin/stores/${id}`,
-            {
-                headers: {
-                    "Authorization": localStorage.getItem("token"),
-                }
-            })
-    }
-
-    static getAdmin({id}) {
-        return api.get(`/superAdmin/stores/admins/${id}`, {
-            headers: {
-                Authorization: `${token}`
+        return api.get(`/categories/list`,{
+            params:{
+                page: 1,
+                limit: 50,
             }
         });
     }
+
+    static getStatisticsAll({startDate, endDate}) {
+        return api.get(`/super-admin/stores/all-statistics`, {
+            params: {startDate, endDate}
+        });
+    }
+
+    static getStatistics({id, startDate, endDate}) {
+        return api.get(`/super-admin/statistics/${id}`, {
+            params: {startDate, endDate}
+        });
+    }
+
+    static getBuyers({id, startDate, endDate}) {
+        return api.get(`/super-admin/stores/${id}/buyers`, {
+            params: {startDate, endDate}
+        });
+    }
+
+    static createStore({name, city, country, latitude, longitude, webSiteUrl, videoUrl, about, logo}) {
+        return api.post(`super-admin/stores/create`, {
+            name,
+            webSiteUrl,
+            videoUrl,
+            about,
+            logo,
+            location: {
+                city,
+                country,
+                latitude,
+                longitude,
+            }
+        }, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            }
+        });
+    }
+    static createCategory({name, categoryImage}) {
+        return api.post(`super-admin/create-category`, {
+            name,
+            categoryImage,
+        }, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            }
+        });
+    }
+    static deleteCategory(id) {
+        return api.delete(`super-admin/delete-category/${id}`);
+    }
+
+    static updateStore({id, name, city, country, latitude, longitude,webSiteUrl,videoUrl,about, logo}) {
+        return api.put(`super-admin/stores/${id}`, {
+            name,
+            webSiteUrl,
+            videoUrl,
+            about,
+            logo,
+            location: {
+                city,
+                country,
+                latitude,
+                longitude,
+            }
+        }, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            }
+        });
+    }
+
+    static deleteStores(id) {
+        return api.delete(`super-admin/stores/${id}`);
+    }
+
+    static getAdmin({id}) {
+        return api.get(`/super-admin/stores/admins/${id}`);
+    }
+
     static createAdmin({email, storeId}) {
-        return api.post(`/superAdmin/stores/assign-user`, {
-                email,
-                storeId,
-            },
-            {
-                headers: {
-                    Authorization: `${token}`
-                }
-            }
-        );
+        return api.post(`/super-admin/stores/assign-user`, {email, storeId});
     }
+
     static removeAdmin({adminId, storeId}) {
-        return api.put(`/superAdmin/remove-admin`, {
-                adminId,
-                storeId,
-            },
-            {
-                headers: {
-                    Authorization: `${token}`
-                }
-            }
-        );
+        return api.put(`/super-admin/remove-admin`, {adminId, storeId});
     }
 
+    static getUsers({limit, page, role}) {
+        return api.get(`/super-admin/all-users`, {
+            params: {limit, page, role},
+        });
+    }
 }
-

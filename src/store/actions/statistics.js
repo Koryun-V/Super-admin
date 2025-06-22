@@ -1,6 +1,17 @@
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
 import api from "../../utills/Api";
 
+export const getStatisticsAll = createAsyncThunk(
+    "get-all/statistics",
+    async (payload, thunkAPI) => {
+        try {
+            const {data} = await api.getStatisticsAll(payload);
+            return data
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error)
+        }
+    }
+);
 
 export const getStatistics = createAsyncThunk(
     "get/statistics",
@@ -13,6 +24,7 @@ export const getStatistics = createAsyncThunk(
         }
     }
 );
+
 export const getBuyers = createAsyncThunk(
     "get/buyers",
     async (payload, thunkAPI) => {
@@ -24,10 +36,6 @@ export const getBuyers = createAsyncThunk(
         }
     }
 );
-
-
-
-
 
 
 export const setStatus = createAction(

@@ -13,6 +13,7 @@ export const getAdmin = createAsyncThunk(
         }
     }
 );
+
 export const createAdmin = createAsyncThunk(
     "create/admins",
     async (payload, thunkAPI) => {
@@ -20,12 +21,12 @@ export const createAdmin = createAsyncThunk(
             const {data} = await api.createAdmin(payload);
             return data
         } catch (error) {
-            console.log(error,"sssssssss")
             return thunkAPI.rejectWithValue(error)
 
         }
     }
 );
+
 export const removeAdmin = createAsyncThunk(
     "remove/admin",
     async (payload, thunkAPI) => {
@@ -41,6 +42,9 @@ export const removeAdmin = createAsyncThunk(
 
 export const setStatus = createAction(
     "admins/status",
+)
+export const setAdmin = createAction(
+    "set/admins",
 )
 export const setStatusCreate = createAction(
     "create/status",

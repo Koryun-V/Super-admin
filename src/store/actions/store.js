@@ -24,6 +24,7 @@ export const createStore = createAsyncThunk(
         }
     }
 )
+
 export const updateStore = createAsyncThunk(
     "update/store", async (payload, thunkAPI) => {
         try {
@@ -34,6 +35,7 @@ export const updateStore = createAsyncThunk(
         }
     }
 )
+
 export const deleteStores = createAsyncThunk(
     "delete/store", async (payload, thunkAPI) => {
         try {
@@ -46,13 +48,9 @@ export const deleteStores = createAsyncThunk(
 )
 
 
-
-
-
 export const setStoreId = createAction(
     "id/store",
 )
-
 export const setStatus = createAction(
     "login/status",
 )

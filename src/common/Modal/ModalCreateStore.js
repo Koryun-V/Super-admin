@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import ReactDom from "react-dom";
 import PropTypes from "prop-types";
 import {useDispatch, useSelector} from "react-redux";
@@ -8,9 +8,12 @@ import {createStore, getStores, setStatusCreate, updateStore} from "../../store/
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faImage, faPlus, faSquarePen} from "@fortawesome/free-solid-svg-icons";
 import _ from "lodash"
-
 import {ReactComponent as Close} from "../../assets/icon/close-x.svg"
 import {flattenObject} from "../mini/Obj";
+import {useQuery} from "../../utills/hooks/useQuery";
+import Select from 'react-select';
+import data from "../staticData/data.json"
+import youtube from "../../assets/icon/youtube.png"
 
 
 const fields = [
@@ -18,25 +21,21 @@ const fields = [
         id: 1,
         name: "name",
         label: "Name",
-        validation: /^[a-zA-Z0-9][a-zA-Z0-9()., ]*$/
-        ,
-    },
-    {
-        id: 2,
-        name: "city",
-        label: "City",
-        validation: /^(?=.*[a-zA-Z])[a-zA-Z0-9]+$/,
+        validation: /^(?=.*[A-Za-z])[A-Za-z0-9.-]+(?: [A-Za-z0-9.-]+)?$/,
+        maxLength: "20",
     },
     {
         id: 3,
         name: "country",
         label: "Country",
-        validation: /^(?=.*[a-zA-Z])[a-zA-Z0-9]+$/,
+        validation: "none"
     },
     {
         id: 4,
         name: "logo",
         label: "Logo",
+        validation: "none",
+
     },
     {
         id: 5,
@@ -50,39 +49,58 @@ const fields = [
         label: "Longitude",
         validation: /^\d*\.?\d+$/,
     },
-
+    {
+        id: 7,
+        name: "webSiteUrl",
+        label: "Web site",
+        validation: "none",
+    },
+    {
+        id: 8,
+        name: "videoUrl",
+        label: <span className="youtube-label">
+    <img src={youtube} className="icon-youtube" alt="YouTube"/>
+    Video ID
+  </span>,
+        validation: "none",
+    },
 ]
 
+const options = data
 
 function ModalCreateStore({open, onClose, stores}) {
     const dispatch = useDispatch();
+    const status = useSelector(state => state.store.status)
+    const statusCreate = useSelector(state => state.store.statusCreate);
+    const selectRef = useRef(null);
 
     const [store, setStore] = useState({
         name: "",
-        city: "",
-        country: "",
+        country: "Armenia",
         latitude: "",
         longitude: "",
+        webSiteUrl: "",
+        videoUrl: "",
+        about: ""
     })
-
+    const [city, setCity] = useState({})
+    const {query, setQuery} = useQuery();
+    const {q} = query
     const [isStore, setIsStore] = useState(false)
     const [id, setId] = useState("")
     const [logo, setLogo] = useState({});
     const [visualLogo, setVisualLogo] = useState("");
     const [inputName, setInputName] = useState([]);
     const [isCreate, setIsCreate] = useState(false);
-    const statusCreate = useSelector(state => state.store.statusCreate);
     const [isLogo, setIsLogo] = useState(false);
-    const status = useSelector(state => state.store.status)
     const [isUpdate, setIsUpdate] = useState(false)
+    const inputRef = useRef(null)
     const [storeInfo, setStoreInfo] = useState({
         value: "",
         title: ""
     })
-    const [statusEnd, setStatusEnd] = useState("");
     const {value, title} = storeInfo
-
-    const {name, city, country, latitude, longitude} = store
+    const {name, country, latitude, longitude, webSiteUrl, videoUrl, about} = store
 
     const scrollModal = () => {
         document.body.style.removeProperty('overflow');
@@ -97,35 +115,38 @@ function ModalCreateStore({open, onClose, stores}) {
         }
     }, []);
 
+
     useEffect(() => {
         if (stores && status === "ok") {
             setIsStore(true);
             setStore(flattenObject(stores))
+            setCity({
+                value: stores.location.city,
+                label: stores.location.city,
+            })
         } else {
             setIsStore(false)
+
         }
     }, [status, stores]);
 
     useEffect(() => {
-        if (status === "pending" || statusCreate === "pending") {
-            setStatusEnd("pending");
-        } else {
-            setStatusEnd("");
-        }
-    }, [statusCreate, status]);
-    useEffect(() => {
         inputName.forEach((item) => {
             if (item === title && value.length) {
-                test()
+                test();
             }
-        })
-        let log = stores ? logo : visualLogo
-        if (name && city && country && log && latitude && longitude && !inputName.length) {
-            setIsCreate(true)
+        });
+
+        let log = stores ? logo : visualLogo;
+        const isAllFilled = name && city && country && log && latitude && longitude && webSiteUrl && videoUrl && about;
+        const hasErrors = inputName.length > 0;
+
+        if (isAllFilled && !hasErrors) {
+            setIsCreate(true);
         } else {
-            setIsCreate(false)
+            setIsCreate(false);
         }
-    }, [store, inputName.length, visualLogo]);
+    }, [store, inputName.length, visualLogo, isCreate, about]);
 
     useEffect(() => {
         if (statusCreate === "ok") {
@@ -142,8 +163,13 @@ function ModalCreateStore({open, onClose, stores}) {
         return () => clearTimeout(time)
 
     }, [statusCreate, status]);
+
     useEffect(() => {
         if (open) {
+            if (!stores) {
+                setCity(options[44])
+
+            }
             (async () => {
                 try {
                     document.body.style.width = ` ${document.body.getBoundingClientRect().width}px`
@@ -159,12 +185,15 @@ function ModalCreateStore({open, onClose, stores}) {
             stores = []
             dispatch(setStatusCreate(""))
             scrollModal()
+            setCity({})
             setStore({
                 name: "",
-                city: "",
-                country: "",
+                country: "Armenia",
                 latitude: "",
                 longitude: "",
+                webSiteUrl: "",
+                videoUrl: "",
+
             })
             setStoreInfo({
                 value: "",
@@ -175,11 +204,10 @@ function ModalCreateStore({open, onClose, stores}) {
             setIsCreate(false)
             setLogo({})
             setVisualLogo("")
-            setStatusEnd("")
             setId("")
             setIsLogo(false)
         }
-    }, [open]);
+    }, [open, q]);
 
     const onChange = (event) => {
         let v = event.target.value;
@@ -203,6 +231,10 @@ function ModalCreateStore({open, onClose, stores}) {
         }
         setIsUpdate(true)
     };
+    const changeCity = (city) => {
+        setCity(city);
+        setIsUpdate(true)
+    }
 
     const onChangeLogo = (event) => {
         const file = event.target.files[0];
@@ -217,44 +249,96 @@ function ModalCreateStore({open, onClose, stores}) {
         setIsUpdate(true)
         return setIsLogo(true)
     }
-
+    const onChangeTextarea = (event) => {
+        let v = event.target.value;
+        let n = event.target.name;
+        // if (v.length > 300) return false
+        setStore((prevState) => ({
+            ...prevState,
+            [n]: v
+        }));
+        setStoreInfo({value: v, title: n});
+        setIsUpdate(true)
+    }
     const test = () => {
-        fields.forEach(({validation, name, id}) => {
-                if (name === title) {
-                    let test = name !== "logo" ? validation.test(value) : null
-                    if (test === false || !value.length) {
-                        setInputName((prevState) => (_.uniq([...prevState, title])))
-                    } else {
-                        const filter = inputName.filter(item => item !== title);
-                        setInputName(filter)
+        let newInputName = [...inputName];
+        if (title === "about") {
+            if (!store.about.length) {
+                if (!newInputName.includes("about")) {
+                    newInputName.push("about");
+                }
+            } else {
+                newInputName = newInputName.filter(item => item !== "about");
+            }
+        }
+        fields.forEach(({validation, name}) => {
+            if (name === title) {
+                let isValid = validation !== "none" ? validation.test(value) : true;
+                if (!isValid || !value.length) {
+                    if (!newInputName.includes(name)) {
+                        newInputName.push(name);
                     }
+                } else {
+                    newInputName = newInputName.filter(item => item !== name);
                 }
             }
-        )
+        });
+        setInputName(_.uniq(newInputName));
+        return newInputName.length > 0;
     }
 
-
     const create = (e) => {
+        e.preventDefault();
+        const hasErrors = test();
+        setId("")
+        if (hasErrors) {
+            return;
+        }
         if (isCreate) {
-            e.preventDefault();
             if (isStore) {
-                dispatch(updateStore({id: stores.id, name, city, country, latitude, longitude, logo}))
+                dispatch(updateStore({
+                    id: stores.id,
+                    name,
+                    city: city.value,
+                    country,
+                    latitude,
+                    longitude,
+                    webSiteUrl,
+                    videoUrl,
+                    about,
+                    logo
+                }));
             } else {
-                dispatch(createStore({name, city, country, latitude, longitude, logo}))
+                dispatch(createStore({
+                    name,
+                    city: city.value,
+                    country,
+                    latitude,
+                    longitude,
+                    webSiteUrl,
+                    videoUrl,
+                    about,
+                    logo
+                }));
             }
         }
     }
+
     const update = async (id) => {
         await setId(id)
-        if (id === 4) {
+        if (id === 2 && selectRef.current) {
+            selectRef.current.focus()
+            selectRef.current.onMenuOpen()
 
         }
         await document.getElementById(id).focus();
     }
+
+
     if (!open) return null
     return ReactDom.createPortal(
         <div id="modal">
-            <div onClick={onClose} className="shadow">
+            <div className="shadow">
             </div>
             <div id="modal_window">
                 <div className="close">
@@ -270,27 +354,52 @@ function ModalCreateStore({open, onClose, stores}) {
                         justifyContent: "center",
                         alignItems: "center",
                     }}>
-                        {statusEnd === "pending" || statusCreate === "ok" && status === "ok" ?
-                            <div className="create-loading"></div> : null}
-
+                        {statusCreate !== "" && status !== "" ? <div className="create-loading"></div> : null}
                         {statusCreate === "ok" && status === "ok" ?
-                            <span className="create-loading-span">{stores ? "Store updated" : "Store created"}</span>
-                            :
-                            statusEnd === "pending" ?
+                            <span
+                                className="create-loading-span">{stores ? "Store updated" : "Store created"}</span> :
+                            statusCreate === "pending" || status === "pending" ?
                                 <span
                                     className="create-loading-span">{stores ? "The store is updating..." : "Creating the store..."}</span>
                                 : null}
 
-
                         <form onSubmit={create}>
+                            <div className="field-block" style={{
+                                position: "absolute",
+                                left: 0,
+                                right: 0,
+                                margin: "auto",
+                            }}>
+                                <span className="label">City</span>
+                                {stores ? <div
+                                    className={2 === id ? "update-pencil-active" : "update-pencil"}
+                                    onClick={() => update(2)}>
+                                    <FontAwesomeIcon icon={faSquarePen}
+                                                     className={"update-pencil-icon"}/>
+                                </div> : null}
+                                <Select
+                                    // defaultValue={options[0]}
+                                    isDisabled={stores && id !== 2}
+                                    ref={selectRef}
+                                    onBlur={() => setId("")}
+                                    id="2"
+                                    className="select"
+                                    onChange={changeCity}
+                                    classNamePrefix="react-select"
+                                    value={city.value ? city : options[44]}
+                                    getOptionValue={(o) => o.value}
+                                    getOptionLabel={(o) => o.value}
+                                    options={options}
+                                    isSearchable={false}
+                                    // menuIsOpen
+                                />
+                            </div>
+
                             {fields.map((field) => (
                                 <div key={field.id} className="field-block">
                                     {stores ?
-
-
                                         <>
                                             {field.id === 4 ?
-
                                                 <label htmlFor="4"
                                                        className={field.id === id ? "update-pencil-active" : "update-pencil"}
                                                        onClick={() => update(field.id)}>
@@ -298,39 +407,54 @@ function ModalCreateStore({open, onClose, stores}) {
                                                                      className={"update-pencil-icon"}/>
                                                 </label>
                                                 :
-                                                <div
-                                                    className={field.id === id ? "update-pencil-active" : "update-pencil"}
-                                                    onClick={() => update(field.id)}>
-                                                    <FontAwesomeIcon icon={faSquarePen}
-                                                                     className={"update-pencil-icon"}/>
-                                                </div>}
+                                                field.name === "country" ? null
+                                                    :
+                                                    <div
+                                                        className={field.id === id ? "update-pencil-active" : "update-pencil"}
+                                                        onClick={() => update(field.id)}>
+                                                        <FontAwesomeIcon icon={faSquarePen}
+                                                                         className={"update-pencil-icon"}/>
+                                                    </div>
+
+                                            }
                                         </>
-
                                         :
-
-
                                         null}
+
                                     <Input
-                                        disabled={stores && id !== field.id}
+                                        maxLength={field.maxLength}
+                                        inputRef={inputRef}
+                                        disabled={stores && id !== field.id || field.name === "country"}
                                         key={field.id}
                                         name={field.name}
                                         className={inputName.includes(field.name) ? "input-error" : "input"}
                                         classNameLabel="label"
                                         {...field}
+
                                         onBlur={() => {
                                             test()
                                             setId("")
                                         }}
-                                        onChange={field.name === "logo" ? onChangeLogo : onChange}
+                                        onChange={field.name === "logo" ? onChangeLogo : field.name === "country" ? null : onChange}
                                         value={store[field.name]}
-                                        // type={field.name === "password" && eye === faEyeSlash ? "password" : "text"}
                                         id={field.id}
                                         label={field.label}
+                                        status={statusCreate}
                                     />
                                     {field.name === "logo" ?
-                                        <label className={stores ? "disabled-custom-input" : "custom-input"} style={{
-                                            border: id === 4 ? "2px solid #00d143" : "",
-                                        }}>
+                                        <label id="99"
+                                               tabIndex={0}
+                                               onBlur={() => {
+                                                   document.getElementById(99).style.borderColor = ""
+                                               }}
+                                               onClick={() =>
+                                                   document.getElementById(99).style.borderColor = "2px solid #00d143"
+
+                                               } htmlFor={stores ? "" : "4"}
+                                               className={stores ? "disabled-custom-input" : "custom-input"}
+                                               style={{
+                                                   border: id === 4 ? "2px solid #00d143" : "",
+                                               }}>
                                             {visualLogo || stores ?
                                                 <img src={stores && !isLogo ? stores.storeLogo[0].path : visualLogo}
                                                      className="visual-logo"/> :
@@ -344,6 +468,27 @@ function ModalCreateStore({open, onClose, stores}) {
                                         </label> : null}
                                 </div>
                             ))}
+
+                            <div className="about">
+                                <span className="label">About</span>
+                                {stores ? <div onClick={() => update(9)}
+                                               className={9 === id ? "update-pencil-active" : "update-pencil"}>
+                                    <FontAwesomeIcon icon={faSquarePen}
+                                                     className={"update-pencil-icon"}/>
+                                </div> : null}
+                                <textarea
+                                    value={store.about}
+                                    disabled={stores && id !== 9}
+                                    name="about"
+                                    className={inputName.includes("about") ? "textarea input-error" : "textarea input"}
+                                    onChange={onChangeTextarea} id="9"
+                                    onBlur={() => {
+                                        setId("")
+                                        test()
+                                    }}>
+                            </textarea>
+                            </div>
+
                             <div className="button-create">
                                 {stores ?
                                     <Button
@@ -351,28 +496,22 @@ function ModalCreateStore({open, onClose, stores}) {
                                         type={isCreate && isUpdate ? "submit" : "button"}
                                         disabled={!isUpdate && !isCreate}
                                         className={isUpdate && isCreate ? "active-button" : "disabled"}
-                                        onClick={create}>Update</Button> :
+                                    >Update</Button> :
                                     <Button
                                         status={isCreate && status === "pending" || statusCreate === "pending" ? "pending" : ""}
                                         type={isCreate ? "submit" : "button"}
                                         disabled={!isCreate}
                                         className={isCreate ? "active-button" : "disabled"}
-                                        onClick={create}>Create</Button>
+                                    >Create</Button>
                                 }
-
-
                             </div>
                         </form>
-
-
                     </div>
-
                 </div>
             </div>
         </div>,
         document.body
-    )
-        ;
+    );
 }
 
 ModalCreateStore.propTypes = {

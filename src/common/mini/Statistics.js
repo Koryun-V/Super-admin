@@ -11,9 +11,7 @@ import {
     Legend,
     Filler,
 } from "chart.js";
-import {lineChartData} from "./Data";
 
-// Регистрируем модули Chart.js
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -26,7 +24,6 @@ ChartJS.register(
 )
 
 
-// Плагин для фона канвы
 const backgroundColorPlugin = {
     id: 'custom_canvas_background_color',
     beforeDraw: (chart) => {
@@ -40,26 +37,25 @@ const backgroundColorPlugin = {
 };
 
 const Statistics = ({data}) => {
-
     const lineChartData = {
-        labels: data.map(item => item.interval),
+        labels: data[0].statistics.map(item => item.interval),
         datasets: [
             {
-                label: "Steps",
-                data:  data.map(item => item.totalRevenue),
+                label: data[0].storeName,
+                data: data[0].statistics.map(item => item.totalRevenue),
                 borderColor: "#00d143",
                 backgroundColor: "#009a32",
-                pointBackgroundColor:"#009a32",
-                pointBorderColor:"#0a0a0d",
-                pointBorderWidth:4,
-                pointHoverBorderWidth:10,
-                pointHoverBorderColor:"#009a32",
-                pointHoverBackgroundColor:"#009a32",
+                pointBackgroundColor: "#009a32",
+                pointBorderColor: "#0a0a0d",
+                pointBorderWidth: 4,
+                pointHoverBorderWidth: 10,
+                pointHoverBorderColor: "#009a32",
+                pointHoverBackgroundColor: "#009a32",
                 pointStyle: 'circle',
                 pointRadius: 8,
                 pointHoverRadius: 10,
                 fill: {
-                    target: "origin", // 3. Set the fill options
+                    target: "origin",
                     above: "rgba(0,255,5,0.3)"
 
                 }
@@ -68,15 +64,7 @@ const Statistics = ({data}) => {
         ]
     }
     const options = {
-        // onHover: (event, chartElement) => {
-        //     if (chartElement.length > 0) {
-        //         event.native.target.style.cursor = 'pointer';
-        //     } else {
-        //         event.native.target.style.cursor = 'default';
-        //     }
-        // },
         maintainAspectRatio: false,
-        // pointBorderWidth:10,
         responsive: true,
         layout: {
             padding: 50,
@@ -87,7 +75,7 @@ const Statistics = ({data}) => {
                     color: '#5d5f6b',
                 },
                 ticks: {
-                    font:{
+                    font: {
                         size: 16,
                     },
                     color: 'white',
@@ -99,7 +87,7 @@ const Statistics = ({data}) => {
                     color: '#5d5f6b',
                 },
                 ticks: {
-                    font:{
+                    font: {
                         size: 16,
                     },
                     color: 'white',
@@ -110,22 +98,21 @@ const Statistics = ({data}) => {
 
             tooltip: {
                 bodyFontSize: 14,
-                padding:10,
-                titleMarginLeft:4,
-                boxPadding:10,
-                titleFont:{
-                    size:16,
+                padding: 10,
+                titleMarginLeft: 4,
+                boxPadding: 10,
+                titleFont: {
+                    size: 16,
                 },
-                bodyFont:{
-                    size:14,
+                bodyFont: {
+                    size: 14,
                 }
             },
             custom_canvas_background_color: true, // включаем плагин
             legend: {
 
                 labels: {
-                    backdropPadding:10,
-                    // This more specific font property overrides the global property
+                    backdropPadding: 10,
                     font: {
                         size: 20
                     }
@@ -137,7 +124,7 @@ const Statistics = ({data}) => {
     return (
         <div className="diagram">
             <Line options={options} data={lineChartData} plugins={[backgroundColorPlugin]} style={{
-                borderRadius:5,
+                borderRadius: 5,
 
             }}/>
         </div>

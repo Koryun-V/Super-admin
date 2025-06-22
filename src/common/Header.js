@@ -1,9 +1,19 @@
-import React, {useEffect} from 'react';
-import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
+import React, {useEffect, useState} from 'react';
+import {Link, useLocation, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowRightFromBracket, faGaugeHigh, faLayerGroup, faUser} from "@fortawesome/free-solid-svg-icons";
-import {getUser, setSuperAdmin} from "../store/actions/login";
+import {
+    faArrowRightFromBracket,
+    faCircleUser,
+    faCode,
+    faGaugeHigh,
+    faLayerGroup, faTableCellsLarge,
+    faUser
+} from "@fortawesome/free-solid-svg-icons";
+import {getUser} from "../store/actions/login";
+import {useQuery} from "../utills/hooks/useQuery";
+import ModalLogOut from "./Modal/ModalLogOut";
+import logo from "../assets/icon/logo.png";
 
 const token = localStorage.getItem("token");
 
@@ -12,49 +22,99 @@ const Header = () => {
     const user = useSelector(state => state.login.user);
     const status = useSelector(state => state.login.statusUser);
     const location = useLocation();
-    const {name,id} = useParams();
-
+    const {name, id} = useParams();
+    const {query, setQuery} = useQuery();
+    const {q, startDate, endDate} = query;
+    const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
         if (token) {
-            dispatch(getUser())
+            dispatch(getUser());
         }
     }, [token]);
 
     useEffect(() => {
-        console.log("Current path:", location);
-    }, [location]);
+        if (query.logOut === "yes-no") {
+            setIsOpen(true);
+        } else {
+            setIsOpen(false);
+        }
+    }, [query.logOut]);
 
     return (
-        <header className="header">
+        <header className="header"
+                style={{
+                    display: q === "change-password" ? "none" : "flex",
+                    opacity: q === "change-password" ? 0 : 1,
+                    zIndex: q === "change-password" ? -1 : 999,
+                }}
+        >
             <div className="nav-header">
-                <div className="container-header" >
+                <div className="container-header">
                     <div className="logo-block">
-                        <Link to="/" className="logo"><h1>Logo</h1></Link>
+                        <div className="logo">
+                            <Link to="/" className="logo-img">
+                                <img src={logo}/>
+                            </Link>
+                            {/*<h1>Multify</h1>*/}
+                        </div>
                     </div>
-                    {status === "ok" ?
-                        <div className="super-admin">
-                            <div className="user-img">
-                                {user.avatar.length ?
-                                    <div className="user-img-container">
-                                        <img src={user.avatar[0]}/>
-                                    </div>
-                                    :
-                                    <div className="user-img-container-custom">
-                                        <FontAwesomeIcon icon={faUser} className="icon"/>
-                                    </div>
-                                }
-                                <div className="indicator"></div>
-                            </div>
-                            <div className="user-name">
-                                <span>{user.lastName.charAt(0).toUpperCase() + user.lastName.slice(1)} {user.firstName.charAt(0).toUpperCase() + user.lastName.slice(1)}</span>
-                                <span>{user.email}</span>
-                            </div>
-                        </div> : null}
+
+                    <div className="super-container">
+                        <h1 style={{
+                            opacity: location.pathname === "/profile" ? 1 : 0,
+                            zIndex: location.pathname === "/profile" ? 10 : -1,
+                        }}>Super admin</h1>
+                        <div className="super-admin-container"
+                             style={{
+                                 background: location.pathname === "/profile" ? "#0a0a0d" : "",
+                             }}>
+
+                            <Link to="/profile"
+                                  className={location.pathname === "/profile" ? "super-admin-active" : "super-admin"}>
+                                <div className="anim-admin" style={{
+                                    transform: location.pathname === "/profile" ? "translateX(100%)" : "translateX(0%)",
+                                    opacity: location.pathname === "/profile" ? 0 : 1,
+                                }}>
+                                    {status === "ok" ?
+                                        <>
+                                            <div className="user-img">
+                                                {user.avatar.length ?
+                                                    <div className="user-img-container">
+                                                        <img src={user.avatar[0].path}/>
+                                                    </div>
+                                                    :
+                                                    <div className="user-img-container-custom">
+                                                        <FontAwesomeIcon icon={faUser} className="icon"/>
+                                                    </div>
+                                                }
+                                                <div className="indicator"></div>
+                                            </div>
+                                            <div className="user-name">
+                                                <span>{user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1)} {user.lastName.charAt(0).toUpperCase() + user.lastName.slice(1)}</span>
+                                                <span>{user.email}</span>
+                                            </div>
+                                        </>
+                                        :
+                                        <>
+                                            <div className="user-img">
+                                                <div
+                                                    className="user-img-container-custom-loading loading-gradient"></div>
+                                            </div>
+                                            <div className="user-name">
+                                                <span className="loading-gradient" style={{height: 20}}></span>
+                                                <span className="loading-gradient" style={{height: 20}}></span>
+                                            </div>
+                                        </>
+                                    }
+                                </div>
+                            </Link>
+                        </div>
+                    </div>
+
                     <div className="nav-text">
                         <h3>Navigation</h3>
                     </div>
-
 
                     <nav className="nav">
                         <ul className="nav-list">
@@ -68,21 +128,48 @@ const Header = () => {
                                 </li>
                             </Link>
                             <Link to="/stores"
-                                  className={location.pathname === "/stores" || location.pathname === `/stores/${name}/${id}` || location.pathname === `/stores/${name}/admins` ? "active-item" : "nav-item"}>
+                                  className={location.pathname.startsWith("/stores") ? "active-item" : "nav-item"}>
                                 <li>
                                     <div
-                                        className={location.pathname === "/stores" || location.pathname === `/stores/${name}/${id}` || location.pathname === `/stores/${name}/admins` ? "active-nav" : "disabled-nav"}></div>
+                                        className={location.pathname.startsWith("/stores") ? "active-nav" : "disabled-nav"}></div>
                                     <FontAwesomeIcon icon={faLayerGroup} className="nav-icon"/>
                                     <span>Stores {name ? `/ ${name.charAt(0).toUpperCase() + name.slice(1)}` : null}</span>
                                 </li>
                             </Link>
+                            <Link to="/categories"
+                                  className={location.pathname === "/categories" ? "active-item" : "nav-item"}>
+                                <li>
+                                    <div
+                                        className={location.pathname === "/categories" ? "active-nav" : "disabled-nav"}></div>
+                                    <FontAwesomeIcon icon={faTableCellsLarge} className="nav-icon"/>
+                                    <span>Categories</span>
+                                </li>
+                            </Link>
+                            <Link to="/users"
+                                  className={location.pathname === "/users" ? "active-item" : "nav-item"}>
+                                <li>
+                                    <div
+                                        className={location.pathname === "/users" ? "active-nav" : "disabled-nav"}></div>
+                                    <FontAwesomeIcon icon={faCircleUser} className="nav-icon"/>
+                                    <span>Users</span>
 
-                            <li className="nav-item" onClick={() => {
-                                localStorage.removeItem("token")
-                                window.location.reload(true)
-                                dispatch(setSuperAdmin({}))
-                            }
-                            }>
+                                </li>
+                            </Link>
+                            <Link to="/projects"
+                                  className={location.pathname === "/projects" ? "active-item" : "nav-item"}>
+                                <li>
+                                    <div
+                                        className={location.pathname === "/projects" ? "active-nav" : "disabled-nav"}></div>
+                                    <FontAwesomeIcon icon={faCode} className="nav-icon"/>
+                                    <span>Projects </span>
+                                </li>
+                            </Link>
+                            <li style={{border: "none"}}
+                                className={isOpen ? "active-item" : "nav-item"}
+                                onClick={() => {
+                                    setIsOpen(true);
+                                    setQuery({...query, logOut: "yes-no"});  // Используем replace
+                                }}>
                                 <FontAwesomeIcon icon={faArrowRightFromBracket}/>
                                 <span>Log Out</span>
                             </li>
@@ -90,8 +177,13 @@ const Header = () => {
                     </nav>
                 </div>
             </div>
-
-
+            <ModalLogOut
+                open={isOpen}
+                onClose={() => {
+                    setIsOpen(false);
+                    window.history.back()
+                }}
+            />
         </header>
     );
 };

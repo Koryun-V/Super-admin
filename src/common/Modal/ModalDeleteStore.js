@@ -12,7 +12,6 @@ function ModalDeleteStore({open, onClose, id, store}) {
     const dispatch = useDispatch();
     const statusDelete = useSelector(state => state.store.statusDelete);
     const status = useSelector(state => state.store.status)
-    const [statusEnd, setStatusEnd] = useState("");
     const [isDelete, setIsDelete] = useState(false);
 
     const scrollModal = () => {
@@ -38,16 +37,6 @@ function ModalDeleteStore({open, onClose, id, store}) {
 
     }, [status, statusDelete]);
 
-
-    useEffect(() => {
-        if (status === "pending" || statusDelete === "pending") {
-            setStatusEnd("pending");
-        } else {
-            setStatusEnd("");
-        }
-    }, [statusDelete, status]);
-
-
     useEffect(() => {
         if (statusDelete === "ok") {
             dispatch(getStores())
@@ -59,6 +48,7 @@ function ModalDeleteStore({open, onClose, id, store}) {
             dispatch(deleteStores(id))
         }
     }, [isDelete]);
+
     useEffect(() => {
         if (open) {
             (async () => {
@@ -84,10 +74,11 @@ function ModalDeleteStore({open, onClose, id, store}) {
         setIsDelete(true)
     }
 
+
     if (!open) return null
     return ReactDom.createPortal(
         <div id="modal">
-            <div onClick={onClose} className="shadow">
+            <div className="shadow">
             </div>
             <div id="modal_window">
                 <div className="close">
@@ -104,17 +95,15 @@ function ModalDeleteStore({open, onClose, id, store}) {
                 }}>
                     <div className="container-modal">
                         <>
-                            {statusEnd === "pending" || statusDelete === "ok" && status === "ok" ?
-                                <div className="delete-loading"></div> : null}
-                            {statusDelete === "ok" && status === "ok" ?
-                                <span className="delete-loading-span">Deleted</span>
+                            {statusDelete !== "" && status !== "" ? <div className="delete-loading"></div> : null}
+                            {statusDelete === "ok" && status === "ok" ? <span className="delete-loading-span">Deleted</span>
                                 :
-                                statusEnd === "pending" ?
+                                status === "pending" || statusDelete === "pending" ?
                                     <span
                                         className="delete-loading-span">Store is being deleted...</span>
                                     : null}
                             <div className="delete-block" style={{
-                                opacity: statusEnd === "pending" || statusDelete === "ok" && status === "ok" ? 0 : 1,
+                                opacity: statusDelete !== "" ? 0 : 1,
                             }}>
                                 <span>Are you sure you want to delete the administrator <span
                                     className="store-name">{store} </span>?</span>
@@ -123,7 +112,7 @@ function ModalDeleteStore({open, onClose, id, store}) {
                                 <div className="no-delete-button">
                                     <Button
                                         onClick={deleteStoreFunc}
-                                        status={isDelete ? statusEnd : ""}
+                                        status={isDelete && status === "pending" || statusDelete === "pending" ? "pending" : ""}
                                         type="button"
                                         className="active-button"
                                     >YES</Button>
@@ -143,8 +132,7 @@ function ModalDeleteStore({open, onClose, id, store}) {
             </div>
         </div>,
         document.body
-    )
-        ;
+    );
 }
 
 ModalDeleteStore.propTypes = {

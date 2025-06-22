@@ -1,53 +1,55 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import Statistics from "./mini/Statistics";
 import DateP from "./DateP";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCube, faEnvelope, faPlus, faRubleSign, faTrash, faUser} from "@fortawesome/free-solid-svg-icons";
+import {
+    faCartShopping,
+    faCube,
+    faDollarSign,
+    faPlus,
+    faRubleSign,
+    faTrash,
+    faUser
+} from "@fortawesome/free-solid-svg-icons";
 import {getAdmin} from "../store/actions/admin";
 import ModalDeleteAdmin from "./Modal/ModalDeleteAdmin";
 import {useQuery} from "../utills/hooks/useQuery";
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {useLocation, useParams} from "react-router-dom";
 import moment from "moment";
-import {set} from "lodash/object";
 import ModalCreateAdmin from "./Modal/ModalCreateAdmin";
 import {RotatingLines} from "react-loader-spinner";
+import {getBuyers, getStatistics} from "../store/actions/statistics";
 
 const Store = () => {
     const dispatch = useDispatch();
     const {id, name} = useParams()
-    const navigate = useNavigate()
     const statistics = useSelector(state => state.statistics.statistics);
-    const statisticsTotal = useSelector(state => state.statistics.statisticsTotal);
     const buyers = useSelector(state => state.statistics.buyers);
     const admins = useSelector(state => state.admin.admins);
     const status = useSelector(state => state.statistics.status)
     const statusBuyers = useSelector(state => state.statistics.statusBuyers)
     const statusAdmin = useSelector(state => state.admin.status)
-
+    const location = useLocation()
     const {query, setQuery} = useQuery();
     const {q, startDate, endDate} = query
     const [isOpen, setIsOpen] = useState(false);
-
-
-    // const [isAdmin, setIsAdmin] = useState(false);
+    const defaultStart = new Date();
+    const defaultEnd = new Date();
+    defaultStart.setMonth(defaultStart.getMonth() - 1);
     const [isOpenDelete, setIsOpenDelete] = useState(false);
 
-
     useEffect(() => {
-        dispatch(getAdmin({id}))
-    }, []);
+        if (q === "admins") dispatch(getAdmin({id}))
+    }, [q]);
 
     const [adminInfo, setAdminInfo] = useState({
         adminId: "",
         indexA: "",
         adminEmail: ""
     });
-    useEffect(() => {
-        // setQuery({q:"statistics"});
-    }, []);
-    const {adminId, indexA, adminEmail} = adminInfo
 
+    const {adminId, indexA, adminEmail} = adminInfo
 
     const deleteAdmin = (id, index, adminEmail) => {
         setIsOpenDelete(true)
@@ -57,41 +59,56 @@ const Store = () => {
             adminEmail: adminEmail
         })
     }
+
     const getAdmins = () => {
         setQuery({q: "admins"});
         dispatch(getAdmin({id}))
     }
+
+
+    useEffect(() => {
+        if (q === "statistics" || location.pathname === `/stores/${name}/${id}` && q !== "admins") {
+            const start = moment(defaultStart).format('YYYY-MM-DD');
+            const end = moment(defaultEnd).format('YYYY-MM-DD');
+            if (startDate && endDate) {
+                dispatch(getStatistics({id, startDate, endDate}));
+                dispatch(getBuyers({id, startDate, endDate}));
+            } else {
+                dispatch(getStatistics({id}));
+                dispatch(getBuyers({id}));
+            }
+        }
+    }, [q, startDate, endDate]);
+
+
     return (
         <div className="section">
-            <div className="container">
-
-                <div className="store-header">
-                    <div className="nav-store">
-                        <div className="title-change">
-                            <div className={q === "admins" ? "title-disabled" : "title-active"}
-                                 onClick={() =>
-                                     q === "admins" ? setQuery({q: "statistics", startDate, endDate}) : null
-                                 }>
-                                <h1>Statistics</h1>
-                            </div>
-                            <div className={q !== "admins" ? "title-disabled" : "title-active"} onClick={getAdmins}>
-                                <h1>Admins</h1>
-                            </div>
-                            <div className="change-line" style={{
-                                transform: q === "admins" ? "translateX(50%)" : "translateX(-50%)",
-                            }}>
-
-                            </div>
+            <div className="store-header">
+                <div className="nav-store">
+                    <div className="title-change">
+                        <div className={q === "admins" ? "title-disabled" : "title-active"}
+                             onClick={() =>
+                                 q === "admins" ? setQuery({q: "statistics", startDate, endDate}) : null
+                             }>
+                            <h1>Statistics</h1>
                         </div>
-                        {q !== "admins" ? <DateP id={id}
-                            />
-                            : null}
+                        <div className={q !== "admins" ? "title-disabled" : "title-active"} onClick={getAdmins}>
+                            <h1>Admins</h1>
+                        </div>
+                        <div className="change-line" style={{
+                            transform: q === "admins" ? "translateX(50%)" : "translateX(-50%)",
+                        }}>
+                        </div>
                     </div>
+                    {q !== "admins" ? <DateP id={id} defaultStart={defaultStart} defaultEnd={defaultEnd}
+                        />
+                        : null}
                 </div>
-
+            </div>
+            <div className="container">
                 {q !== "admins" ?
                     <div>
-                        {status !== "ok" && statusBuyers !== "ok" && !statistics.length && !buyers.length ?
+                        {status !== "ok" || statusBuyers !== "ok" && !statistics.statistics  ?
                             <div className="container-loading">
                                 <div className="loading-block">
                                     <RotatingLines
@@ -127,20 +144,71 @@ const Store = () => {
                                     </div> : null}
                                 <div
                                     className={status === "pending" || statusBuyers === "pending" ? "container-statistics-disabled" : "container-statistics"}>
-                                    {status === "pending" || statusBuyers === "pending" ? <div className="opacity-store"></div> : null}
-                                    <div className="total-container">
-                                        <div className="total">
-                                            <h4>Total Revenue
-                                                - {Math.round(statisticsTotal.totalRevenue)}<FontAwesomeIcon
-                                                    icon={faRubleSign} className="total-icon"/></h4>
-                                            <h4>Product count - {statisticsTotal.productCount}<FontAwesomeIcon
-                                                icon={faCube}
-                                                className="total-icon"/>
-                                            </h4>
+                                    {status === "pending" || statusBuyers === "pending" ?
+                                        <div className="opacity-store"></div> : null}
+
+
+                                    <div className="totals">
+                                        <div className="container-total">
+                                            <div className="block-total">
+                                                <div className="title-total">
+                                                    <h2>Total product count</h2>
+                                                    <FontAwesomeIcon icon={faCube} className="total-icon-all"/>
+                                                </div>
+
+                                                <div className="total-table">
+                                                    <div className="total-all-time">
+                                                        <strong>All time</strong>
+                                                        <span>{statistics.productCountAllTime}</span>
+                                                    </div>
+                                                    <div className="hr"></div>
+                                                    <div className="total-all-time">
+                                                        <strong>With date</strong>
+                                                        <span>{statistics.totalProductPeriod}</span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div className="block-total">
+                                                <div className="title-total">
+
+                                                    <h2>Total sales</h2>
+                                                    <FontAwesomeIcon icon={faCartShopping} className="total-icon-all"/>
+                                                </div>
+                                                <div className="total-table">
+                                                    <div className="total-all-time">
+                                                        <strong>All time</strong>
+                                                        <span>{statistics.totalProductsSoldAllTime}</span>
+                                                    </div>
+                                                    <div className="hr"></div>
+                                                    <div className="total-all-time">
+                                                        <strong>With date</strong>
+                                                        <span>{statistics.totalProductsSoldPeriod}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="block-total">
+                                                <div className="title-total">
+
+                                                    <h2>Total revenue</h2>
+                                                    <FontAwesomeIcon icon={faDollarSign} className="total-icon-all"/>
+                                                </div>
+                                                <div className="total-table">
+                                                    <div className="total-all-time">
+                                                        <strong>All time</strong>
+                                                        <span>{statistics.totalRevenueAllTime}</span>
+                                                    </div>
+                                                    <div className="hr"></div>
+                                                    <div className="total-all-time">
+                                                        <strong>With date</strong>
+                                                        <span>{statistics.totalRevenuePeriod}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
-                                    <Statistics data={statistics}/>
-
+                                    <Statistics data={statistics.statistics || []} />
                                     <div className="buyers">
                                         <div className="buyers-header">
                                             <div className="title">
@@ -149,7 +217,7 @@ const Store = () => {
                                         </div>
                                         <div className="buyers-block">
                                             {buyers.map((buyer, index) => (
-                                                <div className="buyer">
+                                                <div className="buyer" key={buyer.id}>
                                                     <div className="img-block">
                                                         {buyer.avatar ?
                                                             <div className="buyer-img">
@@ -161,7 +229,6 @@ const Store = () => {
                                                             </div>
                                                         }
                                                     </div>
-
                                                     <div className="buyer-titles">
                                                         <div className="buyer-title">
                                                     <span
@@ -177,11 +244,8 @@ const Store = () => {
                                                     <span
                                                         className="buyer-text">Total quantity - {buyer.totalQuantity}</span>
                                                             <FontAwesomeIcon icon={faCube} className="total-icon"/>
-
                                                         </div>
                                                     </div>
-
-
                                                     {/*<div className="buyer-icon">*/}
                                                     {/*    <FontAwesomeIcon icon={faEnvelope} className="total-icon"/>*/}
                                                     {/*    <FontAwesomeIcon icon={faRubleSign} className="total-icon"/>*/}
@@ -197,7 +261,6 @@ const Store = () => {
                     </div>
                     :
                     <>
-
                         {statusAdmin !== "ok" && !admins.length
                             ?
                             <div className="container-loading">
@@ -234,10 +297,8 @@ const Store = () => {
                                         </div>
                                     </div> : null}
                                 <div className="admins">
-
-
                                     {admins.map((admin, index) => (
-                                        <div style={{cursor: "default"}}
+                                        <div key={admin.id} style={{cursor: "default"}}
                                              className={statusAdmin === "pending" ? "disabled-store" : indexA === index ? "active-admin" : "admin"}>
                                             {statusAdmin === "pending" ? <div className="opacity-store"></div>
                                                 : null}
@@ -264,14 +325,13 @@ const Store = () => {
                                             </div>
                                         </div>
                                     ))}
-
-                                    <div className={statusAdmin === "pending" ? "disabled-store" : "store"} onClick={() =>
-                                        statusAdmin === "pending" ? null : setIsOpen(true)
-                                    }>
+                                    <div className={statusAdmin === "pending" ? "disabled-store" : "store"}
+                                         onClick={() =>
+                                             statusAdmin === "pending" ? null : setIsOpen(true)
+                                         }>
                                         <FontAwesomeIcon icon={faPlus} className="plus-icon"/>
                                     </div>
                                 </div>
-
 
                                 <ModalCreateAdmin
                                     id={id}
@@ -293,14 +353,12 @@ const Store = () => {
                                 }}
                                 />
                             </div>}
-
                     </>
                 }
             </div>
         </div>
 
-    )
-        ;
+    );
 };
 
 export default Store;

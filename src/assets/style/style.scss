@@ -8,42 +8,105 @@
 @import "date";
 @import "modal";
 @import "admin";
-
+@import "radioButton";
+@import "profile";
+@import "changePassword";
+@import "projects";
+@import "users";
 
 @font-face {
-  font-family: RobotoBold;
-  src: url(../fonts/Roboto-Bold.ttf);
+  font-family: 'PoppinsRegular';
+  src: url('../fonts/Poppins-Regular.eot');
+  src: url('../fonts/Poppins-Regular.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/Poppins-Regular.woff2') format('woff2'),
+  url('../fonts/Poppins-Regular.woff') format('woff'),
+  url('../fonts/Poppins-Regular.ttf') format('truetype'),
+  url('../fonts/Poppins-Regular.svg#Poppins-Regular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-  font-family: RobotoRegular;
-  src: url(../fonts/Roboto-Regular.ttf);
+  font-family: 'PoppinsMedium';
+  src: url('../fonts/Poppins-Medium.eot');
+  src: url('../fonts/Poppins-Medium.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/Poppins-Medium.woff2') format('woff2'),
+  url('../fonts/Poppins-Medium.woff') format('woff'),
+  url('../fonts/Poppins-Medium.ttf') format('truetype'),
+  url('../fonts/Poppins-Medium.svg#Poppins-Medium') format('svg');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-  font-family: RobotoMedium;
-  src: url(../fonts/Roboto-Medium.ttf);
+  font-family: 'RobotoRegular';
+  src: url('../fonts/Roboto-Regular.eot');
+  src: url('../fonts/Roboto-Regular.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/Roboto-Regular.woff2') format('woff2'),
+  url('../fonts/Roboto-Regular.woff') format('woff'),
+  url('../fonts/Roboto-Regular.ttf') format('truetype'),
+  url('../fonts/Roboto-Regular.svg#Roboto-Regular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-  font-family: PoppinsBold;
-  src: url(../fonts/Poppins-Bold.ttf);
+  font-family: 'PoppinsBold';
+  src: url('../fonts/Poppins-Bold.eot');
+  src: url('../fonts/Poppins-Bold.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/Poppins-Bold.woff2') format('woff2'),
+  url('../fonts/Poppins-Bold.woff') format('woff'),
+  url('../fonts/Poppins-Bold.ttf') format('truetype'),
+  url('../fonts/Poppins-Bold.svg#Poppins-Bold') format('svg');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-  font-family: PoppinsRegular;
-  src: url(../fonts/Poppins-Regular.ttf);
+  font-family: 'PoppinsExtra';
+  src: url('../fonts/Poppins-ExtraBold.eot');
+  src: url('../fonts/Poppins-ExtraBold.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/Poppins-ExtraBold.woff2') format('woff2'),
+  url('../fonts/Poppins-ExtraBold.woff') format('woff'),
+  url('../fonts/Poppins-ExtraBold.ttf') format('truetype'),
+  url('../fonts/Poppins-ExtraBold.svg#Poppins-ExtraBold') format('svg');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-  font-family: PoppinsMedium;
-  src: url(../fonts/Poppins-Medium.ttf);
+  font-family: 'RobotoMedium';
+  src: url('../fonts/Roboto-Medium.eot');
+  src: url('../fonts/Roboto-Medium.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/Roboto-Medium.woff2') format('woff2'),
+  url('../fonts/Roboto-Medium.woff') format('woff'),
+  url('../fonts/Roboto-Medium.ttf') format('truetype'),
+  url('../fonts/Roboto-Medium.svg#Roboto-Medium') format('svg');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-  font-family: PoppinsExtra;
-  src: url(../fonts/Poppins-ExtraBold.ttf);
+  font-family: 'RobotoBold';
+  src: url('../fonts/Roboto-Bold.eot');
+  src: url('../fonts/Roboto-Bold.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/Roboto-Bold.woff2') format('woff2'),
+  url('../fonts/Roboto-Bold.woff') format('woff'),
+  url('../fonts/Roboto-Bold.ttf') format('truetype'),
+  url('../fonts/Roboto-Bold.svg#Roboto-Bold') format('svg');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
 }
+
+
+
 
 * {
   margin: 0;
@@ -53,12 +116,23 @@
 
 body {
   background: #0a0a0d;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 10px;
+    background-color: #111;
+  }
 
-}
+  &::-webkit-scrollbar-track {
+    background-color: #111;
+  }
 
-@media only screen and (max-width: 600px) {
-  body {
-    background-color: lightblue;
+  &::-webkit-scrollbar-thumb {
+    background-color: $interfaceColor;
+    border-radius: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #04a504;
   }
 }
 
@@ -66,33 +140,109 @@ body {
   margin: 0 auto;
   width: 100%;
   height: 100%;
-  //min-width: 900px;
+  min-width: 900px;
 }
 
 .main {
   margin-left: 350px;
   padding: 0 50px;
+  transition: 0.3s all;
+}
+
+.totals {
+  color: #5d5f6b;
+
+  .container-total {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -10px;
+
+    .block-total {
+      transition: 0.2s all;
+      cursor: default;
+      display: flex;
+      flex-direction: column;
+      min-width: 200px;
+      flex-shrink: 1;
+      flex-grow: 1;
+      flex-basis: 15%;
+      justify-content: space-between;
+      position: relative;
+      margin: 10px;
+      background: #1a1c24;
+      border-radius: 5px;
+      padding: 10px;
+
+      .title-total{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .total-table {
+        display: flex;
+        width: 100%;
+        font-family: "PoppinsMedium", "sans-serif";
+        gap:20px;
+
+        .total-all-time{
+          strong{
+            font-size: 18px;
+          }
+        }
+
+        .hr{
+          border-left: 2px solid #5d5f6b;
+          height: 100%;
+          transform: rotate(20deg);
+        }
+      }
+
+      h2 {
+        font-family: "PoppinsMedium", "sans-serif";
+      }
+
+      span {
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        font-family: "RobotoMedium", "sans-serif";
+        font-size: 20px
+      }
+    }
+
+    .block-total:hover {
+      color: white;
+      background: #0a0a0d;
+    }
+  }
 }
 
 .section {
-  //display: flex;
-  //flex-direction: column;
-  //justify-content: center;
-  //width: 100%;
-
-
-
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
 }
 
 .loading-block {
   position: fixed;
   bottom: 50%;
-  z-index: 10;
+  z-index: 992;
 }
 
 .container {
-  padding-bottom: 50px;
+  margin-top: 30px;
+  position: relative;
+}
 
+.dashboard {
+  position: relative;
+  transition: 0.2s all;
+}
+
+.disabled-dashboard {
+  opacity: 0.5;
 }
 
 .container-loading {
@@ -101,16 +251,17 @@ body {
   align-items: center;
 }
 
-
 .title {
   display: flex;
   align-items: center;
+  cursor: default;
 
   h1 {
     color: $interfaceColor;
     font-family: "PoppinsBold", sans-serif;
   }
 }
+
 
 .title-active {
   transition: 0.2s all;
@@ -137,11 +288,8 @@ body {
   h1 {
     color: #5d5f6b;
     font-family: "PoppinsBold", sans-serif;
-
-
   }
 }
-
 
 .login-wrapper {
   position: fixed;
@@ -153,5 +301,16 @@ body {
   z-index: 9998;
   cursor: default;
   border-radius: 5px;
+}
+
+.error {
+  width: 100%;
+  height: 500px;
+  color:$interfaceColor;
+
+  h1 {
+    font-family: "PoppinsMedium", sans-serif;
+    font-size: 50px;
+  }
 }
 
