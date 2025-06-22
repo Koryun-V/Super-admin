@@ -19,5 +19,4 @@ export const changePasswordAdmin = createReducer(initialState, (builder) => {
         .addCase(setStatus, (state, {payload}) => {
             state.status = payload
         })
-
 });

@@ -13,13 +13,7 @@ function ModalLogOut({open, onClose}) {
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const {query, setQuery} = useQuery();
-    const {q, startDate, endDate, logOut} = query
 
-    // useEffect(() => {
-    //     if (!logOut) {
-    //         onClose()
-    //     }
-    // }, [logOut]);
 
     const scrollModal = () => {
         document.body.style.removeProperty('overflow');

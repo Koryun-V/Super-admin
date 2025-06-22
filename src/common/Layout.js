@@ -20,7 +20,6 @@ function Layout() {
                         <Link to="/" className="logo-img">
                             <img src={logo}/>
                         </Link>
-                        {/*<h1>Multify</h1>*/}
                     </div>
                 </div>}
 

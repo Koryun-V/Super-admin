@@ -41,7 +41,6 @@ const Profile = () => {
     const [admin, setAdmin] = useState({
         password: "",
         repeatPassword: "",
-
     })
 
     const {password, repeatPassword} = admin

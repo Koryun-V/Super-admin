@@ -48,12 +48,10 @@
     border: 2px solid $interfaceColor;
   }
 
-
 .login {
   position: relative;
   width: 320px;
 }
-
 
 .login-change {
   position: relative;
@@ -76,14 +74,11 @@
   font-family: "PoppinsRegular", sans-serif;
 }
 
-//input:-webkit-autofill {
-//  -webkit-box-shadow: 0 0 0 1000px #2c2c2c inset !important;
-//  -webkit-text-fill-color: #fff !important;
-//}
 .about{
   width: 100%;
   position: relative;
 }
+
 .textarea {
   margin-top:5px;
   height:75px;
@@ -93,6 +88,7 @@
   padding: 10px;
   font-family: "RobotoMedium", "sans-serif";
   font-size: 16px;
+
   &::-webkit-scrollbar {
     width: 5px;
     border-radius: 10px;
@@ -102,14 +98,12 @@
   &::-webkit-scrollbar-track {
     background: #1a1c24;
     border-radius: 10px;
-
   }
 
   /* Handle */
   &::-webkit-scrollbar-thumb {
     background: $interfaceColor;
     border-radius: 10px;
-
   }
 
   /* Handle on hover */

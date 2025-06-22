@@ -34,29 +34,19 @@ const centerTextPlugin = {
         const totalText = total;
         const labelText = "Total";
 
-        // Настрой стиль для числа
         ctx.font = 'bold 26px Arial';
-        ctx.fillStyle = '#ffffff'; // Цвет текста
+        ctx.fillStyle = '#ffffff';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        // Рисуем число в центре
-        ctx.fillText(totalText, width / 2, height / 2 - 10);  // Смещение вверх для числа
-        // Настрой стиль для текста "Total"
-        ctx.font = 'bold 25px Arial';  // Меньший размер для текста "Total"
-        ctx.fillStyle = '#ffffff';  // Цвет текста
-        ctx.fillText(labelText, width / 2, height / 2 + 20);  // Смещение вниз для текста "Total"
+        ctx.fillText(totalText, width / 2, height / 2 - 10);
+        ctx.font = 'bold 25px Arial';
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText(labelText, width / 2, height / 2 + 20);
         ctx.restore();
     },
 };
 
 
-// const colors = [
-//     { border: 'red', fill: 'rgba(255,255,255,0.63)' },
-//     { border: 'blue', fill: 'rgba(255,233,0,0.65)' },
-//     { border: 'green', fill: 'rgba(246,173,85,0.3)' },
-//     { border: '#ed64a6', fill: 'rgba(237,100,166,0.3)' },
-//     { border: '#38b2ac', fill: 'rgba(56,178,172,0.3)' },
-// ];
 const PieStatistics = ({data}) => {
     const pieChartData = {
         labels: data.statistics.map(store => store.storeName.charAt(0).toUpperCase() + store.storeName.slice(1)),
@@ -69,13 +59,16 @@ const PieStatistics = ({data}) => {
                 backgroundColor: [
                     '#ff0000',
                     '#0000ff',
-                    '#ffffff'
+                    '#ffffff',
+                    '#00FF13FF',
+                    '#FFD500FF',
                 ],
                 borderColor: [
                     '#ff0000',
                     '#0000ff',
-                    '#ffffff'
-
+                    '#ffffff',
+                    '#00FF13FF',
+                    '#FFD500FF',
                 ],
                 borderWidth: 0
             }
@@ -88,30 +81,6 @@ const PieStatistics = ({data}) => {
         layout: {
             padding: 20,
         },
-        // scales: {
-        //     y: {
-        //         grid: {
-        //             // color: '#5d5f6b',
-        //         },
-        //         ticks: {
-        //             font:{
-        //                 size: 16,
-        //             },
-        //             color: 'white',
-        //         }
-        //     },
-        //     x: {
-        //         grid: {
-        //             // color: '#5d5f6b',
-        //         },
-        //         ticks: {
-        //             font:{
-        //                 size: 16,
-        //             },
-        //             color: 'white',
-        //         }
-        //     },
-        // },
         plugins: {
             tooltip: {
                 bodyFontSize: 14,

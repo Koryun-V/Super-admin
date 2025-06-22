@@ -86,13 +86,11 @@
     justify-content: center;
     align-items: center;
 
-
     form {
       width: auto;
       height: auto;
       position: relative;
       display: flex;
-      //align-items: center;
       justify-content: space-between;
       gap: 20px;
       flex-wrap: wrap;
@@ -120,7 +118,6 @@
 
 .field-block:nth-child(1) {
   width: 150px;
-
 }
 
 .field-block:nth-child(2) {
@@ -129,11 +126,9 @@
 
 .field-block:nth-child(3) {
   width: 150px;
+  opacity: 0.6;
 }
 
-//.field-block:nth-child(7) {
-//  width: 237px;
-//}
 .field-block:nth-child(8) {
   width: 150px;
 }
@@ -167,7 +162,6 @@
     justify-content: center;
     align-items: center;
     display: flex;
-
   }
 
   .custom-input:focus {
@@ -179,7 +173,6 @@
     height: 100%;
     object-fit: cover;
     border-radius: 3px;
-
   }
 
   .image-plus {
@@ -213,10 +206,8 @@
         font-size: 50px;
       }
     }
-
   }
 }
-
 
 .disabled-custom-input {
   height: 144px;
@@ -304,7 +295,6 @@
   }
 }
 
-
 .buttons {
   width: 100%;
   display: flex;
@@ -344,7 +334,6 @@
   opacity: 0.7;
   background: #1a1c24;
   transition: 0.2s all;
-
 }
 
 .create-loading-span {
@@ -389,19 +378,17 @@
     .react-select__single-value{
       color: white;
     }
-
-
-
   }
+
   .react-select__control--is-focused {
     border-color: $interfaceColor;
     box-shadow: 0 0 0 2px $interfaceColor;
   }
+
   .react-select__menu {
     cursor: pointer;
     background: #454752;
     color:white;
-
 
     .react-select__menu-list {
       cursor: pointer;
@@ -414,27 +401,28 @@
       &::-webkit-scrollbar-track {
         background: #0a0a0d;
         border-radius: 10px;
-
       }
 
       /* Handle */
       &::-webkit-scrollbar-thumb {
         background: $interfaceColor;
         border-radius: 10px;
-
       }
 
       /* Handle on hover */
       &::-webkit-scrollbar-thumb:hover {
         background: #04a504;
       }
+
       .react-select__option {
         cursor: pointer;
         transition: 0.2s all;
       }
+
       .react-select__option--is-focused {
         background: #5d5f6b;
       }
+
       .react-select__option--is-selected {
         background: #0a0a0d;
       }

@@ -11,7 +11,6 @@ const initialState = {
 }
 export const users = createReducer(initialState, (builder) => {
     builder
-
         .addCase(getUsers.pending, (state) => {
             state.status = "pending"
         })
@@ -26,7 +25,6 @@ export const users = createReducer(initialState, (builder) => {
                 state.users = []
                 state.total = 0
             }
-
         })
         .addCase(getUsers.rejected, (state) => {
             state.status = "error"
@@ -45,10 +43,4 @@ export const users = createReducer(initialState, (builder) => {
         .addCase(setTotal, (state, {payload}) => {
             state.total = payload
         })
-
-
-
-
-
-
 });

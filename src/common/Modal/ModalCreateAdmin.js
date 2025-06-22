@@ -39,7 +39,6 @@ function ModalCreateAdmin({open, onClose, id}) {
     const {email} = admin
 
 
-
     const scrollModal = () => {
         document.body.style.removeProperty('overflow');
         document.body.style.removeProperty('width');
@@ -127,7 +126,6 @@ function ModalCreateAdmin({open, onClose, id}) {
             dispatch(setStatusCreate(""))
             dispatch(setCreateError(""))
         }
-
     };
 
     const test = () => {

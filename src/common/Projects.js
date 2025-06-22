@@ -1,6 +1,5 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-import {} from "@fortawesome/free-solid-svg-icons";
 import figma from "../assets/icon/figma.png"
 import gitHubIcon from "../assets/icon/git-hub.png"
 import swagger from "../assets/icon/swagger.png"
@@ -60,7 +59,7 @@ const Projects = () => {
             <div className="container">
                 <div className="projects">
                     {projects.map(({id, icon, link, title}) => (
-                        <Link target="_blank" to={link} className="project">
+                        <Link key={id} target="_blank" to={link} className="project">
                             <div className="project-icon">
                                 <img src={icon}/>
                             </div>
@@ -69,7 +68,6 @@ const Projects = () => {
                                 <span>{link}</span>
                             </div>
                         </Link>
-
                     ))}
                 </div>
             </div>

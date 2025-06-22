@@ -16,10 +16,12 @@
   align-items: center;
   gap:5px;
 }
+
 .icon-youtube{
   width: auto;
   height: 15px;
 }
+
 .container-statistics-disabled {
   display: flex;
   flex-direction: column;
@@ -96,7 +98,6 @@
   color: red;
 }
 
-
 .store-header {
   z-index: 99;
   display: flex;
@@ -116,7 +117,6 @@
     display: flex;
     justify-content: space-between;
   }
-
 
   .title-change {
     display: flex;
@@ -263,6 +263,7 @@
   color: $interfaceColor;
   margin-left: 5px;
 }
+
 .total-icon-all {
   color: $interfaceColor;
   margin-left: 5px;

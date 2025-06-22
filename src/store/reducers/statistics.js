@@ -12,7 +12,6 @@ import {setStatus} from "../actions/admin";
 const initialState = {
     status: "",
     statistics: {},
-    statisticsTotal: {},
     statisticsAll: {},
     statusBuyers: "",
     buyers: []

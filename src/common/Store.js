@@ -10,7 +10,6 @@ import {
     faPlus,
     faRubleSign,
     faTrash,
-    faTruck,
     faUser
 } from "@fortawesome/free-solid-svg-icons";
 import {getAdmin} from "../store/actions/admin";
@@ -26,7 +25,6 @@ const Store = () => {
     const dispatch = useDispatch();
     const {id, name} = useParams()
     const statistics = useSelector(state => state.statistics.statistics);
-    const statisticsTotal = useSelector(state => state.statistics.statisticsTotal);
     const buyers = useSelector(state => state.statistics.buyers);
     const admins = useSelector(state => state.admin.admins);
     const status = useSelector(state => state.statistics.status)
@@ -66,8 +64,8 @@ const Store = () => {
         setQuery({q: "admins"});
         dispatch(getAdmin({id}))
     }
-    console.log(location)
-    console.log(statistics,"s")
+
+
     useEffect(() => {
         if (q === "statistics" || location.pathname === `/stores/${name}/${id}` && q !== "admins") {
             const start = moment(defaultStart).format('YYYY-MM-DD');

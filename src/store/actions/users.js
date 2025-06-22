@@ -8,7 +8,6 @@ export const getUsers = createAsyncThunk(
         try {
             const {data} = await api.getUsers(payload);
             return data
-
         } catch (error) {
             return thunkAPI.rejectWithValue(error)
         }

@@ -12,7 +12,6 @@ import {
     Filler,
 } from "chart.js";
 
-// Регистрируем модули Chart.js
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -25,7 +24,6 @@ ChartJS.register(
 )
 
 
-// Плагин для фона канвы
 const backgroundColorPlugin = {
     id: 'custom_canvas_background_color',
     beforeDraw: (chart) => {
@@ -39,7 +37,6 @@ const backgroundColorPlugin = {
 };
 
 const Statistics = ({data}) => {
-    console.log(data,"a")
     const lineChartData = {
         labels: data[0].statistics.map(item => item.interval),
         datasets: [
@@ -58,7 +55,7 @@ const Statistics = ({data}) => {
                 pointRadius: 8,
                 pointHoverRadius: 10,
                 fill: {
-                    target: "origin", // 3. Set the fill options
+                    target: "origin",
                     above: "rgba(0,255,5,0.3)"
 
                 }
@@ -67,15 +64,7 @@ const Statistics = ({data}) => {
         ]
     }
     const options = {
-        // onHover: (event, chartElement) => {
-        //     if (chartElement.length > 0) {
-        //         event.native.target.style.cursor = 'pointer';
-        //     } else {
-        //         event.native.target.style.cursor = 'default';
-        //     }
-        // },
         maintainAspectRatio: false,
-        // pointBorderWidth:10,
         responsive: true,
         layout: {
             padding: 50,
@@ -124,7 +113,6 @@ const Statistics = ({data}) => {
 
                 labels: {
                     backdropPadding:10,
-                    // This more specific font property overrides the global property
                     font: {
                         size: 20
                     }

@@ -11,9 +11,8 @@ import {
     Legend,
     Filler,
 } from "chart.js";
-import {lineChartData} from "./Data";
 
-// Регистрируем модули Chart.js
+
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -26,7 +25,6 @@ ChartJS.register(
 )
 
 
-// Плагин для фона канвы
 const backgroundColorPlugin = {
     id: 'custom_canvas_background_color',
     beforeDraw: (chart) => {
@@ -40,17 +38,17 @@ const backgroundColorPlugin = {
 };
 
 const colors = [
-    { border: '#ff0000', fill: 'rgba(255,255,255,0.63)' },
-    { border: '#0000ff', fill: 'rgba(255,233,0,0.65)' },
-    { border: '#ffffff', fill: 'rgba(246,173,85,0.3)' },
-    { border: '#ed64a6', fill: 'rgba(237,100,166,0.3)' },
-    { border: '#38b2ac', fill: 'rgba(56,178,172,0.3)' },
+    {border: '#ff0000'},
+    {border: '#0000ff'},
+    {border: '#ffffff'},
+    {border: '#00FF13FF'},
+    {border: '#FFD500FF'},
 ];
+
 const StatisticsAll = ({data}) => {
     const allDates = Array.from(new Set(
         data.statistics.flatMap(store => store.statistics.map(stat => stat.interval))
     )).sort();
-
 
 
     const lineChartData = {
@@ -63,11 +61,10 @@ const StatisticsAll = ({data}) => {
             });
 
             return {
-                label:store.storeName.charAt(0).toUpperCase() + store.storeName.slice(1),
+                label: store.storeName.charAt(0).toUpperCase() + store.storeName.slice(1),
                 data: revenueByDate,
                 borderColor: color.border,
                 backgroundColor: color.border,
-                // pointBackgroundColor: color.border,
                 pointBorderColor: color.border,
                 pointBorderWidth: 2,
                 pointHoverBorderWidth: 10,
@@ -76,25 +73,11 @@ const StatisticsAll = ({data}) => {
                 pointStyle: 'circle',
                 pointRadius: 4,
                 pointHoverRadius: 7,
-                // fill: {
-                //     target: "origin", // 3. Set the fill options
-                //     above: color.fill
-                //
-                // }
-
             };
         })
     };
     const options = {
-        // onHover: (event, chartElement) => {
-        //     if (chartElement.length > 0) {
-        //         event.native.target.style.cursor = 'pointer';
-        //     } else {
-        //         event.native.target.style.cursor = 'default';
-        //     }
-        // },
         maintainAspectRatio: false,
-        // pointBorderWidth:10,
         responsive: true,
         layout: {
             padding: 20
@@ -106,7 +89,7 @@ const StatisticsAll = ({data}) => {
                     color: '#5d5f6b',
                 },
                 ticks: {
-                    font:{
+                    font: {
                         size: 16,
                     },
                     color: 'white',
@@ -118,7 +101,7 @@ const StatisticsAll = ({data}) => {
                     color: '#5d5f6b',
                 },
                 ticks: {
-                    font:{
+                    font: {
                         size: 16,
                     },
                     color: 'white',
@@ -130,29 +113,28 @@ const StatisticsAll = ({data}) => {
             tooltip: {
 
                 callbacks: {
-                    label: function(context) {
+                    label: function (context) {
                         const label = context.dataset.label || '';
                         const value = context.raw;
                         return `${label}: ${value} $`;
                     }
                 },
                 bodyFontSize: 14,
-                padding:10,
-                titleMarginLeft:4,
-                boxPadding:10,
-                titleFont:{
-                    size:16,
+                padding: 10,
+                titleMarginLeft: 4,
+                boxPadding: 10,
+                titleFont: {
+                    size: 16,
                 },
-                bodyFont:{
-                    size:14,
+                bodyFont: {
+                    size: 14,
                 }
             },
             custom_canvas_background_color: true, // включаем плагин
             legend: {
                 labels: {
-                    backdropPadding:10,
-                    color:'#5d5f6b',
-                    // This more specific font property overrides the global property
+                    backdropPadding: 10,
+                    color: '#5d5f6b',
                     font: {
                         size: 20
                     }
@@ -164,7 +146,7 @@ const StatisticsAll = ({data}) => {
     return (
         <div className="diagram-line">
             <Line options={options} data={lineChartData} plugins={[backgroundColorPlugin]} style={{
-                borderRadius:5,
+                borderRadius: 5,
             }}/>
         </div>
     );

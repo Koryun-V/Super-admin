@@ -7,7 +7,6 @@ const api = axios.create({
     },
 });
 
-// Интерцептор добавляет актуальный токен к каждому запросу
 api.interceptors.request.use(config => {
     const token = localStorage.getItem("token");
     if (token) {

@@ -24,17 +24,10 @@ const fields = [
         validation: /^(?=.*[A-Za-z])[A-Za-z0-9.-]+(?: [A-Za-z0-9.-]+)?$/,
         maxLength: "20",
     },
-    // {
-    //     id: 2,
-    //     name: "city",
-    //     label: "City",
-    //     validation: /^(?=.*[A-Za-z])[A-Za-z0-9.-]+$/,
-    // },
     {
         id: 3,
         name: "country",
         label: "Country",
-        // validation: /^[A-Za-z][A-Za-z.-]+$/,
         validation: "none"
     },
     {
@@ -71,11 +64,9 @@ const fields = [
   </span>,
         validation: "none",
     },
-
 ]
 
 const options = data
-console.log(options)
 
 function ModalCreateStore({open, onClose, stores}) {
     const dispatch = useDispatch();
@@ -93,7 +84,6 @@ function ModalCreateStore({open, onClose, stores}) {
         about: ""
     })
     const [city, setCity] = useState({})
-    // const [about, setAbout] = useState("")
     const {query, setQuery} = useQuery();
     const {q} = query
     const [isStore, setIsStore] = useState(false)
@@ -333,7 +323,6 @@ function ModalCreateStore({open, onClose, stores}) {
             }
         }
     }
-    console.log(city, "city")
 
     const update = async (id) => {
         await setId(id)

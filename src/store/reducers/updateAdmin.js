@@ -4,8 +4,8 @@ import {deleteAdminAvatar, setStatus, setStatusDelete, updateAdminInfo} from "..
 const initialState = {
     status: "",
     statusDelete: "",
-
 }
+
 export const updateAdmin = createReducer(initialState, (builder) => {
     builder
         .addCase(updateAdminInfo.pending, (state) => {
@@ -34,5 +34,4 @@ export const updateAdmin = createReducer(initialState, (builder) => {
         .addCase(setStatusDelete, (state, {payload}) => {
             state.statusDelete = payload
         })
-
 });

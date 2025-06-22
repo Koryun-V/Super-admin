@@ -4,7 +4,7 @@ import {getStatisticsAll} from "../store/actions/statistics";
 import StatisticsAll from "./mini/StatisticsAll";
 import PieStatistics from "./mini/PieStatistics";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCartShopping, faCube, faDollarSign, faTruck} from "@fortawesome/free-solid-svg-icons";
+import {faCartShopping, faCube, faDollarSign} from "@fortawesome/free-solid-svg-icons";
 import DateP from "./DateP";
 import {useQuery} from "../utills/hooks/useQuery";
 import {RotatingLines} from "react-loader-spinner";
@@ -27,8 +27,6 @@ const Home = () => {
             dispatch(getStatisticsAll({}))
         }
     }, [startDate, endDate]);
-
-    console.log(statistics,"a")
 
     return (
         <div className="section">
